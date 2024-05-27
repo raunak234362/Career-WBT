@@ -118,7 +118,7 @@ const AddContest = () => {
         {step === 2 && (
           <form onSubmit={handleSubmit}>
             {questions.map((question, index) => (
-              <div key={index} className='mb-6'>
+              <div key={index} className='mb-6 bg-slate-200 p-5 rounded-lg'>
                 <h2 className='text-xl font-semibold mb-2'>
                   Question {index + 1}
                 </h2>
