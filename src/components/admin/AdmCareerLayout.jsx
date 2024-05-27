@@ -5,6 +5,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import Profile from "./Profile";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Contest from "./Contest";
+import { AdminProvider } from "../../hooks/AdminContext";
 
 const StdCareerLayout = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -77,12 +78,14 @@ const StdCareerLayout = () => {
 
       {/* Content */}
       <div className='flex-1 rounded-lg h-auto pb-20'>
+      <AdminProvider>
         <Routes>
           <Route path='/' element={<Profile />} />
           <Route path='/contest' element={<Contest />} />
           
           
         </Routes>
+        </AdminProvider>
       </div>
       
     </div>

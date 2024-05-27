@@ -7,7 +7,7 @@ import { useFormContext } from '../hooks/FormContext'
 const RegisterStudent = () => {
   const { formData, updateFormData } = useFormContext()
   const [isSameAddress, setIsSameAddress] = useState(false)
-  const [profilePic, setProfilePic] = useState(null)
+  const [profile, setProfilePic] = useState(null)
   const [resume, setResume] = useState(null)
   const navigate = useNavigate()
 
@@ -40,17 +40,36 @@ const RegisterStudent = () => {
     }
   }
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const formdata = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formdata.append(key, formData[key]);
+    });
+    if (profile) formdata.append("profile", profile);
+    if (resume) formdata.append("resume", resume);
 
-    const userID = `user-${Math.floor(Math.random() * 10000)}`
-    const password = `pass-${Math.random().toString(36).substring(2, 8)}`
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer null");
+    myHeaders.append("Cookie", document.cookie);
 
-    localStorage.setItem('userID', userID)
-    localStorage.setItem('password', password)
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow"
+    };
 
-    navigate('/successful')
-  }
+    try {
+      const response = await fetch("https://wbt-quizcave.onrender.com/api/v1/user/register", requestOptions);
+      const result = await response.json();
+      console.log(result);
+      navigate('/successful');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -62,38 +81,29 @@ const RegisterStudent = () => {
         />
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor='Fname'>Student Name</label>
+            <label htmlFor='Name'>Student Name</label>
             <div className='flex flex-row w-full gap-3 mt-2'>
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-[50%] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.Fname || ''}
+                value={formData.name || ''}
                 required
-                placeholder='First Name'
-                id='Fname'
+                placeholder='Name'
+                id='name'
                 onChange={handleChange}
               />
-              <input
-                className='appearance-none border border-gray-300 rounded-lg w-[50%] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                type='text'
-                value={formData.Lname || ''}
-                required
-                placeholder='Last Name'
-                id='Lname'
-                onChange={handleChange}
-              />
-            </div>
+           </div>
           </div>
 
           <div className='mt-3'>
-            <label htmlFor='CollegeID'>Student College ID</label>
+            <label htmlFor='CollegeID'>Student ID</label>
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.CollegeID || ''}
+              value={formData.studentId || ''}
               required
-              placeholder='College ID'
-              id='CollegeID'
+              placeholder='Student ID'
+              id='studentId'
               onChange={handleChange}
             />
           </div>
@@ -114,10 +124,83 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.contact || ''}
+              value={formData.phone || ''}
               required
               placeholder='Contact Number'
-              id='contact'
+              id='phone'
+              onChange={handleChange}
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='contact'>Father Name</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData.fatherName || ''}
+              required
+              placeholder='Father Name'
+              id='fatherName'
+              onChange={handleChange}
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='contact'>Mother Name</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData.motherName || ''}
+              required
+              placeholder='Mother Name'
+              id='motherName'
+              onChange={handleChange}
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='contact'>Gender</label>
+            <select  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              value={formData.gender || ''}
+              required
+              id='gender'
+              onChange={handleChange}>
+             <option value=''>Select Gender</option>
+             <option value='male'>Male</option>
+             <option value='female'>Female</option>
+             <option value='other'>Other</option>
+            </select>
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='contact'>Date of Birth</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='date'
+              value={formData.dob || ''}
+              required
+              placeholder='Date of Birth'
+              id='dob'
+              onChange={handleChange}
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='contact'>Branch</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData.branch || ''}
+              required
+              placeholder='Branch'
+              id='branch'
+              onChange={handleChange}
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='contact'>Course</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData.course || ''}
+              required
+              placeholder='Course'
+              id='course'
               onChange={handleChange}
             />
           </div>
@@ -126,20 +209,21 @@ const RegisterStudent = () => {
             <div className='flex flex-row gap-3'>
               <select
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                value={formData.year || ''}
+                value={formData.currentSemester || ''}
                 required
-                id='year'
+                id='currentSemester'
                 onChange={handleChange}
               >
                 <option value=''>Select Semester</option>
-                <option value='Semester-1'>Semester-1</option>
-                <option value='Semester-2'>Semester-2</option>
-                <option value='Semester-3'>Semester-3</option>
-                <option value='Semester-4'>Semester-4</option>
-                <option value='Semester-5'>Semester-5</option>
-                <option value='Semester-6'>Semester-6</option>
-                <option value='Semester-7'>Semester-7</option>
-                <option value='Semester-8'>Semester-8</option>
+                <option value='1'>Semester-1</option>
+                <option value='1'>Semester-1</option>
+                <option value='2'>Semester-2</option>
+                <option value='3'>Semester-3</option>
+                <option value='4'>Semester-4</option>
+                <option value='5'>Semester-5</option>
+                <option value='6'>Semester-6</option>
+                <option value='7'>Semester-7</option>
+                <option value='8'>Semester-8</option>
               </select>
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
@@ -303,11 +387,11 @@ const RegisterStudent = () => {
                   one
                 </p>
               </label>
-              {profilePic && (
+              {profile && (
                 <img
-                  src={URL.createObjectURL(profilePic)}
+                  src={URL.createObjectURL(profile)}
                   alt='Profile Pic'
-                  className='mt-2 w-[20%]'
+                  className='mt-2 w-[20%] h-[20%] overflow-y-hidden'
                 />
               )}
             </div>

@@ -76,11 +76,13 @@ const StdCareerLayout = () => {
 
       {/* Content */}
       <div className='flex-1 rounded-lg h-auto pb-20'>
+       
         <Routes>
           <Route path='/' element={<Profile />} />
           
           
         </Routes>
+       
       </div>
       
     </div>

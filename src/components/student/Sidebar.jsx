@@ -20,7 +20,6 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
 
   const location = useLocation();
   const { pathname } = location;
-
   return (
     <div className="fixed left-0 flex flex-col justify-between h-screen px-0 py-4 border-green-500 border-r-2 ">
       <div className='navbar-section'>
