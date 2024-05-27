@@ -16,25 +16,26 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     if (role === 'admin') {
       // Admin login logic
       const raw = JSON.stringify({ userId: userID, password: password });
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
-
+  
       const requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
         redirect: 'follow'
       };
-
+  
       try {
         const response = await fetch('https://wbt-quizcave.onrender.com/api/v1/admin/user/login', requestOptions);
         const result = await response.json();
         if (response.ok) {
-          localStorage.setItem('access', result.accessToken);
+          localStorage.setItem('access', result?.data?.accessToken);
+          localStorage.setItem('refresh', result?.data?.refreshToken);
           navigate('/admin');
         } else {
           alert('Invalid User ID or Password');
@@ -47,19 +48,20 @@ const Login = () => {
       const raw = JSON.stringify({ userId: userID, password });
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
-
+  
       const requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: raw,
         redirect: 'follow'
       };
-
+  
       try {
         const response = await fetch('https://wbt-quizcave.onrender.com/api/v1/user/login', requestOptions);
         const result = await response.json();
         if (response.ok) {
-          localStorage.setItem('access', result.accessToken);
+          localStorage.setItem('access', result?.data?.accessToken);
+          localStorage.setItem('refresh', result?.data?.refreshToken);
           navigate('/student');
         } else {
           alert('Invalid User ID or Password');

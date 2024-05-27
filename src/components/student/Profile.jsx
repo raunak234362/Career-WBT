@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 const Profile = () => {
   const [formData, setFormData] = useState(null);
-  const [userID,setUserID]=useState()
+  
   
   const fetchStudent = async () => {
     const myHeaders = new Headers();
@@ -16,10 +16,9 @@ const Profile = () => {
       redirect: 'follow',
     };
 
-    await fetch(`https://wbt-quizcave.onrender.com/api/v1/user/${userID}`, requestOptions)
+    await fetch(`https://wbt-quizcave.onrender.com/api/v1/user/`, requestOptions)
       .then(async (response) => {
         const data = await response.json();
-        setUserID(data?.data?._id);
         setFormData(data?.data);
         console.log(data?.data);
       });
