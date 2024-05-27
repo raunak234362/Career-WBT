@@ -1,7 +1,7 @@
 
 import { useAdminContext } from '../../hooks/AdminContext';
 
-const Profile = () => {
+const AdminProfile = () => {
   const { adminData, error } = useAdminContext();
 
   if (error) {
@@ -35,4 +35,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AdminProfile;
