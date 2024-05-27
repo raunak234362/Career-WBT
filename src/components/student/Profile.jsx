@@ -4,41 +4,34 @@ import React, { useEffect, useState } from 'react';
 // import { useFormContext } from '../../hooks/FormContext';
 
 const Profile = () => {
-  const { formData, setFormData } = useState(null);
-  const [userData, setUserData] = useState(null);
-
-
+  const [formData, setFormData] = useState(null);
+  const [userID,setUserID]=useState()
+  
   const fetchStudent = async () => {
-    const myHeaders = new Headers()
-    myHeaders.append('authorization', `Bearer ${localStorage.getItem('access')}`)
-    
-
+    const myHeaders = new Headers();
+    myHeaders.append('authorization', `Bearer ${localStorage.getItem('access')}`);
     const requestOptions = {
       method: 'GET',
       headers: myHeaders,
-      redirect: 'follow'
-    }
+      redirect: 'follow',
+    };
 
-    await fetch(
-      '"https://wbt-quizcave.onrender.com/api/v1/user/',
-      requestOptions
-    )
-      .then(async response => {
-        const data = await response.json()
-        console.log(data?.data)
-        setFormData(data?.data)
-      })
-      
-  }
+    await fetch(`https://wbt-quizcave.onrender.com/api/v1/user/${userID}`, requestOptions)
+      .then(async (response) => {
+        const data = await response.json();
+        setUserID(data?.data?._id);
+        setFormData(data?.data);
+        console.log(data?.data);
+      });
+  };
 
   useEffect(() => {
-    fetchStudent()
+    fetchStudent();
   }, []);
 
   return (
     <div className="max-full mx-auto p-6 bg-white rounded-md shadow-md">
       <h1 className="text-3xl flex font-bold mb-6 items-center justify-center text-center">Profile</h1>
-
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Student Name</h2>
         <p className="text-gray-700">{formData?.name}</p>
@@ -75,18 +68,6 @@ const Profile = () => {
         <h2 className="text-xl font-semibold">Backlogs</h2>
         <p className="text-gray-700">{formData?.backlog}</p>
       </div>
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold">Current Address</h2>
-        <p className="text-gray-700">{formData?.address}</p>
-        <p className="text-gray-700">{formData?.city}, {formData?.state}, {formData?.country}, {formData?.zip}</p>
-      </div>
-     
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold">Permanent Address</h2>
-          <p className="text-gray-700">{formData?.presentAddress}</p>
-          <p className="text-gray-700">{formData?.presentCity}, {formData?.presentState}, {formData?.presentCountry}, {formData?.presentZip}</p>
-        </div>
-
     </div>
   );
 };
