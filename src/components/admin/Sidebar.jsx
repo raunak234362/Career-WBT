@@ -11,12 +11,6 @@ import { useState } from "react"
 
 
 const Sidebar = ({ activeLink, handleNavLinkClick }) => {
-  const navigate = useNavigate()
-  const [users, setUsers] = useState([]);
-  
-
- 
-
 
   const location = useLocation();
   const { pathname } = location;

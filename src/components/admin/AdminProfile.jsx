@@ -1,8 +1,42 @@
-
-import { useAdminContext } from '../../hooks/AdminContext';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminProfile = () => {
-  const { adminData, error } = useAdminContext();
+  const [adminData, setAdminData] = useState({});
+  const [error, setError] = useState(null);
+  const userId = localStorage.getItem('userId');
+  const navigate = useNavigate();
+
+  const fetchAdminData = async () => {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${localStorage.getItem('access')}`);
+    myHeaders.append('Content-Type', 'application/json')
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    try {
+      const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/admin/user/`, requestOptions);
+      const data = await response.json();
+      setAdminData(data?.data);
+      console.log(data?.data);
+    } catch (error) {
+      setError(error.message);
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!userId) {
+      navigate('/login'); // Redirect to login if no userId is found
+    } else {
+      fetchAdminData();
+    }
+  }, [userId, navigate]);
 
   if (error) {
     return <div>{error}</div>;

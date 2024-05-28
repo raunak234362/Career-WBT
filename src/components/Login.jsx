@@ -6,69 +6,50 @@ import { FaUser } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import career from '../assets/career.jpg';
-import { useAdminContext } from '../hooks/AdminContext';
 
 const Login = () => {
-  const { role, setRole } = useAdminContext();
-  const [userID, setUserID] = useState('');
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('student'); // Local state for role selection
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
-    if (role === 'admin') {
-      // Admin login logic
-      const raw = JSON.stringify({ userId: userID, password: password });
-      const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-  
-      const requestOptions = {
+    try {
+      const url = role === 'admin' 
+        ? 'https://wbt-quizcave.onrender.com/api/v1/admin/user/login' 
+        : 'https://wbt-quizcave.onrender.com/api/v1/user/login';
+
+      const response = await fetch(url, {
         method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
-  
-      try {
-        const response = await fetch('https://wbt-quizcave.onrender.com/api/v1/admin/user/login', requestOptions);
-        const result = await response.json();
-        if (response.ok) {
-          localStorage.setItem('access', result?.data?.accessToken);
-          localStorage.setItem('refresh', result?.data?.refreshToken);
-          navigate('/admin');
-        } else {
-          alert('Invalid User ID or Password');
-        }
-      } catch (error) {
-        console.error(error);
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to login');
       }
-    } else {
-      // Student login logic
-      const raw = JSON.stringify({ userId: userID, password });
-      const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-  
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
-  
-      try {
-        const response = await fetch('https://wbt-quizcave.onrender.com/api/v1/user/login', requestOptions);
-        const result = await response.json();
-        if (response.ok) {
-          localStorage.setItem('access', result?.data?.accessToken);
-          localStorage.setItem('refresh', result?.data?.refreshToken);
-          navigate('/student');
-        } else {
-          alert('Invalid User ID or Password');
-        }
-      } catch (error) {
-        console.error(error);
+
+      const responseData = await response.json();
+      console.log(responseData);
+
+      if (responseData?.data?.role !== role) {
+        setErrorMessage(`Please log in as a ${responseData?.data?.role}`);
+        return;
       }
+
+      localStorage.setItem('access', responseData?.data?.accessToken);
+      localStorage.setItem('refresh', responseData?.data?.refreshToken);
+      localStorage.setItem('userId', userId);
+
+      navigate(role === 'admin' ? '/admin' : '/student');
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error.message);
     }
   };
 
@@ -80,24 +61,24 @@ const Login = () => {
       <div className='flex flex-col justify-center md:w-1/2 p-10'>
         <h1 className='text-3xl font-bold text-center mb-8'>Login</h1>
         <form onSubmit={handleLogin}>
-          <div className="role-selection mb-6">
-            <label className="mr-4">
+          <div className='role-selection mb-6'>
+            <label className='mr-4'>
               <input
-                type="radio"
-                value="admin"
+                type='radio'
+                value='admin'
                 checked={role === 'admin'}
                 onChange={() => setRole('admin')}
-                className="mr-2"
+                className='mr-2'
               />
               Admin
             </label>
             <label>
               <input
-                type="radio"
-                value="student"
+                type='radio'
+                value='student'
                 checked={role === 'student'}
                 onChange={() => setRole('student')}
-                className="mr-2"
+                className='mr-2'
               />
               Student
             </label>
@@ -108,8 +89,8 @@ const Login = () => {
               <input
                 type='text'
                 placeholder='User ID'
-                value={userID}
-                onChange={(e) => setUserID(e.target.value)}
+                value={userId}
+                onChange={e => setUserId(e.target.value)}
                 className='appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none'
               />
             </div>
@@ -121,11 +102,16 @@ const Login = () => {
                 type='password'
                 placeholder='Password'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 className='appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none'
               />
             </div>
           </div>
+          {errorMessage && (
+            <div className='text-red-500 mb-4'>
+              {errorMessage}
+            </div>
+          )}
           <div className='flex items-center justify-between'>
             <button
               type='submit'
@@ -136,8 +122,9 @@ const Login = () => {
           </div>
           {role === 'student' && (
             <div className='mt-4'>
-              
-              <p className='text-center'>Don't have an account? <Link to="/register">Register</Link></p>
+              <p className='text-center'>
+                Don't have an account? <Link to='/register'>Register</Link>
+              </p>
             </div>
           )}
         </form>

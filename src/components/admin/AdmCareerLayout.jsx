@@ -4,7 +4,6 @@ import Header from "./Header";
 import { Link, Route, Routes } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Contest from "./Contest";
-import { AdminProvider } from "../../hooks/AdminContext";
 import AdminProfile from "./AdminProfile";
 
 const StdCareerLayout = () => {
@@ -78,14 +77,13 @@ const StdCareerLayout = () => {
 
       {/* Content */}
       <div className='flex-1 rounded-lg h-auto pb-20'>
-      <AdminProvider>
+    
         <Routes>
           <Route path='/' element={<AdminProfile />} />
           <Route path='/contest' element={<Contest />} />
           
           
         </Routes>
-        </AdminProvider>
       </div>
       
     </div>

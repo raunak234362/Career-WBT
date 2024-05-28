@@ -68,7 +68,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
         <div className='flex flex-row items-center hover:bg-red-600 hover:text-white py-2 px-3 gap-4 mb-4  rounded-lg'>
           <MdLogout />
           <button
-            onClick={'/'}
+            onClick={'/login'}
             className='text-sm  hover:text-white w-full text-center'
           >
             Logout
