@@ -3,23 +3,21 @@
 import { useState } from "react";
 
 const AddQuestion = ({ toggleQues, contestId }) => {
-
-  // console.log(contestId)
   const [questions, setQuestions] = useState([]);
 
   const handleAddQuestion = () => {
     setQuestions([
       ...questions,
-      { type: '', question: '', subQuestions: [], answer: '', options: [] }
+      { type: '', question: '', marks: '', subQuestions: [], answer: '', options: [] }
     ]);
   };
 
   const handleQuestionChange = (index, field, value) => {
     const updatedQuestions = [...questions];
+    updatedQuestions[index][field] = value;
     if (field === 'type' && value === 'mq' && !updatedQuestions[index].subQuestions) {
       updatedQuestions[index].subQuestions = [];
     }
-    updatedQuestions[index][field] = value;
     setQuestions(updatedQuestions);
   };
 
@@ -48,43 +46,44 @@ const AddQuestion = ({ toggleQues, contestId }) => {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-
+  
     try {
       for (const question of questions) {
-        const formdata = new FormData();
-        formdata.append("question", question.question);
-        formdata.append("type", question.type);
-        formdata.append("marks", "1"); // Assuming 1 mark per question for simplicity
-
+        const formdata = {
+          question: question.question,
+          type: question.type,
+          marks: question.marks
+        };
+  
         if (question.type === "mcq") {
-          formdata.append("options", question.options.join(","));
-          formdata.append("singleAnswer", question.answer);
+          formdata.options = question.options.join(",");
+          formdata.singleAnswer = question.answer;
         } else if (question.type === "image") {
-          formdata.append("imageUrl", question.imageUrl);
+          formdata.imageUrl = question.imageUrl;
         } else if (question.type === "mq") {
-          formdata.append("mainQuestion", question.mainQuestion);
-          formdata.append("subQuestions", JSON.stringify(question.subQuestions));
+          formdata.mainQuestion = question.mainQuestion;
+          formdata.subQuestions = JSON.stringify(question.subQuestions);
         } else {
-          formdata.append("singleAnswer", question.answer);
+          formdata.singleAnswer = question.answer;
         }
-
+  
         const myHeaders = new Headers();
         myHeaders.append('Authorization', `Bearer ${localStorage.getItem('access')}`);
-        myHeaders.append("Content-Type", "application/json")
-
+        myHeaders.append("Content-Type", "application/json");
+  
         const requestOptions = {
           method: "POST",
           headers: myHeaders,
           body: JSON.stringify(formdata),
           redirect: "follow"
         };
-
-        console.log(formdata)
-
+  
+        console.log(localStorage.getItem('access'));
+  
         const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/admin/contest/add-question/${contestId}`, requestOptions);
         const data = await response.json();
+        setQuestions(data?.data);
         console.log(data);
-      
       }
       toggleQues();
       setQuestions([]);
@@ -92,6 +91,8 @@ const AddQuestion = ({ toggleQues, contestId }) => {
       console.error(error);
     }
   };
+  
+
 
   return (
     <div>
@@ -128,6 +129,18 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                     type='text'
                     value={question.question}
                     onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                    required
+                  />
+                </div>
+                <div className='mb-4'>
+                  <label className='block text-gray-700 font-bold mb-2'>
+                    Marks:
+                  </label>
+                  <input
+                    type='text'
+                    value={question.marks}
+                    onChange={(e) => handleQuestionChange(index, 'marks', e.target.value)}
                     className='w-full px-3 py-2 border border-gray-300 rounded-md'
                     required
                   />
