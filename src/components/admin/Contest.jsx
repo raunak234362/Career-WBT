@@ -44,6 +44,8 @@ const Contest = () => {
   const toggleForm = () => {
     setShowForm(!showForm)
   }
+  
+  
 
   const formatDateTime = dateTimeString => {
     const date = dateTimeString.split('T')[0]
@@ -83,8 +85,22 @@ const Contest = () => {
       </div>
 
       {showForm && <AddContest toggleForm={toggleForm} />}
+      <div className="bg-gray-100 w-full p-5 rounded-xl mt-5">
+      <h1 className=' text-2xl font-bold text-center '>Contest List</h1>
+      <div className="flex flex-row flex-wrap justify-center mt-5">
+      {contests.map((contest,index)=>(
+        <div
+        key={index}
+        className='mt-4 rounded-lg shadow-lg p-5 mb-4 w-1/3'
+      >
+        <CardContest contestId={contest._id}/>
 
-      <CardContest/>
+      </div>
+      ))}
+      </div>
+     
+      </div>
+      
     </div>
   )
 }
