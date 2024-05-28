@@ -40,7 +40,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
           </Link>
           <Link
             to="/student/contest"
-            onClick={() => handleNavLinkClick("project")}
+            onClick={() => handleNavLinkClick("contest")}
             className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "/student/contest"
                 ? "bg-green-500 text-white"
                 : "hover:bg-green-700"

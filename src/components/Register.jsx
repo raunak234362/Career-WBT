@@ -1,74 +1,78 @@
-/* eslint-disable no-unused-vars */
-import { useState } from 'react'
-import Logo from '../assets/logo.png'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import Logo from '../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterStudent = () => {
-  const { formData, updateFormData } = useState('')
-  const [isSameAddress, setIsSameAddress] = useState(false)
-  const [profile, setProfilePic] = useState(null)
-  const [resume, setResume] = useState(null)
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    profile: null,
+    resume: null,
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    dob: '',
+    studentId: '',
+    gender: '',
+    fatherName: '',
+    motherName: '',
+    currentSemester: '',
+    branch: '',
+    course: '',
+    college: '',
+    cgpa: '',
+    backlog: '',
+  });
+  const [isSameAddress, setIsSameAddress] = useState(false);
+  const navigate = useNavigate();
 
   const handleCheckboxChange = () => {
-    setIsSameAddress(!isSameAddress)
-  }
+    setIsSameAddress(!isSameAddress);
+  };
 
-  const handleChange = (e, type) => {
-    const { id, value } = e.target
-    if (type === 'profile') {
-      setProfilePic(e.target.files[0])
-    } else if (type === 'resume') {
-      setResume(e.target.files[0])
-    } else {
-      updateFormData({ [id]: value })
-    }
-  }
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
 
-  const handleDragOver = e => {
-    e.preventDefault()
-  }
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
 
   const handleDrop = (e, fileType) => {
-    e.preventDefault()
-    const file = e.dataTransfer.files[0]
-    if (fileType === 'profile') {
-      setProfilePic(file)
-    } else {
-      setResume(file)
-    }
-  }
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    setFormData({ ...formData, [fileType]: file });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const formdata = new FormData();
-    Object.keys(formData).forEach((key) => {
-      formdata.append(key, formData[key]);
-    });
-    if (profile) formdata.append("profile", profile);
-    if (resume) formdata.append("resume", resume);
 
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer null");
-    myHeaders.append("Cookie", document.cookie);
+    const formdata = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formdata.append(key, value);
+    });
 
     const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
+      method: 'POST',
       body: formdata,
-      redirect: "follow"
+      redirect: 'follow',
     };
+    console.log(requestOptions)
 
     try {
-      const response = await fetch("https://wbt-quizcave.onrender.com/api/v1/user/register", requestOptions);
-      const result = await response.json();
-      console.log(result);
+      const response = await fetch(
+        'https://wbt-quizcave.onrender.com/api/v1/user/register',
+        requestOptions
+      );
+      const data = await response.json();
+      setFormData(data?.data)
+      console.log(data);
       navigate('/successful');
     } catch (error) {
       console.error(error);
     }
   };
+
 
   return (
     <div>
@@ -83,13 +87,13 @@ const RegisterStudent = () => {
             <label htmlFor='Name'>Student Name</label>
             <div className='flex flex-row w-full gap-3 mt-2'>
               <input
-                className='appearance-none border border-gray-300 rounded-lg w-[50%] py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.name || ''}
+                value={formData.name}
                 required
                 placeholder='Name'
                 id='name'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
            </div>
           </div>
@@ -99,11 +103,11 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.studentId || ''}
+              value={formData.studentId}
               required
               placeholder='Student ID'
               id='studentId'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
             />
           </div>
           <div className='mt-3'>
@@ -111,11 +115,11 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='email'
-              value={formData.email || ''}
+              value={formData.email}
               required
               placeholder='Email'
               id='email'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
           <div className='mt-3'>
@@ -123,11 +127,11 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.phone || ''}
+              value={formData.phone}
               required
               placeholder='Contact Number'
               id='phone'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             />
           </div>
           <div className='mt-3'>
@@ -135,11 +139,11 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.fatherName || ''}
+              value={formData.fatherName}
               required
               placeholder='Father Name'
               id='fatherName'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
             />
           </div>
           <div className='mt-3'>
@@ -147,20 +151,20 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.motherName || ''}
+              value={formData.motherName}
               required
               placeholder='Mother Name'
               id='motherName'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, motherName: e.target.value })}
             />
           </div>
           <div className='mt-3'>
             <label htmlFor='contact'>Gender</label>
             <select  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-              value={formData.gender || ''}
+              value={formData.gender}
               required
               id='gender'
-              onChange={handleChange}>
+              onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
              <option value=''>Select Gender</option>
              <option value='male'>Male</option>
              <option value='female'>Female</option>
@@ -172,11 +176,11 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='date'
-              value={formData.dob || ''}
+              value={formData.dob}
               required
               placeholder='Date of Birth'
               id='dob'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
             />
           </div>
           <div className='mt-3'>
@@ -184,11 +188,11 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.branch || ''}
+              value={formData.branch}
               required
               placeholder='Branch'
               id='branch'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
             />
           </div>
           <div className='mt-3'>
@@ -196,11 +200,11 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.course || ''}
+              value={formData.course}
               required
               placeholder='Course'
               id='course'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, course: e.target.value })}
             />
           </div>
           <div className='mt-3'>
@@ -208,10 +212,10 @@ const RegisterStudent = () => {
             <div className='flex flex-row gap-3'>
               <select
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                value={formData.currentSemester || ''}
+                value={formData.currentSemester}
                 required
                 id='currentSemester'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, currentSemester: e.target.value })}
               >
                 <option value=''>Select Semester</option>
                 <option value='1'>Semester-1</option>
@@ -227,19 +231,19 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.marks || ''}
+                value={formData.marks}
                 placeholder='Percentage/CGPA'
                 required
                 id='marks'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, marks: e.target.value })}
               />
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.backlogs || ''}
+                value={formData.backlogs}
                 placeholder='No. of Backlogs'
                 id='backlogs'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, backlogs: e.target.value })}
               />
             </div>
           </div>
@@ -249,50 +253,50 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.address || ''}
+              value={formData.address}
               placeholder='Address'
               required
               id='address'
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             />
             <div className='flex flex-row gap-2 mt-2'>
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.city || ''}
+                value={formData.city}
                 placeholder='City'
                 required
                 id='city'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
               />
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.state || ''}
+                value={formData.state}
                 placeholder='State'
                 required
                 id='state'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
               />
             </div>
             <div className='flex flex-row gap-2 mt-2'>
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.country || ''}
+                value={formData.country}
                 placeholder='Country'
                 required
                 id='country'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
               />
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.zip || ''}
+                value={formData.zip}
                 placeholder='Zip'
                 required
                 id='zip'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
               />
             </div>
           </div>
@@ -321,45 +325,45 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.presentAddress || ''}
+                value={formData.presentAddress}
                 placeholder='Address'
                 id='present-address'
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, presentAddress: e.target.value })}
               />
               <div className='flex flex-row gap-2 mt-2'>
                 <input
                   className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                   type='text'
-                  value={formData.presentCity || ''}
+                  value={formData.presentCity}
                   placeholder='City'
                   id='present-city'
-                  onChange={handleChange}
+                  onChange={(e) => setFormData({ ...formData, presentCity: e.target.value })}
                 />
                 <input
                   className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                   type='text'
-                  value={formData.presentState || ''}
+                  value={formData.presentState}
                   placeholder='State'
                   id='present-state'
-                  onChange={handleChange}
+                  onChange={(e) => setFormData({ ...formData, presentState: e.target.value })}
                 />
               </div>
               <div className='flex flex-row gap-2 mt-2'>
                 <input
                   className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                   type='text'
-                  value={formData.presentCountry || ''}
+                  value={formData.presentCountry}
                   placeholder='Country'
                   id='present-country'
-                  onChange={handleChange}
+                  onChange={(e) => setFormData({ ...formData, presentCountry: e.target.value })}
                 />
                 <input
                   className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                   type='text'
-                  value={formData.presentZip || ''}
+                  value={formData.presentZip}
                   placeholder='Zip'
                   id='present-zip'
-                  onChange={handleChange}
+                  onChange={(e) => setFormData({ ...formData, presentZip: e.target.value })}
                 />
               </div>
             </div>
@@ -386,13 +390,13 @@ const RegisterStudent = () => {
                   one
                 </p>
               </label>
-              {profile && (
+              {/* {profile && (
                 <img
                   src={URL.createObjectURL(profile)}
                   alt='Profile Pic'
                   className='mt-2 w-[20%] h-[20%] overflow-y-hidden'
                 />
-              )}
+              )} */}
             </div>
           </div>
           <div className='mt-3'>
@@ -418,9 +422,9 @@ const RegisterStudent = () => {
              
             </div>
           </div>
-          {resume && (
+          {/* {resume && (
                 <p className='mt-2'>Selected file: {resume.name}</p>
-              )}
+              )} */}
 
           <button
             type='submit'
