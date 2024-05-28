@@ -2,10 +2,9 @@
 import { useState } from 'react'
 import Logo from '../assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { useFormContext } from '../hooks/FormContext'
 
 const RegisterStudent = () => {
-  const { formData, updateFormData } = useFormContext()
+  const { formData, updateFormData } = useState('')
   const [isSameAddress, setIsSameAddress] = useState(false)
   const [profile, setProfilePic] = useState(null)
   const [resume, setResume] = useState(null)

@@ -23,9 +23,9 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
         </div>
         <nav className="space-y-4 mt-11">
           <Link
-            to="/admin/"
-            onClick={() => handleNavLinkClick("/")}
-            className={`flex items-center gap-2 px-5 py-2 transition-colors duration-300 ${pathname === "/admin/"
+            to="/admin"
+            onClick={() => handleNavLinkClick("")}
+            className={`flex items-center gap-2 px-5 py-2 transition-colors duration-300 ${pathname === "/admin"
                 ? "bg-green-500 text-white"
                 : "hover:bg-green-700"
               }`}

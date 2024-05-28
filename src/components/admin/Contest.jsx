@@ -1,11 +1,40 @@
-import { useContext, useState } from "react";
+import { useState, useEffect } from "react";
 import AddContest from "./AddContest";
 import { CgAdd } from "react-icons/cg";
-import { ContestContext } from "../../hooks/ContestContext";
 
 const Contest = () => {
   const [showForm, setShowForm] = useState(false);
-  const { contests } = useContext(ContestContext);
+  const [contests, setContests] = useState([]);
+
+  useEffect(() => {
+    fetchContests();
+  }, []);
+
+  const fetchContests = async () => {
+    const myHeaders = new Headers()
+    myHeaders.append(
+      'Authorization',
+      `Bearer ${localStorage.getItem('access')}`
+    )
+    myHeaders.append('Content-Type', 'application/json')
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    }
+
+    try {
+      const response = await fetch(
+        `https://wbt-quizcave.onrender.com/api/v1/admin/contest/all`,
+        requestOptions
+      )
+      const data = await response.json()
+      setContests(data?.data)
+      console.log(data?.data)
+    } catch (error) {
+      console.error(error)
+    }
+  };
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -39,14 +68,13 @@ const Contest = () => {
               <th className="px-4 py-2">Start Date</th>
               <th className="px-4 py-2">End Date</th>
               <th className="px-2 py-2">Option</th>
-
             </tr>
           </thead>
           <tbody>
             {contests.map((contest, index) => (
               <tr key={index}>
                 <td className="px-2 py-2">{index + 1}</td>
-                <td className="px-4 py-2">{contest.title}</td>
+                <td className="px-4 py-2">{contest.name}</td>
                 <td className="px-4 py-2">{contest.duration}</td>
                 <td className="px-4 py-2">{contest.startDate}</td>
                 <td className="px-4 py-2">{contest.endDate}</td>

@@ -11,6 +11,7 @@ const StudentProfile = () => {
   const fetchStudent = async () => {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${localStorage.getItem('access')}`);
+    myHeaders.append('Content-Type', 'application/json');
     const requestOptions = {
       method: 'GET',
       headers: myHeaders,
@@ -19,9 +20,7 @@ const StudentProfile = () => {
 
     try {
       const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/user/`, requestOptions);
-      if (!response.ok) {
-        throw new Error('Failed to fetch student data');
-      }
+   
       const data = await response.json();
       setFormData(data?.data);
       console.log(data?.data);
@@ -32,7 +31,7 @@ const StudentProfile = () => {
 
   useEffect(() => {
     if (!userId) {
-      navigate('/login'); // Redirect to login if no userId is found
+      navigate('/'); // Redirect to login if no userId is found
     } else {
       fetchStudent();
     }
@@ -41,7 +40,7 @@ const StudentProfile = () => {
   return (
     <div className="max-full mx-auto p-6 bg-white rounded-md shadow-md">
       <h1 className="text-3xl flex font-bold mb-6 items-center justify-center text-center">Profile</h1>
-      {formData ? (
+     
         <>
           <div className="mb-4">
             <h2 className="text-xl font-semibold">Student Name</h2>
@@ -80,9 +79,7 @@ const StudentProfile = () => {
             <p className="text-gray-700">{formData?.backlog}</p>
           </div>
         </>
-      ) : (
-        <p>Loading...</p>
-      )}
+ 
     </div>
   );
 };
