@@ -64,7 +64,7 @@ const Contest = () => {
   }
 
   return (
-    <div className='flex flex-col items-center bg-white p-5'>
+    <div className='flex flex-col items-center w-full bg-white p-5'>
       <div className='flex flex-row gap-5 w-full'>
         <div className='flex flex-col justify-center bg-white rounded-lg w-full md:w-[30%] shadow-lg p-5'>
           <div className='flex justify-center p-5'>
