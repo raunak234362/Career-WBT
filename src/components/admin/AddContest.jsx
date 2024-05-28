@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
+import JoditEditor from 'jodit-react'
 
 const AddContest = ({ toggleForm, handleAddContest }) => {
   const [contestDetails, setContestDetails] = useState({
@@ -9,7 +10,8 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
     termsAndConditions: '',
     duration: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    active: false
   })
   const [questions, setQuestions] = useState([])
   const [step, setStep] = useState(1)
@@ -90,6 +92,9 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
       throw new Error('Error creating contest')
     }
   }
+  const handleActiveToggle = newValue => {
+    setContestDetails({ ...contestDetails, active: newValue })
+  }
 
   const handleAddQuestionToContest = async (contestId, question) => {
     const myHeaders = new Headers()
@@ -142,7 +147,7 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
       <div className='max-w-full mx-auto p-6 bg-white rounded-md shadow-md'>
         <h1 className='text-3xl font-bold mb-6'>Create a New Contest</h1>
         <div className='absolute z-20 top-0 left-0 w-full h-full overflow-y-auto bg-gray-900 bg-opacity-20 flex items-center justify-center'>
-          <div className='bg-white w-[70%] p-6 rounded-lg shadow-md'>
+          <div className='bg-white w-[70%]  mt-4 p-6 rounded-lg shadow-md'>
             {step === 1 && (
               <form
                 onSubmit={e => {
@@ -157,7 +162,7 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
                   <input
                     type='text'
                     name='title'
-                    value={contestDetails.title}
+                    value={contestDetails.name}
                     onChange={handleContestDetailsChange}
                     className='w-full px-3 py-2 border border-gray-300 rounded-md'
                     required
@@ -167,25 +172,32 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
                   <label className='block text-gray-700 font-bold mb-2'>
                     Description:
                   </label>
-                  <input
-                    type='text'
-                    name='description'
+                  <JoditEditor
                     value={contestDetails.description}
-                    onChange={handleContestDetailsChange}
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
-                    required
+                    tabIndex={1}
+                    onChange={value =>
+                      handleContestDetailsChange(
+                        { target: { value } },
+                        'description'
+                      )
+                    }
+                    className='w-full border border-gray-300 rounded-md'
                   />
                 </div>
                 <div className='mb-4'>
                   <label className='block text-gray-700 font-bold mb-2'>
                     Terms & Conditions:
                   </label>
-                  <input
-                    type='text'
-                    name='termsAndConditions'
-                    value={contestDetails.termsAndConditions}
-                    onChange={handleContestDetailsChange}
-                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                  <JoditEditor
+                    value={contestDetails.rules}
+                    tabIndex={1}
+                    onChange={value =>
+                      handleContestDetailsChange(
+                        { target: { value } },
+                        'rules'
+                      )
+                    }
+                    className='w-full border border-gray-300 rounded-md'
                   />
                 </div>
                 <div className='mb-4'>
@@ -227,6 +239,23 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
                     required
                   />
                 </div>
+                <div className='mb-4 flex flex-row gap-10 items-center'>
+                  <label className='block text-gray-700 font-bold mb-2'>
+                    Active
+                  </label>
+                  <button
+                    type='button'
+                    onClick={() => handleActiveToggle(!contestDetails.active)}
+                    className={`w-[20%] px-3 py-2 border border-gray-300 rounded-md ${
+                      contestDetails.active
+                        ? 'bg-green-500 text-white'
+                        : 'bg-red-500 text-white'
+                    }`}
+                  >
+                    {contestDetails.active ? 'true' : 'false'}
+                  </button>
+                </div>
+
                 <div className='flex flex-row gap-3 my-2'>
                   <button
                     type='submit'
@@ -269,7 +298,7 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
                         <option value='long'>Long Answer</option>
                         <option value='mq'>Sub Questions</option>
                       </select>
-                    </div>                                        
+                    </div>
                     <div className='mb-4'>
                       <label className='block text-gray-700 font-bold mb-2'>
                         Question:
