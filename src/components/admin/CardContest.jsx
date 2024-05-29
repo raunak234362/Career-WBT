@@ -126,11 +126,11 @@ const CardContest = ({ contestId }) => {
                         <div>
                           <p>
                             <strong>Options:</strong>{' '}
-                            {question?.options?.join(', ')}
+                            {question?.mcqOptions?.join(', ')}
                           </p>
                           <p>
                             <strong>Single Answer:</strong>{' '}
-                            {question?.singleAnswer}
+                            {question?.answer}
                           </p>
                         </div>
                       )}
@@ -141,21 +141,17 @@ const CardContest = ({ contestId }) => {
                           className='mt-2 w-32 h-auto'
                         />
                       )}
-                      {question.type === 'mq' && (
+                      {question.type === 'multiple' && (
                         <div>
-                          <p>
-                            <strong>Main Question:</strong>{' '}
-                            {question?.mainQuestion}
-                          </p>
                           <p>
                             <strong>Sub Questions:</strong>
                           </p>
                           <ul>
                             {question?.multipleQuestion.map(
-                              (multipleQuestion, subIndex) => (
+                              (question, subIndex) => (
                                 <li key={subIndex}>
-                                  {multipleQuestion?.text} - Answer:{' '}
-                                  {multipleQuestion?.answer}
+                                  {question?.multipleQuestion} - Answer:{' '}
+                                  {question?.multipleAnswer}
                                 </li>
                               )
                             )}

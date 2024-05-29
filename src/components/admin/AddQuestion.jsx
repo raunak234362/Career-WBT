@@ -8,28 +8,30 @@ const AddQuestion = ({ toggleQues, contestId }) => {
   const handleAddQuestion = () => {
     setQuestions([
       ...questions,
-      { type: '', question: '', marks: '', subQuestions: [], answer: '', options: [] }
+      { type: '', question: '', marks: '', options: [], multipleQuestion: [], multipleAnswer: [] }
     ]);
   };
 
   const handleQuestionChange = (index, field, value) => {
     const updatedQuestions = [...questions];
     updatedQuestions[index][field] = value;
-    if (field === 'type' && value === 'mq' && !updatedQuestions[index].subQuestions) {
-      updatedQuestions[index].subQuestions = [];
+    if (field === 'type' && value === 'multiple' && !updatedQuestions[index].multipleQuestion) {
+      updatedQuestions[index].multipleQuestion = [];
     }
     setQuestions(updatedQuestions);
   };
 
   const handleAddSubQuestion = (questionIndex) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].subQuestions.push({ text: '', answer: '' });
+    updatedQuestions[questionIndex].multipleQuestion.push('');
+    updatedQuestions[questionIndex].multipleAnswer.push([]);
     setQuestions(updatedQuestions);
   };
 
   const handleSubQuestionChange = (questionIndex, subIndex, field, value) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].subQuestions[subIndex][field] = value;
+    updatedQuestions[questionIndex].multipleQuestion[subIndex] = field === 'question' ? value : updatedQuestions[questionIndex].multipleQuestion[subIndex];
+    updatedQuestions[questionIndex].multipleAnswer[subIndex] = field === 'answer' ? value : updatedQuestions[questionIndex].multipleAnswer[subIndex];
     setQuestions(updatedQuestions);
   };
 
@@ -58,12 +60,13 @@ const AddQuestion = ({ toggleQues, contestId }) => {
         if (question.type === "mcq") {
           formdata.options = question.options.join(",");
           formdata.singleAnswer = question.answer;
-        } else if (question.type === "image") {
           formdata.imageUrl = question.imageUrl;
-        } else if (question.type === "mq") {
-          formdata.mainQuestion = question.mainQuestion;
-          formdata.subQuestions = JSON.stringify(question.subQuestions);
+        } else if (question.type === "multiple") {
+          formdata.imageUrl = question.imageUrl;
+          formdata.multipleQuestion = question.multipleQuestion;
+          formdata.multipleAnswer = question.multipleAnswer;
         } else {
+          formdata.imageUrl = question.imageUrl;
           formdata.singleAnswer = question.answer;
         }
   
@@ -115,10 +118,9 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                   >
                     <option value=''>Select Type</option>
                     <option value='mcq'>MCQ</option>
-                    <option value='image'>Question with Image</option>
                     <option value='short'>Short Answer</option>
                     <option value='long'>Long Answer</option>
-                    <option value='mq'>Sub Questions</option>
+                    <option value='multiple'>Multiple Answers</option>
                   </select>
                 </div>
                 <div className='mb-4'>
@@ -147,6 +149,27 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                 </div>
                 {question.type === 'long' && (
                   <div className='mb-4'>
+                     <div className='mb-4'>
+                    <label className='block text-gray-700 font-bold mb-2'>
+                      Upload Image:
+                    </label>
+                    <input
+                      type='file'
+                      accept='image/*'
+                      onChange={(e) => handleImageUpload(e, index)}
+                      className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                      
+                    />
+                    {question.imageUrl && (
+                      <div className='mt-2'>
+                        <img
+                          src={question.imageUrl}
+                          alt='Uploaded Image'
+                          className='max-w-full h-auto'
+                        />
+                      </div>
+                    )}
+                  </div>
                     <label className='block text-gray-700 font-bold mb-2'>
                       Answer:
                     </label>
@@ -160,7 +183,29 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                   </div>
                 )}
                 {question.type === 'short' && (
+                  
                   <div className='mb-4'>
+                     <div className='mb-4'>
+                    <label className='block text-gray-700 font-bold mb-2'>
+                      Upload Image:
+                    </label>
+                    <input
+                      type='file'
+                      accept='image/*'
+                      onChange={(e) => handleImageUpload(e, index)}
+                      className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                      
+                    />
+                    {question.imageUrl && (
+                      <div className='mt-2'>
+                        <img
+                          src={question.imageUrl}
+                          alt='Uploaded Image'
+                          className='max-w-full h-auto'
+                        />
+                      </div>
+                    )}
+                  </div>
                     <label className='block text-gray-700 font-bold mb-2'>
                       Answer:
                     </label>
@@ -175,6 +220,26 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                 )}
                 {question.type === 'mcq' && (
                   <>
+                   <div className='mb-4'>
+                    <label className='block text-gray-700 font-bold mb-2'>
+                      Upload Image:
+                    </label>
+                    <input
+                      type='file'
+                      accept='image/*'
+                      onChange={(e) => handleImageUpload(e, index)}
+                      className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                    />
+                    {question.imageUrl && (
+                      <div className='mt-2'>
+                        <img
+                          src={question.imageUrl}
+                          alt='Uploaded Image'
+                          className='max-w-full h-auto'
+                        />
+                      </div>
+                    )}
+                  </div>
                     <div className='mb-4'>
                       <label className='block text-gray-700 font-bold mb-2'>
                         Options:
@@ -222,8 +287,10 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                     </div>
                   </>
                 )}
-                {question.type === 'image' && (
+             
+             {question.type === 'multiple' && (
                   <div className='mb-4'>
+                     <div className='mb-4'>
                     <label className='block text-gray-700 font-bold mb-2'>
                       Upload Image:
                     </label>
@@ -232,7 +299,6 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                       accept='image/*'
                       onChange={(e) => handleImageUpload(e, index)}
                       className='w-full px-3 py-2 border border-gray-300 rounded-md'
-                      required
                     />
                     {question.imageUrl && (
                       <div className='mt-2'>
@@ -244,38 +310,26 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                       </div>
                     )}
                   </div>
-                )}
-                {question.type === 'mq' && (
-                  <>
-                    <div className='mb-4'>
-                      <input
-                        type='text'
-                        value={question.mainQuestion || question.question}
-                        onChange={(e) => handleQuestionChange(index, 'mainQuestion', e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md'
-                        required
-                      />
-                    </div>
-                    {question.subQuestions.map((subQuestion, subIndex) => (
-                      <div key={subIndex} className='mb-4 ml-4'>
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Sub Question {subIndex + 1}:
-                        </label>
+
+                    <label className='block text-gray-700 font-bold mb-2'>
+                      Questions:
+                    </label>
+                    {question.multipleQuestion.map((multipleQuestion, subIndex) => (
+                      <div key={subIndex} className='flex mb-2 flex-col'>
                         <input
                           type='text'
-                          value={subQuestion.text}
-                          onChange={(e) => handleSubQuestionChange(index, subIndex, 'text', e.target.value)}
+                          value={multipleQuestion}
+                          onChange={(e) => handleSubQuestionChange(index, subIndex, 'question', e.target.value)}
                           className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                          placeholder={`Question ${subIndex + 1}`}
                           required
                         />
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Sub Answer {subIndex + 1}:
-                        </label>
                         <input
                           type='text'
-                          value={subQuestion.answer}
+                          value={question?.multipleAnswer[subIndex]}
                           onChange={(e) => handleSubQuestionChange(index, subIndex, 'answer', e.target.value)}
-                          className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                          className='w-full px-3 mt-4 py-2 border border-gray-300 rounded-md'
+                          placeholder='Answer'
                           required
                         />
                       </div>
@@ -287,7 +341,7 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                     >
                       Add Sub Question
                     </button>
-                  </>
+                  </div>
                 )}
               </div>
             ))}
