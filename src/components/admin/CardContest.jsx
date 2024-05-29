@@ -150,7 +150,7 @@ const CardContest = ({ contestId }) => {
                             {question?.multipleQuestion.map(
                               (question, subIndex) => (
                                 <li key={subIndex}>
-                                  {question?.multipleQuestion} - Answer:{' '}
+                                  {question?.multipleQuestion}
                                   {question?.multipleAnswer}
                                 </li>
                               )
