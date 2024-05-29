@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const StudentProfile = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState('');
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ const StudentProfile = () => {
   }, [userId, navigate]);
 
   return (
-    <div className="max-full mx-auto p-6 bg-white rounded-md shadow-md">
+    <div className="max-full mx-auto p-6 m-5 bg-white rounded-md shadow-md">
       <h1 className="text-3xl flex font-bold mb-6 items-center justify-center text-center">Profile</h1>
      
         <>

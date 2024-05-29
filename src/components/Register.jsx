@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({
-    profile: '',
+    profilePic: '',
     resume: '',
     name: '',
     email: '',
@@ -22,7 +22,7 @@ const RegisterStudent = () => {
     college: '',
     cgpa: '',
     backlog: '',
-    permanentAddress: {
+    permAddress: {
       streetLine1: '',
       streetLine2: '',
       city: '',
@@ -30,7 +30,7 @@ const RegisterStudent = () => {
       country: '',
       zip: ''
     },
-    currentAddress: {
+    currAddress: {
       streetLine1: '',
       streetLine2: '',
       city: '',
@@ -44,12 +44,13 @@ const RegisterStudent = () => {
   const [resumeName, setResumeName] = useState('')
   const navigate = useNavigate()
 
+
   const handleCheckboxChange = () => {
     setIsSameAddress(!isSameAddress)
     if (!isSameAddress) {
       setFormData(prevState => ({
         ...prevState,
-        currentAddress: { ...prevState.permanentAddress }
+        currAddress: { ...prevState.permAddress }
       }))
     }
   }
@@ -69,58 +70,66 @@ const RegisterStudent = () => {
     } else if (fileType === 'resume') {
       setResumeName(file.name)
     }
-    convertToBase64(file, fileType)
-  }
-
-  const convertToBase64 = (file, fileType) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onloadend = () => {
-      setFormData(prevState => ({
-        ...prevState,
-        [fileType]: reader.result
-      }))
-    }
   }
 
   const handleSubmit = async e => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const myHeaders = new Headers()
+    const myHeaders = new Headers();
     myHeaders.append(
       'Authorization',
       `Bearer ${localStorage.getItem('access')}`
-    )
-    // formData.append('Content-Type', 'multipart/form-data');
-    
+    );
+
+    const form = new FormData();
+    form.append('profile', formData.profile);
+    form.append('resume', formData.resume);
+    form.append('name', formData.name);
+    form.append('email', formData.email);
+    form.append('phone', formData.phone);
+    form.append('password', formData.password);
+    form.append('dob', formData.dob);
+    form.append('studentId', formData.studentId);
+    form.append('gender', formData.gender);
+    form.append('fatherName', formData.fatherName);
+    form.append('motherName', formData.motherName);
+    form.append('currentSemester', formData.currentSemester);
+    form.append('branch', formData.branch);
+    form.append('course', formData.course);
+    form.append('college', formData.college);
+    form.append('cgpa', formData.cgpa);
+    form.append('backlog', formData.backlog);
+    form.append('permAddress', JSON.stringify(formData.permAddress));
+    form.append('currAddress', JSON.stringify(formData.currAddress));
 
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: formData,
+      body: form,
       redirect: 'follow'
-    }
-    console.log(formData)
+    };
+    console.log(requestOptions)
 
     try {
       const response = await fetch(
         'https://wbt-quizcave.onrender.com/api/v1/user/register',
         requestOptions
-      )
-      const data = await response.json()
+      );
+      const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('access', data?.data?.accessToken)
-        localStorage.setItem('refresh', data?.data?.refreshToken)
-        console.log(data?.data)
-        console.log();
-        navigate('/student/')
+        localStorage.setItem('access', data?.data?.accessToken);
+        localStorage.setItem('refresh', data?.data?.refreshToken);
+        
+        setFormData(data?.data);
+        console.log(data?.data);
+        navigate('/student/');
       } else {
-        console.error('Registration failed')
+        console.error('Registration failed');
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -362,7 +371,13 @@ const RegisterStudent = () => {
               type='file'
               id='profile'
               accept='image/*'
-              onChange={e => handleFileChange(e, 'profile')}
+              onChange={ async (e) => {
+                handleFileChange(e, 'profile')
+                await setFormData(prevState => ({
+                  ...prevState,
+                    'profile': e?.target?.files[0]
+                  }))
+              }}
             />
             {profilePreview && (
               <div className='mt-2'>
@@ -381,7 +396,13 @@ const RegisterStudent = () => {
               type='file'
               id='resume'
               accept='.pdf,.doc,.docx'
-              onChange={e => handleFileChange(e, 'resume')}
+              onChange={async (e) => {
+                handleFileChange(e,'resume')
+                await setFormData(prevState => ({
+                 ...prevState,
+                 'resume': e?.target?.files[0]
+                }))
+              }}
             />
             {resumeName && (
               <div className='mt-2'>
@@ -394,15 +415,15 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData?.permanentAddress?.streetLine1}
+              value={formData?.permAddress?.streetLine1}
               required
               placeholder='Street Line 1'
               id='permanentStreetLine1'
               onChange={e =>
                 setFormData({
                   ...formData,
-                  permanentAddress: {
-                    ...formData.permanentAddress,
+                  permAddress: {
+                    ...formData?.permAddress,
                     streetLine1: e.target.value
                   }
                 })
@@ -411,14 +432,14 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
               type='text'
-              value={formData?.permanentAddress?.streetLine2}
+              value={formData?.permAddress?.streetLine2}
               placeholder='Street Line 2'
               id='permanentStreetLine2'
               onChange={e =>
                 setFormData({
                   ...formData,
-                  permanentAddress: {
-                    ...formData.permanentAddress,
+                  permAddress: {
+                    ...formData?.permAddress,
                     streetLine2: e.target.value
                   }
                 })
@@ -427,15 +448,15 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
               type='text'
-              value={formData?.permanentAddress?.city}
+              value={formData?.permAddress?.city}
               required
               placeholder='City'
               id='permanentCity'
               onChange={e =>
                 setFormData({
                   ...formData,
-                  permanentAddress: {
-                    ...formData.permanentAddress,
+                  permAddress: {
+                    ...formData?.permAddress,
                     city: e.target.value
                   }
                 })
@@ -444,15 +465,15 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
               type='text'
-              value={formData?.permanentAddress?.state}
+              value={formData?.permAddress?.state}
               required
               placeholder='State'
               id='permanentState'
               onChange={e =>
                 setFormData({
                   ...formData,
-                  permanentAddress: {
-                    ...formData.permanentAddress,
+                  permAddress: {
+                    ...formData?.permAddress,
                     state: e.target.value
                   }
                 })
@@ -461,15 +482,15 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
               type='text'
-              value={formData?.permanentAddress?.country}
+              value={formData?.permAddress?.country}
               required
               placeholder='Country'
               id='permanentCountry'
               onChange={e =>
                 setFormData({
                   ...formData,
-                  permanentAddress: {
-                    ...formData.permanentAddress,
+                  permAddress: {
+                    ...formData?.permAddress,
                     country: e.target.value
                   }
                 })
@@ -478,15 +499,15 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
               type='text'
-              value={formData?.permanentAddress?.zip}
+              value={formData?.permAddress?.zip}
               required
               placeholder='Zip Code'
               id='permanentZip'
               onChange={e =>
                 setFormData({
                   ...formData,
-                  permanentAddress: {
-                    ...formData.permanentAddress,
+                  permAddress: {
+                    ...formData?.permAddress,
                     zip: e.target.value
                   }
                 })
@@ -510,15 +531,15 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData?.currentAddress?.streetLine1}
+                value={formData?.currAddress?.streetLine1}
                 required
                 placeholder='Street Line 1'
                 id='currentStreetLine1'
                 onChange={e =>
                   setFormData({
                     ...formData,
-                    currentAddress: {
-                      ...formData.currentAddress,
+                    currAddress: {
+                      ...formData?.currAddress,
                       streetLine1: e.target.value
                     }
                   })
@@ -527,14 +548,14 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
                 type='text'
-                value={formData?.currentAddress?.streetLine2}
+                value={formData?.currAddress?.streetLine2}
                 placeholder='Street Line 2'
                 id='currentStreetLine2'
                 onChange={e =>
                   setFormData({
                     ...formData,
-                    currentAddress: {
-                      ...formData.currentAddress,
+                    currAddress: {
+                      ...formData?.currAddress,
                       streetLine2: e.target.value
                     }
                   })
@@ -543,15 +564,15 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
                 type='text'
-                value={formData?.currentAddress?.city}
+                value={formData?.currAddress?.city}
                 required
                 placeholder='City'
                 id='currentCity'
                 onChange={e =>
                   setFormData({
                     ...formData,
-                    currentAddress: {
-                      ...formData.currentAddress,
+                    currAddress: {
+                      ...formData?.currAddress,
                       city: e.target.value
                     }
                   })
@@ -560,15 +581,15 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
                 type='text'
-                value={formData?.currentAddress?.state}
+                value={formData?.currAddress?.state}
                 required
                 placeholder='State'
                 id='currentState'
                 onChange={e =>
                   setFormData({
                     ...formData,
-                    currentAddress: {
-                      ...formData.currentAddress,
+                    currAddress: {
+                      ...formData?.currAddress,
                       state: e.target.value
                     }
                   })
@@ -577,15 +598,15 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
                 type='text'
-                value={formData?.currentAddress?.country}
+                value={formData?.currAddress?.country}
                 required
                 placeholder='Country'
                 id='currentCountry'
                 onChange={e =>
                   setFormData({
                     ...formData,
-                    currentAddress: {
-                      ...formData.currentAddress,
+                    currAddress: {
+                      ...formData?.currAddress,
                       country: e.target.value
                     }
                   })
@@ -594,15 +615,15 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
                 type='text'
-                value={formData?.currentAddress?.zip}
+                value={formData?.currAddress?.zip}
                 required
                 placeholder='Zip Code'
                 id='currentZip'
                 onChange={e =>
                   setFormData({
                     ...formData,
-                    currentAddress: {
-                      ...formData.currentAddress,
+                    currAddress: {
+                      ...formData?.currAddress,
                       zip: e.target.value
                     }
                   })
