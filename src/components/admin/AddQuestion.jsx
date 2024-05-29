@@ -40,7 +40,7 @@ const AddQuestion = ({ toggleQues, contestId }) => {
     const reader = new FileReader();
     reader.onloadend = () => {
       const updatedQuestions = [...questions];
-      updatedQuestions[index].imageUrl = reader.result;
+      updatedQuestions[index].questionImage = reader.result;
       setQuestions(updatedQuestions);
     };
     reader.readAsDataURL(file);
@@ -60,13 +60,13 @@ const AddQuestion = ({ toggleQues, contestId }) => {
         if (question.type === "mcq") {
           formdata.options = question.options.join(",");
           formdata.singleAnswer = question.answer;
-          formdata.imageUrl = question.imageUrl;
+          formdata.questionImage = question.questionImage;
         } else if (question.type === "multiple") {
-          formdata.imageUrl = question.imageUrl;
+          formdata.questionImage = question.questionImage;
           formdata.multipleQuestion = question.multipleQuestion;
           formdata.multipleAnswer = question.multipleAnswer;
         } else {
-          formdata.imageUrl = question.imageUrl;
+          formdata.questionImage = question.questionImage;
           formdata.singleAnswer = question.answer;
         }
   
@@ -160,10 +160,10 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                       className='w-full px-3 py-2 border border-gray-300 rounded-md'
                       
                     />
-                    {question.imageUrl && (
+                    {question.questionImage && (
                       <div className='mt-2'>
                         <img
-                          src={question.imageUrl}
+                          src={question.questionImage}
                           alt='Uploaded Image'
                           className='max-w-full h-auto'
                         />
@@ -196,10 +196,10 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                       className='w-full px-3 py-2 border border-gray-300 rounded-md'
                       
                     />
-                    {question.imageUrl && (
+                    {question.questionImage && (
                       <div className='mt-2'>
                         <img
-                          src={question.imageUrl}
+                          src={question.questionImage}
                           alt='Uploaded Image'
                           className='max-w-full h-auto'
                         />
@@ -230,10 +230,10 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                       onChange={(e) => handleImageUpload(e, index)}
                       className='w-full px-3 py-2 border border-gray-300 rounded-md'
                     />
-                    {question.imageUrl && (
+                    {question.questionImage && (
                       <div className='mt-2'>
                         <img
-                          src={question.imageUrl}
+                          src={question.questionImage}
                           alt='Uploaded Image'
                           className='max-w-full h-auto'
                         />
@@ -300,10 +300,10 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                       onChange={(e) => handleImageUpload(e, index)}
                       className='w-full px-3 py-2 border border-gray-300 rounded-md'
                     />
-                    {question.imageUrl && (
+                    {question.questionImage && (
                       <div className='mt-2'>
                         <img
-                          src={question.imageUrl}
+                          src={question.questionImage}
                           alt='Uploaded Image'
                           className='max-w-full h-auto'
                         />
