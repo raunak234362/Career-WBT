@@ -3,8 +3,7 @@ import { Link } from "react-router-dom"
 import congo from "../assets/congo.gif"
 
 const Successful = () => {
-    const userID = localStorage.getItem('userID')
-    const password = localStorage.getItem('password')
+    
 
   return (
     <div>
@@ -12,10 +11,6 @@ const Successful = () => {
       <h1 className='text-3xl font-bold text-green-500'>Registration Successful</h1>
       <p className='text-lg text-gray-500'>You have successfully registered for our program</p>
       <p className='text-sm text-gray-500'>We have sent you the test link on your email</p>
-      <div className='mt-4'>
-        <p className='text-md text-gray-700'><strong>User ID:</strong> {userID}</p>
-        <p className='text-md text-gray-700'><strong>Password:</strong> {password}</p>
-      </div>
       <p><Link to='/student' className='text-sky-600 hover:text-green-700 transition-colors duration-300'>Go to Your Dashboard</Link></p>
       <img src={congo} className='w-[40%] items-center mx-auto'/>
     </div>

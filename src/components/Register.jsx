@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import Logo from '../assets/logo.png';
-import { useNavigate } from 'react-router-dom';
+/* eslint-disable no-unused-vars */
+import { useState } from 'react'
+import Logo from '../assets/logo.png'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({
-    profile: null,
-    resume: null,
+    profile: '',
+    resume: '',
     name: '',
     email: '',
     phone: '',
@@ -21,64 +22,105 @@ const RegisterStudent = () => {
     college: '',
     cgpa: '',
     backlog: '',
-    streetLine1:'',
-    streetLine2:'',
-    city:'',
-    state:'',
-    country:'',
-    zip:'',
-  });
-  const [isSameAddress, setIsSameAddress] = useState(false);
-  const navigate = useNavigate();
+    permanentAddress: {
+      streetLine1: '',
+      streetLine2: '',
+      city: '',
+      state: '',
+      country: '',
+      zip: ''
+    },
+    currentAddress: {
+      streetLine1: '',
+      streetLine2: '',
+      city: '',
+      state: '',
+      country: '',
+      zip: ''
+    }
+  })
+  const [isSameAddress, setIsSameAddress] = useState(false)
+  const [profilePreview, setProfilePreview] = useState(null)
+  const [resumeName, setResumeName] = useState('')
+  const navigate = useNavigate()
 
   const handleCheckboxChange = () => {
-    setIsSameAddress(!isSameAddress);
-  };
+    setIsSameAddress(!isSameAddress)
+    if (!isSameAddress) {
+      setFormData(prevState => ({
+        ...prevState,
+        currentAddress: { ...prevState.permanentAddress }
+      }))
+    }
+  }
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
-  };
+  const handleChange = (e, field) => {
+    const value = e.target.value
+    setFormData(prevState => ({
+      ...prevState,
+      [field]: value
+    }))
+  }
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const handleFileChange = (e, fileType) => {
+    const file = e.target.files[0]
+    if (fileType === 'profile') {
+      setProfilePreview(URL.createObjectURL(file))
+    } else if (fileType === 'resume') {
+      setResumeName(file.name)
+    }
+    convertToBase64(file, fileType)
+  }
 
-  const handleDrop = (e, fileType) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    setFormData({ ...formData, [fileType]: file });
-  };
+  const convertToBase64 = (file, fileType) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      setFormData(prevState => ({
+        ...prevState,
+        [fileType]: reader.result
+      }))
+    }
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault()
 
-    const formdata = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      formdata.append(key, value);
-    });
+    const myHeaders = new Headers()
+    myHeaders.append(
+      'Authorization',
+      `Bearer ${localStorage.getItem('access')}`
+    )
+    // formData.append('Content-Type', 'multipart/form-data');
+    
 
     const requestOptions = {
       method: 'POST',
-      body: formdata,
-      redirect: 'follow',
-    };
-    console.log(requestOptions)
+      headers: myHeaders,
+      body: formData,
+      redirect: 'follow'
+    }
+    console.log(formData)
 
     try {
       const response = await fetch(
         'https://wbt-quizcave.onrender.com/api/v1/user/register',
         requestOptions
-      );
-      const data = await response.json();
-      setFormData(data?.data)
-      console.log(data);
-      navigate('/successful');
+      )
+      const data = await response.json()
+      if (response.ok) {
+        localStorage.setItem('access', data?.data?.accessToken)
+        localStorage.setItem('refresh', data?.data?.refreshToken)
+        console.log(data?.data)
+        console.log();
+        navigate('/student/')
+      } else {
+        console.error('Registration failed')
+      }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
-
+  }
 
   return (
     <div>
@@ -99,22 +141,11 @@ const RegisterStudent = () => {
                 required
                 placeholder='Name'
                 id='name'
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
               />
-           </div>
-          </div>
-
-          <div className='mt-3'>
-            <label htmlFor='CollegeID'>Student ID</label>
-            <input
-              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-              type='text'
-              value={formData?.studentId}
-              required
-              placeholder='Student ID'
-              id='studentId'
-              onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
-            />
+            </div>
           </div>
           <div className='mt-3'>
             <label htmlFor='email'>Student Email</label>
@@ -125,7 +156,37 @@ const RegisterStudent = () => {
               required
               placeholder='Email'
               id='email'
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={e =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='CollegeID'>Student ID</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData?.studentId}
+              required
+              placeholder='Student ID'
+              id='studentId'
+              onChange={e =>
+                setFormData({ ...formData, studentId: e.target.value })
+              }
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='email'>Password</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='password'
+              value={formData?.password}
+              required
+              placeholder='Password'
+              id='password'
+              onChange={e =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
           </div>
           <div className='mt-3'>
@@ -137,7 +198,9 @@ const RegisterStudent = () => {
               required
               placeholder='Contact Number'
               id='phone'
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={e =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
             />
           </div>
           <div className='mt-3'>
@@ -149,7 +212,9 @@ const RegisterStudent = () => {
               required
               placeholder='Father Name'
               id='fatherName'
-              onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
+              onChange={e =>
+                setFormData({ ...formData, fatherName: e.target.value })
+              }
             />
           </div>
           <div className='mt-3'>
@@ -161,20 +226,26 @@ const RegisterStudent = () => {
               required
               placeholder='Mother Name'
               id='motherName'
-              onChange={(e) => setFormData({ ...formData, motherName: e.target.value })}
+              onChange={e =>
+                setFormData({ ...formData, motherName: e.target.value })
+              }
             />
           </div>
           <div className='mt-3'>
             <label htmlFor='contact'>Gender</label>
-            <select  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+            <select
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               value={formData?.gender}
               required
               id='gender'
-              onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
-             <option value=''>Select Gender</option>
-             <option value='male'>Male</option>
-             <option value='female'>Female</option>
-             <option value='other'>Other</option>
+              onChange={e =>
+                setFormData({ ...formData, gender: e.target.value })
+              }
+            >
+              <option value=''>Select Gender</option>
+              <option value='male'>Male</option>
+              <option value='female'>Female</option>
+              <option value='other'>Other</option>
             </select>
           </div>
           <div className='mt-3'>
@@ -186,11 +257,25 @@ const RegisterStudent = () => {
               required
               placeholder='Date of Birth'
               id='dob'
-              onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
+              onChange={e => setFormData({ ...formData, dob: e.target.value })}
             />
           </div>
           <div className='mt-3'>
-            <label htmlFor='contact'>Branch</label>
+            <label htmlFor='email'>College Name</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData?.college}
+              required
+              placeholder='College Name'
+              id='college'
+              onChange={e =>
+                setFormData({ ...formData, college: e.target.value })
+              }
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='email'>Branch</label>
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
@@ -198,11 +283,13 @@ const RegisterStudent = () => {
               required
               placeholder='Branch'
               id='branch'
-              onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
+              onChange={e =>
+                setFormData({ ...formData, branch: e.target.value })
+              }
             />
           </div>
           <div className='mt-3'>
-            <label htmlFor='contact'>Course</label>
+            <label htmlFor='email'>Course</label>
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
@@ -210,243 +297,327 @@ const RegisterStudent = () => {
               required
               placeholder='Course'
               id='course'
-              onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+              onChange={e =>
+                setFormData({ ...formData, course: e.target.value })
+              }
             />
           </div>
           <div className='mt-3'>
-            <label htmlFor='year'>Final Semester Marks</label>
-            <div className='flex flex-row gap-3'>
-              <select
-                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                value={formData?.currentSemester}
-                required
-                id='currentSemester'
-                onChange={(e) => setFormData({ ...formData, currentSemester: e.target.value })}
-              >
-                <option value=''>Select Semester</option>
-                <option value='1'>Semester-1</option>
-                <option value='1'>Semester-1</option>
-                <option value='2'>Semester-2</option>
-                <option value='3'>Semester-3</option>
-                <option value='4'>Semester-4</option>
-                <option value='5'>Semester-5</option>
-                <option value='6'>Semester-6</option>
-                <option value='7'>Semester-7</option>
-                <option value='8'>Semester-8</option>
-              </select>
-              <input
-                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                type='text'
-                value={formData?.cgpa}
-                placeholder='Percentage/CGPA'
-                required
-                id='marks'
-                onChange={(e) => setFormData({ ...formData, cgpa: e.target.value })}
-              />
-              <input
-                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                type='text'
-                value={formData?.backlogs}
-                placeholder='No. of Backlogs'
-                id='backlogs'
-                onChange={(e) => setFormData({ ...formData, backlogs: e.target.value })}
-              />
-            </div>
+            <label htmlFor='semester'>Select Semester</label>
+            <select
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              value={formData?.currentSemester}
+              required
+              id='currentSemester'
+              onChange={e =>
+                setFormData({ ...formData, currentSemester: e.target.value })
+              }
+            >
+              <option value=''>Select Semester</option>
+              <option value='1'>Semester-1</option>
+              <option value='1'>Semester-1</option>
+              <option value='2'>Semester-2</option>
+              <option value='3'>Semester-3</option>
+              <option value='4'>Semester-4</option>
+              <option value='5'>Semester-5</option>
+              <option value='6'>Semester-6</option>
+              <option value='7'>Semester-7</option>
+              <option value='8'>Semester-8</option>
+            </select>
           </div>
-
           <div className='mt-3'>
-            <label htmlFor='address'>Current Address</label>
+            <label htmlFor='email'>CGPA</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='number'
+              step='0.01'
+              min='0'
+              max='10'
+              value={formData?.cgpa}
+              required
+              placeholder='CGPA'
+              id='cgpa'
+              onChange={e => setFormData({ ...formData, cgpa: e.target.value })}
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='email'>Backlog</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='number'
+              min='0'
+              value={formData?.backlog}
+              required
+              placeholder='Backlog'
+              id='backlog'
+              onChange={e =>
+                setFormData({ ...formData, backlog: e.target.value })
+              }
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='profile'>Upload Profile Image</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='file'
+              id='profile'
+              accept='image/*'
+              onChange={e => handleFileChange(e, 'profile')}
+            />
+            {profilePreview && (
+              <div className='mt-2'>
+                <img
+                  src={profilePreview}
+                  alt='Profile Preview'
+                  className='w-20 h-20 rounded-full'
+                />
+              </div>
+            )}
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='resume'>Upload Resume</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='file'
+              id='resume'
+              accept='.pdf,.doc,.docx'
+              onChange={e => handleFileChange(e, 'resume')}
+            />
+            {resumeName && (
+              <div className='mt-2'>
+                <p>Resume: {resumeName}</p>
+              </div>
+            )}
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='permanentAddress'>Permanent Address</label>
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData?.streetLine1}
-              placeholder='Address'
+              value={formData?.permanentAddress?.streetLine1}
               required
-              id='address'
-              onChange={(e) => setFormData({ ...formData, streetLine1: e.target.value })}
+              placeholder='Street Line 1'
+              id='permanentStreetLine1'
+              onChange={e =>
+                setFormData({
+                  ...formData,
+                  permanentAddress: {
+                    ...formData.permanentAddress,
+                    streetLine1: e.target.value
+                  }
+                })
+              }
             />
             <input
-              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
               type='text'
-              value={formData?.streetLine2}
-              placeholder='Address'
-              required
-              id='address'
-              onChange={(e) => setFormData({ ...formData, streetLine2: e.target.value })}
+              value={formData?.permanentAddress?.streetLine2}
+              placeholder='Street Line 2'
+              id='permanentStreetLine2'
+              onChange={e =>
+                setFormData({
+                  ...formData,
+                  permanentAddress: {
+                    ...formData.permanentAddress,
+                    streetLine2: e.target.value
+                  }
+                })
+              }
             />
-            <div className='flex flex-row gap-2 mt-2'>
-              <input
-                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                type='text'
-                value={formData?.city}
-                placeholder='City'
-                required
-                id='city'
-                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-              />
-              <input
-                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                type='text'
-                value={formData?.state}
-                placeholder='State'
-                required
-                id='state'
-                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-              />
-            </div>
-            <div className='flex flex-row gap-2 mt-2'>
-              <input
-                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                type='text'
-                value={formData?.country}
-                placeholder='Country'
-                required
-                id='country'
-                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-              />
-              <input
-                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                type='text'
-                value={formData?.zip}
-                placeholder='Zip'
-                required
-                id='zip'
-                onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
-              />
-            </div>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+              type='text'
+              value={formData?.permanentAddress?.city}
+              required
+              placeholder='City'
+              id='permanentCity'
+              onChange={e =>
+                setFormData({
+                  ...formData,
+                  permanentAddress: {
+                    ...formData.permanentAddress,
+                    city: e.target.value
+                  }
+                })
+              }
+            />
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+              type='text'
+              value={formData?.permanentAddress?.state}
+              required
+              placeholder='State'
+              id='permanentState'
+              onChange={e =>
+                setFormData({
+                  ...formData,
+                  permanentAddress: {
+                    ...formData.permanentAddress,
+                    state: e.target.value
+                  }
+                })
+              }
+            />
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+              type='text'
+              value={formData?.permanentAddress?.country}
+              required
+              placeholder='Country'
+              id='permanentCountry'
+              onChange={e =>
+                setFormData({
+                  ...formData,
+                  permanentAddress: {
+                    ...formData.permanentAddress,
+                    country: e.target.value
+                  }
+                })
+              }
+            />
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+              type='text'
+              value={formData?.permanentAddress?.zip}
+              required
+              placeholder='Zip Code'
+              id='permanentZip'
+              onChange={e =>
+                setFormData({
+                  ...formData,
+                  permanentAddress: {
+                    ...formData.permanentAddress,
+                    zip: e.target.value
+                  }
+                })
+              }
+            />
           </div>
           <div className='mt-3'>
             <label className='inline-flex items-center'>
               <input
                 type='checkbox'
-                className='form-checkbox'
                 checked={isSameAddress}
                 onChange={handleCheckboxChange}
+                className='form-checkbox'
               />
-              <span className='ml-2'>
-                Current address is the same as present address
-              </span>
+              <span className='ml-2'>Same as Permanent Address</span>
             </label>
           </div>
-
           {!isSameAddress && (
             <div className='mt-3'>
-              <label
-                htmlFor='present-address'
-                className='block text-gray-700 font-bold mb-2'
-              >
-                Present Address
-              </label>
+              <label htmlFor='currentAddress'>Current Address</label>
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData?.presentAddress}
-                placeholder='Address'
-                id='present-address'
-                onChange={(e) => setFormData({ ...formData, presentAddress: e.target.value })}
+                value={formData?.currentAddress?.streetLine1}
+                required
+                placeholder='Street Line 1'
+                id='currentStreetLine1'
+                onChange={e =>
+                  setFormData({
+                    ...formData,
+                    currentAddress: {
+                      ...formData.currentAddress,
+                      streetLine1: e.target.value
+                    }
+                  })
+                }
               />
-              <div className='flex flex-row gap-2 mt-2'>
-                <input
-                  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                  type='text'
-                  value={formData?.presentCity}
-                  placeholder='City'
-                  id='present-city'
-                  onChange={(e) => setFormData({ ...formData, presentCity: e.target.value })}
-                />
-                <input
-                  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                  type='text'
-                  value={formData.presentState}
-                  placeholder='State'
-                  id='present-state'
-                  onChange={(e) => setFormData({ ...formData, presentState: e.target.value })}
-                />
-              </div>
-              <div className='flex flex-row gap-2 mt-2'>
-                <input
-                  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                  type='text'
-                  value={formData.presentCountry}
-                  placeholder='Country'
-                  id='present-country'
-                  onChange={(e) => setFormData({ ...formData, presentCountry: e.target.value })}
-                />
-                <input
-                  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                  type='text'
-                  value={formData.presentZip}
-                  placeholder='Zip'
-                  id='present-zip'
-                  onChange={(e) => setFormData({ ...formData, presentZip: e.target.value })}
-                />
-              </div>
+              <input
+                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+                type='text'
+                value={formData?.currentAddress?.streetLine2}
+                placeholder='Street Line 2'
+                id='currentStreetLine2'
+                onChange={e =>
+                  setFormData({
+                    ...formData,
+                    currentAddress: {
+                      ...formData.currentAddress,
+                      streetLine2: e.target.value
+                    }
+                  })
+                }
+              />
+              <input
+                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+                type='text'
+                value={formData?.currentAddress?.city}
+                required
+                placeholder='City'
+                id='currentCity'
+                onChange={e =>
+                  setFormData({
+                    ...formData,
+                    currentAddress: {
+                      ...formData.currentAddress,
+                      city: e.target.value
+                    }
+                  })
+                }
+              />
+              <input
+                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+                type='text'
+                value={formData?.currentAddress?.state}
+                required
+                placeholder='State'
+                id='currentState'
+                onChange={e =>
+                  setFormData({
+                    ...formData,
+                    currentAddress: {
+                      ...formData.currentAddress,
+                      state: e.target.value
+                    }
+                  })
+                }
+              />
+              <input
+                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+                type='text'
+                value={formData?.currentAddress?.country}
+                required
+                placeholder='Country'
+                id='currentCountry'
+                onChange={e =>
+                  setFormData({
+                    ...formData,
+                    currentAddress: {
+                      ...formData.currentAddress,
+                      country: e.target.value
+                    }
+                  })
+                }
+              />
+              <input
+                className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2'
+                type='text'
+                value={formData?.currentAddress?.zip}
+                required
+                placeholder='Zip Code'
+                id='currentZip'
+                onChange={e =>
+                  setFormData({
+                    ...formData,
+                    currentAddress: {
+                      ...formData.currentAddress,
+                      zip: e.target.value
+                    }
+                  })
+                }
+              />
             </div>
           )}
-
-          <div className='mt-3'>
-            <label htmlFor='profile'>Upload Current Pic</label>
-            <div
-              className='border bg-white border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-              onDragOver={handleDragOver}
-              onDrop={e => handleDrop(e, 'profile')}
+          <div className='mt-6'>
+            <button
+              className='bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
+              type='submit'
             >
-              <input
-                type='file'
-                accept='image/*'
-                required
-                id='profile'
-                onChange={e => handleChange(e, 'profile')}
-                style={{ display: 'none' }}
-              />
-              <label htmlFor='profile' className='cursor-pointer'>
-                <p>
-                  Drag and drop your profile picture here, or click to select
-                  one
-                </p>
-              </label>
-              {/* {profile && (
-                <img
-                  src={URL.createObjectURL(profile)}
-                  alt='Profile Pic'
-                  className='mt-2 w-[20%] h-[20%] overflow-y-hidden'
-                />
-              )} */}
-            </div>
+              Submit
+            </button>
           </div>
-          <div className='mt-3'>
-            <label htmlFor='resume'>Upload Your Latest Resume</label>
-            <div
-              className='border bg-white border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, 'resume')}
-            >
-              <input
-                type='file'
-                required
-                id='resume'
-                onChange={(e) => handleChange(e, 'resume')}
-                style={{ display: 'none' }}
-              />
-              <label
-                htmlFor='resume'
-                className='cursor-pointer'
-              >
-                <p>Drag and drop your resume here, or click to select one</p>
-              </label>
-             
-            </div>
-          </div>
-          {/* {resume && (
-                <p className='mt-2'>Selected file: {resume.name}</p>
-              )} */}
-
-          <button
-            type='submit'
-            className='bg-green-500 mt-5 w-full text-white px-4 py-2 rounded-md hover:bg-green-600'
-          >
-            Submit
-          </button>
         </form>
       </div>
     </div>
