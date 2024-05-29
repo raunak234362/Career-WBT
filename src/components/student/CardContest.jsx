@@ -131,11 +131,6 @@ const CardContest = ({ contestId }) => {
               <h2 className="text-xl font-bold mb-2 text-center">
                 {showSetQuestion?.name}
               </h2>
-              {showSetQuestion && (
-                <h3 className=" text-lg text-center">
-                  {parse(showSetQuestion?.description)}
-                </h3>
-              )}
               <div className="flex flex-col mt-5 items-center justify-center">
                 <p>
                   <strong>Duration:</strong> {showSetQuestion?.duration}

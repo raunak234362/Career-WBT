@@ -65,7 +65,7 @@ const Contest = () => {
 
   
       <div className="bg-gray-100 w-full p-5 rounded-xl mt-5">
-      <h1 className=' text-2xl font-bold text-center '>Contest List</h1>
+      <h1 className=' text-2xl font-bold text-center '>Test List</h1>
       <div className="flex flex-row flex-wrap justify-center mt-5">
       {contests.map((contest,index)=>(
         <div

@@ -47,7 +47,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
               }`}
           >
             <BiHome className="text-xl" />
-            <span>Contest</span>
+            <span>Test</span>
           </Link>
           <Link
             to="/student/result"

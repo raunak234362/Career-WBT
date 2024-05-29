@@ -34,8 +34,8 @@ export const CompletedAssessment = ({result, contest}) => {
                 <path d="M15 25 L22 32 L35 18" stroke="currentColor" strokeWidth="2" fill="transparent" className="check"></path>
             </svg>
             <div className="my-10 flex flex-col items-center">
-                <h1 className="text-black text-3xl font-semibold text-center font-mono">You have successfully completed the {contest?.name} quiz!</h1>
-                <h1 className="text-black text-3xl font-semibold text-center font-mono my-5">Please do the final submission to release your score</h1>
+                <h1 className="text-black text-3xl font-semibold text-center">You have successfully completed the {contest?.name} quiz!</h1>
+                <h1 className="text-black text-3xl font-semibold text-center my-5">Please do the final submission to release your score</h1>
                 <button className="bg-[#6adb45] text-5xl font-mono font-semi-bold px-12 py-4 rounded-2xl border-2 hover:border-[#6adb45] hover:bg-white hover:text-[#6adb45] text-white"
                 onClick={(e) => {
                     e.preventDefault();

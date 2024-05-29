@@ -32,7 +32,7 @@ export function Assessment({ contest, result }) {
       {
         (!assessmentPage) && (
           <>
-            <ContestRules description={contest?.description} rules={contest?.rules} start={setAssessmentPage} />
+            <ContestRules rules={contest?.rules} start={setAssessmentPage} />
           </>
         )
       }

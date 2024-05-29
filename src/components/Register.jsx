@@ -322,7 +322,7 @@ const RegisterStudent = () => {
                 setFormData({ ...formData, currentSemester: e.target.value })
               }
             >
-              <option value=''>Select Semester</option>
+              <option value=''>Current Semester</option>
               <option value='1'>Semester-1</option>
               <option value='1'>Semester-1</option>
               <option value='2'>Semester-2</option>
