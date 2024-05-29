@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
-import AddQuestion from './AddQuestion'
 import parse from 'html-react-parser'
 
 const CardContest = ({ contestId }) => {
@@ -83,9 +82,9 @@ const CardContest = ({ contestId }) => {
               onClick={() => toggleQues(showSetQuestion?._id)}
               className='mr-2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700'
             >
-              Add
+              Register
             </button>
-            {showQuestion[showSetQuestion?._id] && (
+            {/* {showQuestion[showSetQuestion?._id] && (
               <AddQuestion
                 toggleQues={() => toggleQues(showSetQuestion?._id)}
                 onCancel={() =>
@@ -96,14 +95,14 @@ const CardContest = ({ contestId }) => {
                 }
                 contestId={showSetQuestion?._id}
               />
-            )}
+            )} */}
             <button
               onClick={toggleShowQues}
               className='bg-green-500 text-white  px-4 py-2 h-10 rounded-lg hover:bg-green-700'
             >
-              Show
+              Open
             </button>
-            {showFilledQuestion && (
+            {/* {showFilledQuestion && (
               <div className='absolute z-20 top-0 left-0 w-full h-full overflow-y-auto bg-gray-900 bg-opacity-20 flex items-center justify-center'>
                 <div className='bg-white w-[70%] mt-4 p-6 rounded-lg shadow-md mt-4'>
                     <div className="flex flex-row justify-between">
@@ -173,7 +172,7 @@ const CardContest = ({ contestId }) => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
