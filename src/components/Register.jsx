@@ -21,6 +21,12 @@ const RegisterStudent = () => {
     college: '',
     cgpa: '',
     backlog: '',
+    streetLine1:'',
+    streetLine2:'',
+    city:'',
+    state:'',
+    country:'',
+    zip:'',
   });
   const [isSameAddress, setIsSameAddress] = useState(false);
   const navigate = useNavigate();
@@ -89,7 +95,7 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.name}
+                value={formData?.name}
                 required
                 placeholder='Name'
                 id='name'
@@ -103,7 +109,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.studentId}
+              value={formData?.studentId}
               required
               placeholder='Student ID'
               id='studentId'
@@ -115,7 +121,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='email'
-              value={formData.email}
+              value={formData?.email}
               required
               placeholder='Email'
               id='email'
@@ -127,7 +133,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.phone}
+              value={formData?.phone}
               required
               placeholder='Contact Number'
               id='phone'
@@ -139,7 +145,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.fatherName}
+              value={formData?.fatherName}
               required
               placeholder='Father Name'
               id='fatherName'
@@ -151,7 +157,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.motherName}
+              value={formData?.motherName}
               required
               placeholder='Mother Name'
               id='motherName'
@@ -161,7 +167,7 @@ const RegisterStudent = () => {
           <div className='mt-3'>
             <label htmlFor='contact'>Gender</label>
             <select  className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-              value={formData.gender}
+              value={formData?.gender}
               required
               id='gender'
               onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
@@ -176,7 +182,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='date'
-              value={formData.dob}
+              value={formData?.dob}
               required
               placeholder='Date of Birth'
               id='dob'
@@ -188,7 +194,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.branch}
+              value={formData?.branch}
               required
               placeholder='Branch'
               id='branch'
@@ -200,7 +206,7 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.course}
+              value={formData?.course}
               required
               placeholder='Course'
               id='course'
@@ -212,7 +218,7 @@ const RegisterStudent = () => {
             <div className='flex flex-row gap-3'>
               <select
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-                value={formData.currentSemester}
+                value={formData?.currentSemester}
                 required
                 id='currentSemester'
                 onChange={(e) => setFormData({ ...formData, currentSemester: e.target.value })}
@@ -231,16 +237,16 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.marks}
+                value={formData?.cgpa}
                 placeholder='Percentage/CGPA'
                 required
                 id='marks'
-                onChange={(e) => setFormData({ ...formData, marks: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, cgpa: e.target.value })}
               />
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.backlogs}
+                value={formData?.backlogs}
                 placeholder='No. of Backlogs'
                 id='backlogs'
                 onChange={(e) => setFormData({ ...formData, backlogs: e.target.value })}
@@ -253,17 +259,26 @@ const RegisterStudent = () => {
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
-              value={formData.address}
+              value={formData?.streetLine1}
               placeholder='Address'
               required
               id='address'
-              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, streetLine1: e.target.value })}
+            />
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData?.streetLine2}
+              placeholder='Address'
+              required
+              id='address'
+              onChange={(e) => setFormData({ ...formData, streetLine2: e.target.value })}
             />
             <div className='flex flex-row gap-2 mt-2'>
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.city}
+                value={formData?.city}
                 placeholder='City'
                 required
                 id='city'
@@ -272,7 +287,7 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.state}
+                value={formData?.state}
                 placeholder='State'
                 required
                 id='state'
@@ -283,7 +298,7 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.country}
+                value={formData?.country}
                 placeholder='Country'
                 required
                 id='country'
@@ -292,7 +307,7 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.zip}
+                value={formData?.zip}
                 placeholder='Zip'
                 required
                 id='zip'
@@ -325,7 +340,7 @@ const RegisterStudent = () => {
               <input
                 className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                 type='text'
-                value={formData.presentAddress}
+                value={formData?.presentAddress}
                 placeholder='Address'
                 id='present-address'
                 onChange={(e) => setFormData({ ...formData, presentAddress: e.target.value })}
@@ -334,7 +349,7 @@ const RegisterStudent = () => {
                 <input
                   className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
                   type='text'
-                  value={formData.presentCity}
+                  value={formData?.presentCity}
                   placeholder='City'
                   id='present-city'
                   onChange={(e) => setFormData({ ...formData, presentCity: e.target.value })}
