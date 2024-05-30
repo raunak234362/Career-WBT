@@ -61,10 +61,13 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
       <div className='max-w-full mx-auto p-6 bg-white rounded-md shadow-md'>
         <h1 className='text-3xl font-bold mb-6'>Create a New Contest</h1>
         <div className='absolute z-20 top-0 left-0 w-full h-full overflow-y-auto bg-gray-900 bg-opacity-20 flex items-center justify-center'>
-          <div className='bg-white w-[70%]  mt-4 p-6 rounded-lg shadow-md'>
+          <div className='bg-white w-[70%] h-full overflow-y-auto  mt-4 p-6 rounded-lg shadow-md'>
             <form
               onSubmit={handleSubmitForm}
             >
+              <h1 className='text-3xl font-bold text-center'>
+                Add Contest
+              </h1>
               <div className='mb-4'>
                 <label className='block text-gray-700 font-bold mb-2'>
                   Title:
@@ -91,7 +94,7 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
               </div>
               <div className='mb-4'>
                 <label className='block text-gray-700 font-bold mb-2'>
-                  Terms & Conditions:
+                  Instructions:
                 </label>
                 <JoditEditor
                   value={contestDetails.rules}

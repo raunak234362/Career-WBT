@@ -28,7 +28,7 @@ export const CompletedAssessment = ({result, contest}) => {
     return (
         <>
             <div className="flex flex-col justify-center items-center my-20 select-none bg-white">
-                <h1 className="text-[#6adb45] text-6xl font-bold text-center font-serif">Congratulations!</h1>
+                <h1 className="text-[#6adb45] text-6xl font-bold text-center">Congratulations!</h1>
             <svg width="100" height="100" viewBox="0 0 50 50" className="text-[#6adb45] h-80 w-80">
                 <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2" fill="transparent" className="circle"></circle>
                 <path d="M15 25 L22 32 L35 18" stroke="currentColor" strokeWidth="2" fill="transparent" className="check"></path>
@@ -36,7 +36,7 @@ export const CompletedAssessment = ({result, contest}) => {
             <div className="my-10 flex flex-col items-center">
                 <h1 className="text-black text-3xl font-semibold text-center">You have successfully completed the {contest?.name} quiz!</h1>
                 <h1 className="text-black text-3xl font-semibold text-center my-5">Please do the final submission to release your score</h1>
-                <button className="bg-[#6adb45] text-5xl font-mono font-semi-bold px-12 py-4 rounded-2xl border-2 hover:border-[#6adb45] hover:bg-white hover:text-[#6adb45] text-white"
+                <button className="bg-[#6adb45] text-5xl font-semi-bold px-12 py-4 rounded-2xl border-2 hover:border-[#6adb45] hover:bg-white hover:text-[#6adb45] text-white"
                 onClick={(e) => {
                     e.preventDefault();
                     handleSubmit();

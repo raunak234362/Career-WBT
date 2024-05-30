@@ -51,7 +51,7 @@ export const AssessmentPage = ({contest, result}) => {
           <div className="border-2 border-gray-500 rounded-xl m-2 p-2 text-lg">
             <div className="overflow-y-auto h-full">
             <div className="text-black text-xl font-bold my-3">
-                Rules & Regulation
+                Instructions
               </div>
               <div className="mx-5">{parse(contest?.rules)}</div>
             </div>

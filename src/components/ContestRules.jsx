@@ -9,7 +9,7 @@ export const ContestRules = ({rules, start }) => {
         {
             (rules) && (
               <div className="text-lg my-5">
-              <div className="text-black text-2xl font-bold">Rules & Regulation</div>
+              <div className="text-black text-2xl font-bold">Instructions</div>
               <div className='mx-10'>{parse(rules)}</div>
             </div>
             )
