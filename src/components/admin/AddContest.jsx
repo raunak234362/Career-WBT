@@ -10,6 +10,7 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
     rules: '',
     duration: '',
     startDate: '',
+    passingMarks:'',
     endDate: '',
     active: false
   });
@@ -112,6 +113,19 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
                   name='duration'
                   value={contestDetails.duration}
                   onChange={e => setContestDetails({ ...contestDetails, duration: e.target.value })}
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                  required
+                />
+              </div>
+              <div className='mb-4'>
+                <label className='block text-gray-700 font-bold mb-2'>
+                  Passing Marks
+                </label>
+                <input
+                  type='text'
+                  name='passingMarks'
+                  value={contestDetails.passingMarks}
+                  onChange={e => setContestDetails({ ...contestDetails, passingMarks: e.target.value })}
                   className='w-full px-3 py-2 border border-gray-300 rounded-md'
                   required
                 />

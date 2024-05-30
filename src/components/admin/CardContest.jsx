@@ -75,6 +75,9 @@ const CardContest = ({ contestId }) => {
                 <strong>Duration:</strong> {showSetQuestion?.duration}
               </p>
               <p>
+                <strong>Passing Marks:</strong> {showSetQuestion?.passingMarks}
+              </p>
+              <p>
                 <strong>Start Date:</strong>{' '}
                 {formatDateTime(showSetQuestion?.startDate)}
               </p>
