@@ -52,7 +52,7 @@ export const Question = ({ Question, number, setNext, result, appeared }) => {
 
   return (
     <>
-      <Watermark text="Whiteboard Technology" diagonal opacity={0.3} fontSize={20} gutter={10}>
+      <Watermark text="Whiteboard Technologies" diagonal opacity={0.3} fontSize={20} gutter={10}>
         <div className="h-[80vh] w-full">
           {Question?.question && (
             <>

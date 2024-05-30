@@ -132,7 +132,7 @@ const StudentProfile = () => {
           <div className="flex flex-col">
             <div className="mb-4 flex flex-row items-center">
               <h2 className="text-xl font-semibold">Student Name</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.name}</p>
+              <p className="text-gray-700 text-xl px-5">{formData?.name?.toUpperCase()}</p>
             </div>
             <div className="mb-4 flex flex-row items-center">
               <h2 className="text-xl font-semibold">Father Name</h2>

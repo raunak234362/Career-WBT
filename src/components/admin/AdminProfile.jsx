@@ -87,7 +87,7 @@ const AdminProfile = () => {
             />
           </div>
           <h3 className='text-2xl font-bold text-gray-800 text-center mb-2'>
-            {adminData.name}
+            {adminData?.name?.toUpperCase()}
           </h3>
         </div>
       </div>
