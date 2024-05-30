@@ -169,9 +169,15 @@ const StudentProfile = () => {
               </p>
             </div>
             <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Final Semester</h2>
+              <h2 className="text-xl font-semibold">Current Semester</h2>
               <p className="text-gray-700 text-xl px-5">
                 {formData?.currentSemester}
+              </p>
+            </div>
+            <div className="mb-4 flex flex-row items-center">
+              <h2 className="text-xl font-semibold">Passing Year</h2>
+              <p className="text-gray-700 text-xl px-5">
+                {formData?.passingYear}
               </p>
             </div>
             <div className="mb-4 flex flex-row items-center">
