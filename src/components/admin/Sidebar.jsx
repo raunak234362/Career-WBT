@@ -42,7 +42,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
           </Link>
           <Link
             to="/admin/contest"
-            onClick={() => handleNavLinkClick("project")}
+            onClick={() => handleNavLinkClick("contest")}
             className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "/admin/contest"
                 ? "bg-green-500 text-white"
                 : "hover:bg-green-700"
@@ -50,6 +50,17 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
           >
             <BiHome className="text-xl" />
             <span>Contest</span>
+          </Link>
+          <Link
+            to="/admin/question"
+            onClick={() => handleNavLinkClick("question")}
+            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "/admin/question"
+                ? "bg-green-500 text-white"
+                : "hover:bg-green-700"
+              }`}
+          >
+            <BiHome className="text-xl" />
+            <span>Question</span>
           </Link>
           <Link
             to="/admin/result"

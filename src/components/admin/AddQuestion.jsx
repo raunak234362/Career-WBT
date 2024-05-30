@@ -58,7 +58,7 @@ const AddQuestion = ({ toggleQues, contestId }) => {
         };
   
         if (question.type === "mcq") {
-          formdata.options = question.options.join(",");
+          formdata.options = question.options;
           formdata.singleAnswer = question.answer;
           formdata.questionImage = question.imageUrl;
         } else if (question.type === "multiple") {

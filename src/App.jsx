@@ -6,7 +6,7 @@ function App() {
   
 
   useEffect(() => {
-    window.document.title = `Whiteboard Technology Pvt. Ltd.`;
+    window.document.title = `Whiteboard Technologies Pvt. Ltd.`;
   }, []);
 
   const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
