@@ -5,6 +5,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Contest from "./Contest";
 import AdminProfile from "./AdminProfile";
+import QuestionPage from "./QuestionPage";
 
 const StdCareerLayout = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -81,6 +82,7 @@ const StdCareerLayout = () => {
         <Routes>
           <Route path='/' element={<AdminProfile />} />
           <Route path='/contest' element={<Contest />} />
+          <Route path='/question' element={<QuestionPage />} />
           
           
         </Routes>

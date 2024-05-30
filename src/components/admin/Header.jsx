@@ -18,8 +18,8 @@ const Header = ({ toggleSidebar }) => {
   return (
     <div className='flex sticky top-0 z-10 justify-between backdrop-blur-sm items-center bg-white p-4'>
      
-      <h1 className='text-2xl text-black'>
-        Admin Dashboard
+      <h1 className='text-xl font-bold text-black'>
+        ADMIN DASHBOARD
       </h1>
     </div>
   )

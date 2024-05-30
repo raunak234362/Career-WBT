@@ -93,7 +93,7 @@ const CardContest = ({ contestId }) => {
               onClick={() => toggleQues(showSetQuestion?._id)}
               className='mr-2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700'
             >
-              Add
+              Edit
             </button>
             {showQuestion[showSetQuestion?._id] && (
               <AddQuestion

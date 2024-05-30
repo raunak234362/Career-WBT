@@ -57,7 +57,7 @@ const AdminProfile = () => {
       <div className='flex flex-row gap-5 justify-between'>
         <div>
           <p className='text-gray-600 font-bold text-center text-3xl mb-6'>
-            {adminData.designation}
+            {adminData?.designation?.toUpperCase()}
           </p>
           <div className='space-y-2'>
             <div className='flex items-center'>
@@ -74,7 +74,7 @@ const AdminProfile = () => {
             </div>
             <div className='flex items-center'>
               <span className='text-gray-600 font-semibold text-xl mr-2'>Role:</span>
-              <span className='text-gray-800 text-xl'>{adminData.role}</span>
+              <span className='text-gray-800 text-xl'>{adminData?.role?.toUpperCase()}</span>
             </div>
           </div>
         </div>
