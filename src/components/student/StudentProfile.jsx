@@ -92,6 +92,7 @@ const StudentProfile = () => {
         setAttempt(true);
       }
     } catch (error) {
+      
       console.error(error);
     }
   };
@@ -109,6 +110,7 @@ const StudentProfile = () => {
     return (
       <div className="w-screen h-screen absolute top-0 left-0 z-50 bg-white ">
         <Assessment contest={contest} result={result} />
+        
       </div>
     );
   } else {
