@@ -111,8 +111,10 @@ const CardContest = ({ contestId }) => {
               Show
             </button>
             {showFilledQuestion && (
+              <div className="h-full mt-10 top-0  overflow-y-auto">
+
               <div className='absolute z-20 top-0 left-0 w-full h-full overflow-y-auto bg-gray-900 bg-opacity-20 flex items-center justify-center'>
-                <div className='bg-white w-[70%] mt-4 p-6 rounded-lg shadow-md mt-4'>
+                <div className='bg-white w-[70%] h-full overflow-y-auto mt-4 p-6 rounded-lg shadow-md mt-4'>
                     <div className="flex flex-row justify-between">
                   <h3 className='text-lg font-semibold mb-2'>Questions:</h3>
                     <button onClick={toggleShowQues} className='bg-red-300 rounded-lg p-5'>Close</button>
@@ -179,6 +181,7 @@ const CardContest = ({ contestId }) => {
                     </div>
                   ))}
                 </div>
+              </div>
               </div>
             )}
           </div>
