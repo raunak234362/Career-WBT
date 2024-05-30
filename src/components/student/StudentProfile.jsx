@@ -113,91 +113,101 @@ const StudentProfile = () => {
     );
   } else {
     return (
-      <div className="max-full mx-auto p-6 m-5 bg-white rounded-md shadow-md">
-        <div className="flex flex-row justify-between">
-          <h1 className="text-4xl flex font-bold mb-6 items-center justify-center text-center">
-            Profile
-          </h1>
-          {contests.length > 0 && (
-            <button
-              onClick={() => handleAttempt(contests[0]._id)}
-              className="mr-2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700"
-            >
-              Attempt Test
-            </button>
-          )}
-        </div>
+      <div className="max-w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
+  <div className="flex flex-row justify-between items-center mb-6">
+    <h1 className="text-4xl font-bold text-gray-800">Profile</h1>
+    {contests.length > 0 && (
+      <button
+        onClick={() => handleAttempt(contests[0]._id)}
+        className="bg-green-500 text-white py-2 px-6 rounded-full hover:bg-green-700 transition duration-300"
+      >
+        Attempt Test
+      </button>
+    )}
+  </div>
 
-        <div className="flex flex-row justify-between mt-5 p-5 rounded-lg shadow-xl">
-          <div className="flex flex-col">
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Student Name</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.name?.toUpperCase()}</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Father Name</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.fatherName}</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Mother Name</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.motherName}</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">College ID</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.studentId}</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Email</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.email}</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Contact Number</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.phone}</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Permanent Address</h2>
-              <p className="text-gray-700 text-xl px-5">
-                {formData?.permAddress?.streetLine1}{" "}
-                {formData?.permAddress?.streetLine2} {formData?.permAddress?.city}
-              </p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Current Address</h2>
-              <p className="text-gray-700 text-xl px-5">
-                {formData?.currAddress?.streetLine1}{" "}
-                {formData?.currAddress?.streetLine2} {formData?.currAddress?.city}
-              </p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Current Semester</h2>
-              <p className="text-gray-700 text-xl px-5">
-                {formData?.currentSemester}
-              </p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Passing Year</h2>
-              <p className="text-gray-700 text-xl px-5">
-                {formData?.passingYear}
-              </p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Marks/CGPA</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.cgpa}</p>
-            </div>
-            <div className="mb-4 flex flex-row items-center">
-              <h2 className="text-xl font-semibold">Backlogs</h2>
-              <p className="text-gray-700 text-xl px-5">{formData?.backlog}</p>
-            </div>
-          </div>
-          <div className="mb-6">
-            <img
-              src={`https://wbt-quizcave.onrender.com/${formData?.profilePic}`}
-              alt="Profile Pic"
-              className=" w-60 h-auto rounded-lg border-2 border-white shadow-lg shadow-black/50 object-cover"
-            />
-          </div>
+  <div className="flex flex-col md:flex-row justify-between bg-gray-50 p-6 rounded-lg shadow-md">
+    <div className="flex flex-col w-full md:w-3/4">
+      <div className="flex flex-wrap mb-4">
+        <div className="w-full md:w-1/2 mb-4 md:mb-0">
+          <h2 className="text-lg font-semibold text-gray-700">Student Name</h2>
+          <p className="text-gray-900">{formData?.name?.toUpperCase()}</p>
+        </div>
+        <div className="w-full md:w-1/2">
+          <h2 className="text-lg font-semibold text-gray-700">Father Name</h2>
+          <p className="text-gray-900">{formData?.fatherName}</p>
         </div>
       </div>
+
+      <div className="flex flex-wrap mb-4">
+        <div className="w-full md:w-1/2 mb-4 md:mb-0">
+          <h2 className="text-lg font-semibold text-gray-700">Mother Name</h2>
+          <p className="text-gray-900">{formData?.motherName}</p>
+        </div>
+        <div className="w-full md:w-1/2">
+          <h2 className="text-lg font-semibold text-gray-700">College ID</h2>
+          <p className="text-gray-900">{formData?.studentId}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap mb-4">
+        <div className="w-full md:w-1/2 mb-4 md:mb-0">
+          <h2 className="text-lg font-semibold text-gray-700">Email</h2>
+          <p className="text-gray-900">{formData?.email}</p>
+        </div>
+        <div className="w-full md:w-1/2">
+          <h2 className="text-lg font-semibold text-gray-700">Contact Number</h2>
+          <p className="text-gray-900">{formData?.phone}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap mb-4">
+        <div className="w-full md:w-1/2 mb-4 md:mb-0">
+          <h2 className="text-lg font-semibold text-gray-700">Permanent Address</h2>
+          <p className="text-gray-900">
+            {formData?.permAddress?.streetLine1} {formData?.permAddress?.streetLine2} {formData?.permAddress?.city}
+          </p>
+        </div>
+        <div className="w-full md:w-1/2">
+          <h2 className="text-lg font-semibold text-gray-700">Current Address</h2>
+          <p className="text-gray-900">
+            {formData?.currAddress?.streetLine1} {formData?.currAddress?.streetLine2} {formData?.currAddress?.city}
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap mb-4">
+        <div className="w-full md:w-1/2 mb-4 md:mb-0">
+          <h2 className="text-lg font-semibold text-gray-700">Current Semester</h2>
+          <p className="text-gray-900">{formData?.currentSemester}</p>
+        </div>
+        <div className="w-full md:w-1/2">
+          <h2 className="text-lg font-semibold text-gray-700">Passing Year</h2>
+          <p className="text-gray-900">{formData?.passingYear}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap mb-4">
+        <div className="w-full md:w-1/2 mb-4 md:mb-0">
+          <h2 className="text-lg font-semibold text-gray-700">Marks/CGPA</h2>
+          <p className="text-gray-900">{formData?.cgpa}</p>
+        </div>
+        <div className="w-full md:w-1/2">
+          <h2 className="text-lg font-semibold text-gray-700">Backlogs</h2>
+          <p className="text-gray-900">{formData?.backlog}</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
+      <img
+        src={`https://wbt-quizcave.onrender.com/${formData?.profilePic}`}
+        alt="Profile Pic"
+        className="w-60 h-auto rounded-lg border-2 border-white shadow-lg object-cover"
+      />
+    </div>
+  </div>
+</div>
     );
   }
 };
