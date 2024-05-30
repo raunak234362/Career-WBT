@@ -31,9 +31,9 @@ export function Assessment({ contest, result }) {
       <Header user={result?.userId} contest={contest?.name} />
       {
         (!assessmentPage) && (
-          <>
+          <div className="h-full overflow-y-auto">
             <ContestRules rules={contest?.rules} start={setAssessmentPage} />
-          </>
+          </div>
         )
       }
       {

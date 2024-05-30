@@ -102,7 +102,6 @@ const StudentProfile = () => {
     } else {
       fetchStudent();
       fetchContests();
-      handleAttempt();
     }
   }, [userId, navigate]);
 
