@@ -1,7 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
-import Logo from '../assets/logo.png'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import Logo from '../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const RegisterStudent = () => {
     name: '',
     email: '',
     phone: '',
+    altPhone: '',
     password: '',
     dob: '',
     studentId: '',
@@ -17,10 +19,12 @@ const RegisterStudent = () => {
     fatherName: '',
     motherName: '',
     currentSemester: '',
+    marksheet:'',
     branch: '',
     course: '',
     college: '',
     cgpa: '',
+    passingYear: '',
     backlog: '',
     permAddress: {
       streetLine1: '',
@@ -38,41 +42,78 @@ const RegisterStudent = () => {
       country: '',
       zip: ''
     }
-  })
-  const [isSameAddress, setIsSameAddress] = useState(false)
-  const [profilePreview, setProfilePreview] = useState(null)
-  const [resumeName, setResumeName] = useState('')
-  const navigate = useNavigate()
+  });
 
+  const [isSameAddress, setIsSameAddress] = useState(false);
+  const [profilePreview, setProfilePreview] = useState(null);
+  const [resumeName, setResumeName] = useState('');
+  const navigate = useNavigate();
+
+  const courseSemesterMap = {
+    'BE/BTECH': [7, 8, 'Passout'],
+    'BCA': [5, 6, 'Passout'],
+    'BBA': [5, 6, 'Passout'],
+    'BCOM': [5, 6, 'Passout'],
+    'MBA': [3, 4, 'Passout'],
+    'MTECH': [3, 4, 'Passout'],
+    'DIPLOMA': [3, 4, 'Passout']
+  };
+
+  const handleCourseChange = (e) => {
+    const selectedCourse = e.target.value;
+    setFormData({ ...formData, course: selectedCourse, currentSemester: '' });
+  };
+
+  const handleSemesterChange = (e) => {
+    setFormData({ ...formData, currentSemester: e.target.value });
+  };
+
+  const getSemesters = () => {
+    const selectedCourse = formData.course;
+    return courseSemesterMap[selectedCourse] || [];
+  };
 
   const handleCheckboxChange = () => {
-    setIsSameAddress(!isSameAddress)
+    setIsSameAddress(!isSameAddress);
     if (!isSameAddress) {
-      setFormData(prevState => ({
+      setFormData((prevState) => ({
         ...prevState,
         currAddress: { ...prevState.permAddress }
-      }))
+      }));
     }
-  }
+  };
 
   const handleChange = (e, field) => {
-    const value = e.target.value
-    setFormData(prevState => ({
+    const value = e.target.value;
+    setFormData((prevState) => ({
       ...prevState,
       [field]: value
-    }))
-  }
+    }));
+  };
 
   const handleFileChange = (e, fileType) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (fileType === 'profile') {
-      setProfilePreview(URL.createObjectURL(file))
+      setProfilePreview(URL.createObjectURL(file));
+      setFormData((prevState) => ({
+        ...prevState,
+        profilePic: file
+      }));
+    }else if (fileType === 'marksheet'){
+      setFormData((prevState) => ({
+       ...prevState,
+        marksheet: file
+      }));
     } else if (fileType === 'resume') {
-      setResumeName(file.name)
+      setResumeName(file.name);
+      setFormData((prevState) => ({
+        ...prevState,
+        resume: file
+      }));
     }
-  }
+  };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const myHeaders = new Headers();
@@ -82,11 +123,12 @@ const RegisterStudent = () => {
     );
 
     const form = new FormData();
-    form.append('profile', formData.profile);
+    form.append('profile', formData.profilePic);
     form.append('resume', formData.resume);
     form.append('name', formData.name);
     form.append('email', formData.email);
     form.append('phone', formData.phone);
+    form.append('altphone', formData.altPhone);
     form.append('password', formData.password);
     form.append('dob', formData.dob);
     form.append('studentId', formData.studentId);
@@ -94,9 +136,11 @@ const RegisterStudent = () => {
     form.append('fatherName', formData.fatherName);
     form.append('motherName', formData.motherName);
     form.append('currentSemester', formData.currentSemester);
+    form.append('marksheet', formData.marksheet);
     form.append('branch', formData.branch);
     form.append('course', formData.course);
     form.append('college', formData.college);
+    form.append('passingYear', formData.passingYear);
     form.append('cgpa', formData.cgpa);
     form.append('backlog', formData.backlog);
     form.append('permAddress', JSON.stringify(formData.permAddress));
@@ -108,7 +152,6 @@ const RegisterStudent = () => {
       body: form,
       redirect: 'follow'
     };
-    console.log(requestOptions)
 
     try {
       const response = await fetch(
@@ -119,7 +162,7 @@ const RegisterStudent = () => {
       if (response.ok) {
         localStorage.setItem('access', data?.data?.accessToken);
         localStorage.setItem('refresh', data?.data?.refreshToken);
-        
+
         setFormData(data?.data);
         console.log(data?.data);
         navigate('/student/');
@@ -213,6 +256,20 @@ const RegisterStudent = () => {
             />
           </div>
           <div className='mt-3'>
+            <label htmlFor='contact'>Alternate Contact Number</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='text'
+              value={formData?.altPhone}
+              
+              placeholder='Alternative Contact Number'
+              id='altphone'
+              onChange={e =>
+                setFormData({ ...formData, altPhone: e.target.value })
+              }
+            />
+          </div>
+          <div className='mt-3'>
             <label htmlFor='contact'>Father Name</label>
             <input
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
@@ -289,7 +346,6 @@ const RegisterStudent = () => {
               className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
               type='text'
               value={formData?.branch}
-              required
               placeholder='Branch'
               id='branch'
               onChange={e =>
@@ -298,42 +354,42 @@ const RegisterStudent = () => {
             />
           </div>
           <div className='mt-3'>
-            <label htmlFor='email'>Course</label>
-            <input
-              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-              type='text'
-              value={formData?.course}
-              required
-              placeholder='Course'
-              id='course'
-              onChange={e =>
-                setFormData({ ...formData, course: e.target.value })
-              }
-            />
-          </div>
-          <div className='mt-3'>
-            <label htmlFor='semester'>Select Semester</label>
-            <select
-              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
-              value={formData?.currentSemester}
-              required
-              id='currentSemester'
-              onChange={e =>
-                setFormData({ ...formData, currentSemester: e.target.value })
-              }
-            >
-              <option value=''>Current Semester</option>
-              <option value='1'>Semester-1</option>
-              <option value='1'>Semester-1</option>
-              <option value='2'>Semester-2</option>
-              <option value='3'>Semester-3</option>
-              <option value='4'>Semester-4</option>
-              <option value='5'>Semester-5</option>
-              <option value='6'>Semester-6</option>
-              <option value='7'>Semester-7</option>
-              <option value='8'>Semester-8</option>
-            </select>
-          </div>
+        <label htmlFor='course'>Course</label>
+        <select
+          className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+          value={formData.course}
+          required
+          id='course'
+          onChange={handleCourseChange}
+        >
+          <option value=''>Select Your Course</option>
+          <option value='BE/BTECH'>B.E/B.Tech</option>
+          <option value='BCA'>Bachelor's of Computer Applications</option>
+          <option value='BBA'>Bachelor's of Business Administrations</option>
+          <option value='BCOM'>Bachelor's of Commerce</option>
+          <option value='MBA'>Master's of Business Administrations</option>
+          <option value='MTECH'>M.Tech</option>
+          <option value='DIPLOMA'>Diploma</option>
+        </select>
+      </div>
+
+      <div className='mt-3'>
+        <label htmlFor='currentSemester'>Select Semester</label>
+        <select
+          className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+          value={formData.currentSemester}
+          required
+          id='currentSemester'
+          onChange={handleSemesterChange}
+        >
+          <option value=''>Current Semester</option>
+          {getSemesters().map((semester) => (
+            <option key={semester} value={semester}>
+              Semester-{semester}
+            </option>
+          ))}
+        </select>
+      </div>
           <div className='mt-3'>
             <label htmlFor='email'>CGPA</label>
             <input
@@ -362,6 +418,38 @@ const RegisterStudent = () => {
               onChange={e =>
                 setFormData({ ...formData, backlog: e.target.value })
               }
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='email'>Year of Passing</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='number'
+              min='2000'
+              max='2030'
+              value={formData?.passingYear}
+              required
+              placeholder='Passing Year'
+              id='passingYear'
+              onChange={e =>
+                setFormData({ ...formData, passingYear: e.target.value })
+              }
+            />
+          </div>
+          <div className='mt-3'>
+            <label htmlFor='marksheet'>Upload Marksheet</label>
+            <input
+              className='appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer'
+              type='file'
+              id='marksheet'
+              accept='.pdf,.doc,.docx'
+              onChange={async (e) => {
+                handleFileChange(e,'marksheet')
+                await setFormData(prevState => ({
+                 ...prevState,
+                 'marksheet': e?.target?.files[0]
+                }))
+              }}
             />
           </div>
           <div className='mt-3'>

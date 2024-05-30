@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
 import { BiHome } from "react-icons/bi"
 
@@ -14,6 +14,13 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
 
   const location = useLocation();
   const { pathname } = location;
+
+  const fetchLogout = async () => {
+    const accessToken = localStorage.getItem('access')
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    Navigate('/')
+  }
 
   return (
     <div className="fixed left-0 flex flex-col justify-between h-screen px-0 py-4 border-green-500 border-r-2 ">
@@ -63,7 +70,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
         <div className='flex flex-row items-center hover:bg-red-600 hover:text-white py-2 px-3 gap-4 mb-4  rounded-lg'>
           <MdLogout />
           <button
-            onClick={'/'}
+            onClick={fetchLogout}
             className='text-sm  hover:text-white w-full text-center'
           >
             Logout

@@ -15,7 +15,12 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
   const [users, setUsers] = useState([]);
   
 
- 
+  const fetchLogout = async () => {
+    const accessToken = localStorage.getItem('access')
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    navigate('/')
+  }
 
 
   const location = useLocation();
@@ -68,7 +73,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
         <div className='flex flex-row items-center hover:bg-red-600 hover:text-white py-2 px-3 gap-4 mb-4  rounded-lg'>
           <MdLogout />
           <button
-            onClick={'/login'}
+            onClick={fetchLogout}
             className='text-sm  hover:text-white w-full text-center'
           >
             Logout

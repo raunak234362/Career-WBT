@@ -3,8 +3,8 @@ import logo from '../assets/whiteboardtec-logo.png'
 
 export const Header = ({user, contest}) => {
     return (
-        <header className="w-full flex flex-row justify-between bg-[#6adb45] h-16 items-center px-4 cursor-none">
-            <img src={logo} alt="" className='bg-white h-16 mx-4'/>
+        <header className="w-full flex flex-row justify-between bg-[#6adb45] h-16 items-center pr-4 cursor-none">
+            <img src={logo} alt="" className='bg-white h-16'/>
             <h1 className='text-white text-4xl font-bold'>{contest}</h1>
             <div className='text-black text-3xl font-semibold h-16 flex flex-row items-center'>
                 {user?.name}

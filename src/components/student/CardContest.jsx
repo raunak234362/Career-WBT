@@ -33,37 +33,38 @@ const CardContest = ({ contestId }) => {
       );
       const data = await response.json();
       setShowSetQuestion(data?.data);
+      // handleAttempt();
     } catch (error) {
       console.error(error);
     }
   };
 
-  const registerStudentContest = async () => {
-    const myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("access")}`
-    );
-    myHeaders.append("Content-Type", "application/json");
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-    try {
-      const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/contest/register/${contestId}`,
-        requestOptions
-      );
-      if (!response.ok) {
-        throw new Error("Failed to register for the contest");
-      }
-      const data = await response.json();
-      console.log(data?.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const registerStudentContest = async () => {
+  //   const myHeaders = new Headers();
+  //   myHeaders.append(
+  //     "Authorization",
+  //     `Bearer ${localStorage.getItem("access")}`
+  //   );
+  //   myHeaders.append("Content-Type", "application/json");
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     redirect: "follow",
+  //   };
+  //   try {
+  //     const response = await fetch(
+  //       `https://wbt-quizcave.onrender.com/api/v1/contest/register/${contestId}`,
+  //       requestOptions
+  //     );
+  //     if (!response.ok) {
+  //       throw new Error("Failed to register for the contest");
+  //     }
+  //     const data = await response.json();
+  //     console.log(data?.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchContestQuestions();
@@ -72,7 +73,7 @@ const CardContest = ({ contestId }) => {
   const formatDateTime = (dateTimeString) => {
     const date = dateTimeString?.split("T")[0];
     const time = dateTimeString?.split("T")[1].substring(0, 5);
-    return `${date} | T:${time}`;
+    return ` ${time}`;
   };
 
   const toggleQues = (contestId) => {
@@ -136,23 +137,23 @@ const CardContest = ({ contestId }) => {
                   <strong>Duration:</strong> {showSetQuestion?.duration}
                 </p>
                 <p>
-                  <strong>Start Date:</strong>{" "}
+                  <strong>Start Time:</strong>{" "}
                   {formatDateTime(showSetQuestion?.startDate)}
                 </p>
                 <p>
-                  <strong>End Date:</strong>{" "}
+                  <strong>End Time:</strong>{" "}
                   {formatDateTime(showSetQuestion?.endDate)}
                 </p>
               </div>
             </div>
 
             <div className="flex flex-row mt-4 justify-center">
-              <button
+              {/* <button
                 onClick={registerStudentContest}
                 className="mr-2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700"
               >
                 Register
-              </button>
+              </button> */}
 
               <button
                 onClick={handleAttempt}
