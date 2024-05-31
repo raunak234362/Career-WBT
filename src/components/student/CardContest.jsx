@@ -27,10 +27,7 @@ const CardContest = ({ contestId }) => {
     };
 
     try {
-      const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/contest/${contestId}`,
-        requestOptions
-      );
+      const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/contest/${contestId}`, requestOptions);
       const data = await response.json();
       setShowSetQuestion(data?.data);
       // handleAttempt();

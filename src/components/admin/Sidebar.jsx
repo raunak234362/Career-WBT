@@ -19,6 +19,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
     const accessToken = localStorage.getItem('access')
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
+    localStorage.removeItem("userId");
     Navigate('/')
   }
 
