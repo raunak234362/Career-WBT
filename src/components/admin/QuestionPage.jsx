@@ -81,11 +81,11 @@ const QuestionPage = ({ contestId }) => {
   const getDifficultyBgColor = (difficulty) => {
     switch (difficulty) {
       case "Easy":
-        return "bg-green-200 ";
+        return "bg-green-400 ";
       case "Medium":
         return "bg-yellow-200";
       case "Hard":
-        return "bg-red-200";
+        return "bg-red-400";
       default:
         return "";
     }

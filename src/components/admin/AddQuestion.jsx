@@ -125,6 +125,37 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                 </div>
                 <div className='mb-4'>
                   <label className='block text-gray-700 font-bold mb-2'>
+                    Set:
+                  </label>
+                  <select
+                    // value={question.type}
+                    // onChange={(e) => handleQuestionChange(index, 'type', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                  >
+                    <option value=''>Select Set</option>
+                    <option value='a'>A</option>
+                    <option value='b'>B</option>
+                    
+                  </select>
+                </div>
+                <div className='mb-4'>
+                  <label className='block text-gray-700 font-bold mb-2'>
+                    Difficulty:
+                  </label>
+                  <select
+                    value={question.type}
+                    onChange={(e) => handleQuestionChange(index, 'type', e.target.value)}
+                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                  >
+                    <option value=''>Select Difficulty</option>
+                    <option value='easy'>Easy</option>
+                    <option value='moderate'>Moderate</option>
+                    <option value='hard'>Hard</option>
+                    
+                  </select>
+                </div>
+                <div className='mb-4'>
+                  <label className='block text-gray-700 font-bold mb-2'>
                     Question:
                   </label>
                   <input
@@ -135,7 +166,7 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                     required
                   />
                 </div>
-                <div className='mb-4'>
+                {/* <div className='mb-4'>
                   <label className='block text-gray-700 font-bold mb-2'>
                     Marks:
                   </label>
@@ -146,7 +177,7 @@ const AddQuestion = ({ toggleQues, contestId }) => {
                     className='w-full px-3 py-2 border border-gray-300 rounded-md'
                     required
                   />
-                </div>
+                </div> */}
                 {question.type === 'long' && (
                   <div className='mb-4'>
                      <div className='mb-4'>

@@ -24,7 +24,7 @@ const Result = () => {
         requestOptions
       );
       const data = await response.json();
-      console.log("Fetched data:", data); // Add this line
+      console.log("Fetched data:", data);
       if (data?.data) {
         setFormData(data?.data);
       } else {
@@ -102,7 +102,7 @@ const Result = () => {
           />
           <button
             onClick={() => setCurrentPage(1)} // Reset to first page on search
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="px-4 py-2 bg-green-500 text-white rounded"
           >
             Search
           </button>
@@ -163,7 +163,7 @@ const Result = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-between mt-4 px-5">
+        {/* <div className="flex justify-between mt-4 px-5">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -181,7 +181,7 @@ const Result = () => {
           >
             Next
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
