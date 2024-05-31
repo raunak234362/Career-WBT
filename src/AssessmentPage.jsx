@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Question } from "./components/Question";
@@ -47,15 +48,16 @@ export const AssessmentPage = ({contest, result}) => {
   return (
     <>
       {next < contest?.questions?.length ? (
-        <section className={`grid grid-cols-[25%_50%_25%] mx-5 bg-white`}>
-          <div className="border-2 border-gray-500 rounded-xl m-2 p-2 text-lg">
+        // <section className={`grid grid-cols-[25%_50%_25%] mx-5 bg-white`}>
+        <section className={`grid grid-cols-[75%_25%] mx-5 bg-white`}>
+          {/* <div className="border-2 border-gray-500 rounded-xl m-2 p-2 text-lg">
             <div className="overflow-y-auto h-full">
             <div className="text-black text-xl font-bold my-3">
                 Instructions
               </div>
               <div className="mx-5">{parse(contest?.rules)}</div>
             </div>
-            </div>
+            </div> */}
           <div className="overflow-y-auto my-5 mx-10">
             <Question
               key={contest?.questions[next]?._id} // Add a unique key prop to the Question component

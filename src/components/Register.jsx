@@ -50,13 +50,13 @@ const RegisterStudent = () => {
   const navigate = useNavigate();
 
   const courseSemesterMap = {
-    'BE/BTECH': [7, 8, 'Passout'],
-    'BCA': [5, 6, 'Passout'],
-    'BBA': [5, 6, 'Passout'],
-    'BCOM': [5, 6, 'Passout'],
-    'MBA': [3, 4, 'Passout'],
-    'MTECH': [3, 4, 'Passout'],
-    'DIPLOMA': [3, 4, 'Passout']
+    'BE/BTECH': ['Semester-7', 'Semester-8', 'Passout'],
+    'BCA': ['Semester-5', 'Semester-6', 'Passout'],
+    'BBA': ['Semester-5', 'Semester-6', 'Passout'],
+    'BCOM': ['Semester-5', 'Semester-6', 'Passout'],
+    'MBA': ['Semester-3', 'Semester-4', 'Passout'],
+    'MTECH': ['Semester-3', 'Semester-4','Passout'],
+    'DIPLOMA': ['Semester-3', 'Semester-4', 'Passout']
   };
 
   const handleCourseChange = (e) => {
@@ -385,7 +385,7 @@ const RegisterStudent = () => {
           <option value=''>Current Semester</option>
           {getSemesters().map((semester) => (
             <option key={semester} value={semester}>
-              Semester-{semester}
+              {semester}
             </option>
           ))}
         </select>
