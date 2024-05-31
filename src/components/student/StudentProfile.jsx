@@ -137,14 +137,14 @@ const StudentProfile = () => {
         </div>
         <div className="w-full md:w-1/2">
           <h2 className="text-lg font-semibold text-gray-700">Father Name</h2>
-          <p className="text-gray-900">{formData?.fatherName.toUpperCase()}</p>
+          <p className="text-gray-900">{formData?.fatherName?.toUpperCase()}</p>
         </div>
       </div>
 
       <div className="flex flex-wrap mb-4">
         <div className="w-full md:w-1/2 mb-4 md:mb-0">
           <h2 className="text-lg font-semibold text-gray-700">Mother Name</h2>
-          <p className="text-gray-900">{formData?.motherName.toUpperCase()}</p>
+          <p className="text-gray-900">{formData?.motherName?.toUpperCase()}</p>
         </div>
         <div className="w-full md:w-1/2">
           <h2 className="text-lg font-semibold text-gray-700">College ID</h2>
@@ -155,7 +155,7 @@ const StudentProfile = () => {
       <div className="flex flex-wrap mb-4">
         <div className="w-full md:w-1/2 mb-4 md:mb-0">
           <h2 className="text-lg font-semibold text-gray-700">Email</h2>
-          <p className="text-gray-900">{formData?.email.toLowerCase()}</p>
+          <p className="text-gray-900">{formData?.email?.toLowerCase()}</p>
         </div>
         <div className="w-full md:w-1/2">
           <h2 className="text-lg font-semibold text-gray-700">Contact Number</h2>
@@ -167,13 +167,13 @@ const StudentProfile = () => {
         <div className="w-full md:w-1/2 mb-4 md:mb-0">
           <h2 className="text-lg font-semibold text-gray-700">Permanent Address</h2>
           <p className="text-gray-900">
-            {formData?.permAddress?.streetLine1} {formData?.permAddress?.streetLine2.toUpperCase()} {formData?.permAddress?.city.toUpperCase()}
+            {formData?.permAddress?.streetLine1} {formData?.permAddress?.streetLine2?.toUpperCase()} {formData?.permAddress?.city?.toUpperCase()}
           </p>
         </div>
         <div className="w-full md:w-1/2">
           <h2 className="text-lg font-semibold text-gray-700">Current Address</h2>
           <p className="text-gray-900">
-            {formData?.currAddress?.streetLine1} {formData?.currAddress?.streetLine2.toUpperCase()} {formData?.currAddress?.city.toUpperCase()}
+            {formData?.currAddress?.streetLine1} {formData?.currAddress?.streetLine2?.toUpperCase()} {formData?.currAddress?.city?.toUpperCase()}
           </p>
         </div>
       </div>

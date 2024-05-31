@@ -6,6 +6,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import Contest from "./Contest";
 import AdminProfile from "./AdminProfile";
 import QuestionPage from "./QuestionPage";
+import Result from "./Result";
 
 const StdCareerLayout = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -83,6 +84,7 @@ const StdCareerLayout = () => {
           <Route path='/' element={<AdminProfile />} />
           <Route path='/contest' element={<Contest />} />
           <Route path='/question' element={<QuestionPage />} />
+          <Route path='/result' element={<Result />} />
           
           
         </Routes>
