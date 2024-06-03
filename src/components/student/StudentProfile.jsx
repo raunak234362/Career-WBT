@@ -254,7 +254,7 @@ const StudentProfile = () => {
                   <button
                     type="button"
                     onClick={toggleEdit}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+                    className="bg-red-300 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
                   >
                     Cancel
                   </button>
