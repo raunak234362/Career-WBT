@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { CgAdd } from "react-icons/cg";
 import AddQuestion from "./AddQuestion";
