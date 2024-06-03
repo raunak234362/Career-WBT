@@ -10,6 +10,8 @@ const QuestionPage = ({ contestId }) => {
   const [setFilter, setSetFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [sampleData, setSampleData] = useState([]);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupRowIndex, setPopupRowIndex] = useState(-1);
 
   const fetchContestQuestions = async () => {
     const myHeaders = new Headers();
@@ -66,7 +68,7 @@ const QuestionPage = ({ contestId }) => {
           type: "MCQ",
           set: "B",
           difficulty: "Medium",
-        }
+        },
       ]);
     } catch (error) {
       console.error(error);
@@ -76,6 +78,18 @@ const QuestionPage = ({ contestId }) => {
   useEffect(() => {
     fetchContestQuestions();
   }, []);
+
+  const toggleEditQuestion = (index) => {
+    setPopupRowIndex(index);
+    setPopupVisible(!popupVisible);
+  };
+
+  const toggleShowQuestion = (index) => {
+    setShowQuestion((prev) => ({
+     ...prev,
+      [index]:!prev[index],
+    }));
+  }
 
   const getDifficultyBgColor = (difficulty) => {
     switch (difficulty) {
@@ -130,7 +144,7 @@ const QuestionPage = ({ contestId }) => {
           <CgAdd className="mx-auto text-green-500 text-2xl" />
           <button
             onClick={() => toggleQues(showSetQuestion?._id)}
-            className="mr-2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700"
+            className="mr-2 w-1/2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700"
           >
             Add
           </button>
@@ -204,10 +218,108 @@ const QuestionPage = ({ contestId }) => {
                       {item.difficulty}
                     </div>
                   </td>
-                  <td className="px-4 py-2 border">
-                    <button className="modify-btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                  <td className="px-1 py-2 border">
+                    <div className="flex gap-2 justify-between w-1/2 mx-auto">
+                    <button
+                      onClick={() => toggleShowQuestion(index)}
+                      className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Show
+                    </button>
+                    <button
+                      onClick={() => toggleEditQuestion(index)}
+                      className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    >
                       Modify
                     </button>
+                    </div>
+                   
+                    {popupRowIndex === index && (
+                      <div
+                        className={`popup-menu absolute right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
+                          popupVisible ? "visible" : "hidden"
+                        }`}
+                      >
+                        <div className="flex flex-col w-[100%] flew-wrap p-2">
+                          <div className="flex w-full flex-col mb-2">
+                            <label
+                              htmlFor="question"
+                              className=" flex text-gray-700 font-bold mb-2"
+                            >
+                              Question
+                            </label>
+                            <input
+                              type="text"
+                              className="'w-[100%] py-2 border border-gray-300 rounded-md'"
+                            />
+                          </div>
+                          <div className="mb-4">
+                            <label className="flex text-gray-700 font-bold mb-2">
+                              Set:
+                            </label>
+                            <select
+                              // value={question.set}
+                              // onChange={(e) =>
+                              //   handleQuestionChange(
+                              //     index,
+                              //     "set",
+                              //     e.target.value
+                              //   )
+                              // }
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            >
+                              <option value="">Select Set</option>
+                              <option value="a">A</option>
+                              <option value="b">B</option>
+                            </select>
+                          </div>
+                          <div className="mb-4">
+                            <label className="flex text-gray-700 font-bold mb-2">
+                              Difficulty:
+                            </label>
+                            <select
+                              // value={question.difficulty}
+                              // onChange={(e) =>
+                              //   handleQuestionChange(
+                              //     index,
+                              //     "difficulty",
+                              //     e.target.value
+                              //   )
+                              // }
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            >
+                              <option value="">Select Difficulty</option>
+                              <option value="easy">Easy</option>
+                              <option value="moderate">Moderate</option>
+                              <option value="hard">Hard</option>
+                            </select>
+                          </div>
+                          <div className="flex w-full flex-col mb-2">
+                            <label className=" flex text-gray-700 font-bold mb-2">
+                              Answer
+                            </label>
+                            <input
+                              type="text"
+                              className="'w-[100%] py-2 border border-gray-300 rounded-md'"
+                            />
+                          </div>
+                          <div className="flex w-full flex-row gap-5">
+                            <button
+                              onClick={() => toggleEditQuestion(index)}
+                              className="modify-btn w-2/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => toggleEditQuestion(index)}
+                              className="modify-btn w-1/3 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}

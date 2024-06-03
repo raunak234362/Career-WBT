@@ -241,13 +241,49 @@ const StudentProfile = () => {
               Edit Profile
             </button>
             {isEditing && (
-          <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h2 className="text-lg font-semibold text-gray-700 mb-4">Edit Profile</h2>
-              <form onSubmit={''}>
+            <div className="bg-white p-8 rounded-lg shadow-lg mt-4">
+              <h2 className="text-lg font-semibold text-gray-700 mb-4">
+                Edit Profile
+              </h2>
+              <form onSubmit={""}>
                 <div className="mb-4">
-                  <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">Name</label>
-                  <input type="text" id="name" className="px-3 py-2 border rounded-lg w-full" />
+                  <label
+                    htmlFor="name"
+                    className="block text-gray-700 font-semibold mb-2"
+                  >
+                    Student Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="px-3 py-2 border rounded-lg w-full"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="name"
+                    className="block text-gray-700 font-semibold mb-2"
+                  >
+                    Contact Number
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="px-3 py-2 border rounded-lg w-full"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="name"
+                    className="block text-gray-700 font-semibold mb-2"
+                  >
+                    Current Address
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="px-3 py-2 border rounded-lg w-full"
+                  />
                 </div>
                 {/* Add more fields for Age, Date of Birth, Profile Image, Phone Number, Current Address */}
                 <div className="flex justify-between">
@@ -267,8 +303,7 @@ const StudentProfile = () => {
                 </div>
               </form>
             </div>
-          </div>
-        )}
+          )}
           </div>
 
           <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
