@@ -241,20 +241,34 @@ const StudentProfile = () => {
               Edit Profile
             </button>
             {isEditing && (
-              <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-              <div className="bg-white p-8 rounded-lg shadow-lg">
-                <h2 className="text-lg font-semibold text-gray-700 mb-4">Edit Profile</h2>
-                {/* Your form fields for editing */}
-                <button
-                  onClick={toggleEdit}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                >
-                  Cancel
-                </button>
-                {/* Save changes button */}
-              </div>
+          <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-8 rounded-lg shadow-lg">
+              <h2 className="text-lg font-semibold text-gray-700 mb-4">Edit Profile</h2>
+              <form onSubmit={''}>
+                <div className="mb-4">
+                  <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">Name</label>
+                  <input type="text" id="name" className="px-3 py-2 border rounded-lg w-full" />
+                </div>
+                {/* Add more fields for Age, Date of Birth, Profile Image, Phone Number, Current Address */}
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    onClick={toggleEdit}
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
             </div>
-            )}
+          </div>
+        )}
           </div>
 
           <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
