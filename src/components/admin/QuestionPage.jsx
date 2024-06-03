@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { CgAdd } from "react-icons/cg";
 import AddQuestion from "./AddQuestion";
@@ -25,15 +24,12 @@ const QuestionPage = ({ contestId }) => {
       redirect: "follow",
     };
 
-    console.log(contestId);
-
     try {
       const response = await fetch(
         `https://wbt-quizcave.onrender.com/api/v1/admin/contest/${contestId}`,
         requestOptions
       );
       const data = await response.json();
-      console.log(data?.data);
       setShowSetQuestion(data?.data);
       setSampleData([
         {
@@ -70,21 +66,7 @@ const QuestionPage = ({ contestId }) => {
           type: "MCQ",
           set: "B",
           difficulty: "Medium",
-        },
-        {
-          id: 5,
-          question: "How to handle events in React?",
-          type: "MCQ",
-          set: "B",
-          difficulty: "Medium",
-        },
-        {
-          id: 5,
-          question: "How to handle events in React?",
-          type: "MCQ",
-          set: "B",
-          difficulty: "Medium",
-        },
+        }
       ]);
     } catch (error) {
       console.error(error);
@@ -109,11 +91,18 @@ const QuestionPage = ({ contestId }) => {
   };
 
   const toggleQues = (contestId) => {
-    setShowQuestion({ ...showQuestion, [contestId]: !showQuestion[contestId] });
+    setShowQuestion((prev) => ({
+      ...prev,
+      [contestId]: !prev[contestId],
+    }));
   };
 
   const handleFilterChange = (setter) => (event) => {
     setter(event.target.value);
+  };
+
+  const addQuestions = (newQuestions) => {
+    setSampleData((prevData) => [...prevData, ...newQuestions]);
   };
 
   const filteredData = sampleData.filter((item) => {
@@ -148,12 +137,7 @@ const QuestionPage = ({ contestId }) => {
           {showQuestion[showSetQuestion?._id] && (
             <AddQuestion
               toggleQues={() => toggleQues(showSetQuestion?._id)}
-              onCancel={() =>
-                setShowQuestion({
-                  ...showQuestion,
-                  [showSetQuestion?._id]: false,
-                })
-              }
+              addQuestions={addQuestions}
               contestId={showSetQuestion?._id}
             />
           )}
