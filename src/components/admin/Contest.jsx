@@ -88,7 +88,7 @@ const Contest = () => {
       <div className="bg-gray-100 w-full p-5 rounded-xl mt-5">
       <h1 className=' text-2xl font-bold text-center '>Contest List</h1>
       <div className="flex  flex-row flex-wrap justify-center mt-5">
-      {contests.map((contest,index)=>(
+      {contests?.map((contest,index)=>(
         <div
         key={index}
         className='mt-4 rounded-lg w-1/3 shadow-lg p-5 mb-4'

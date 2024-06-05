@@ -75,7 +75,7 @@ export const Question = ({ Question, number, setNext, result, appeared }) => {
                 <div className="text-black font-semibold text-xl flex flex-row justify-between select-none">
                   <span>{`${number}) ${Question.question}`}</span>
                   <span className="text-red-500 font-medium font-mono text-lg">
-                    {Question?.marks} {Question?.marks > 1 ? "marks" : "mark"}
+                    {(Question.difficult === "easy") ? "1" : (Question.difficult === "medium") ? "3" : "5"} marks
                   </span>
                 </div>
               </>
@@ -91,6 +91,20 @@ export const Question = ({ Question, number, setNext, result, appeared }) => {
               <>
                 <input
                   type="text"
+                  placeholder="Answer"
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setAnswered(true);
+                    setAnswer([e.target.value]);
+                  }}
+                  className="border-2 border-gray-300 rounded-lg p-2 w-1/3 my-5"
+                />
+              </>
+            )}
+            {Question?.type === "numerical" && (
+              <>
+                <input
+                  type="number"
                   placeholder="Answer"
                   onChange={(e) => {
                     e.preventDefault();

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
@@ -9,12 +10,13 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
       ...questions,
       {
         type: '',
-        difficulty: '',
+        difficult: '',
         question: '',
         options: [],
         multipleQuestion: [],
         multipleAnswer: [],
-        imageUrl: ''
+        imageUrl: '',
+        answer:''
       }
     ]);
   };
@@ -59,45 +61,47 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const formattedQuestions = questions.map((question) => {
+      const formattedQuestions = questions.map(async (question) => {
         const formdata = {
           question: question.question,
           type: question.type,
+          set:question.set,
+          difficult:question.difficult,
           questionImage: question.imageUrl,
         };
 
         if (question.type === "mcq") {
-          formdata.options = question.options;
-          formdata.singleAnswer = question.answer;
+          formdata.mcqOptions = question.options;
+          formdata.answer = question.answer;
         } else if (question.type === "multiple") {
           formdata.multipleQuestion = question.multipleQuestion;
           formdata.multipleAnswer = question.multipleAnswer;
         } else {
-          formdata.singleAnswer = question.answer;
+          formdata.answer = question.answer;
         }
+        const myHeaders = new Headers();
+        myHeaders.append('Authorization', `Bearer ${localStorage.getItem('access')}`);
+        myHeaders.append("Content-Type", "application/json");
 
-        return formdata;
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: JSON.stringify(formdata),
+          redirect: "follow"
+        };
+        // console.log(formattedQuestions);
+
+        const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/admin/question/create`, requestOptions);
+        const data = await response.json();
+        if (data.success === true) {
+          console.log(data.message);
+        } else {
+          console.log(data.message);
+        }
+        return data;
       });
 
-      const myHeaders = new Headers();
-      myHeaders.append('Authorization', `Bearer ${localStorage.getItem('access')}`);
-      myHeaders.append("Content-Type", "application/json");
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify({ questions: formattedQuestions }),
-        redirect: "follow"
-      };
-      console.log(formattedQuestions);
-
-      const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/admin/contest/add-question/`, requestOptions);
-      const data = await response.json();
-      setQuestions(data?.data || []);
-      localStorage.getItem(data?.data || []);
-      addQuestions(formattedQuestions);
-      toggleQues();
-      setQuestions([]);
+      
     } catch (error) {
       console.error(error);
     }
@@ -123,6 +127,7 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
                   <option value='mcq'>MCQ</option>
                   <option value='short'>Short Answer</option>
                   <option value='long'>Long Answer</option>
+                  <option value='numerical'>Numerical</option>
                   <option value='multiple'>Multiple Answers</option>
                 </select>
               </div>
@@ -134,20 +139,20 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
                   className='w-full px-3 py-2 border border-gray-300 rounded-md'
                 >
                   <option value=''>Select Set</option>
-                  <option value='a'>A</option>
-                  <option value='b'>B</option>
+                  <option value='A'>Technical</option>
+                  <option value='B'>Non-Technical</option>
                 </select>
               </div>
               <div className='mb-4'>
                 <label className='block text-gray-700 font-bold mb-2'>Difficulty:</label>
                 <select
-                  value={question.difficulty}
-                  onChange={(e) => handleQuestionChange(index, 'difficulty', e.target.value)}
+                  value={question.difficult}
+                  onChange={(e) => handleQuestionChange(index, 'difficult', e.target.value)}
                   className='w-full px-3 py-2 border border-gray-300 rounded-md'
                 >
                   <option value=''>Select Difficulty</option>
                   <option value='easy'>Easy</option>
-                  <option value='moderate'>Moderate</option>
+                  <option value='medium'>Moderate</option>
                   <option value='hard'>Hard</option>
                 </select>
               </div>

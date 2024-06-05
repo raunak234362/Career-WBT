@@ -13,6 +13,7 @@ const StudentProfile = () => {
   const [contest, setContest] = useState({});
   const [result, setResult] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const [questions, setQuestions] = useState();
   const navigate = useNavigate();
 
   const fetchStudent = async () => {
@@ -90,6 +91,7 @@ const StudentProfile = () => {
       if (data?.success) {
         setResult(data?.data?.result);
         setContest(data?.data?.contest);
+        setQuestions(data?.data?.questions);
         setAttempt(true);
       }
     } catch (error) {
@@ -113,7 +115,7 @@ const StudentProfile = () => {
   if (attempt) {
     return (
       <div className="w-screen h-screen absolute top-0 left-0 z-50 bg-white ">
-        <Assessment contest={contest} result={result} />
+        <Assessment contest={contest} result={result} questions={questions} />
       </div>
     );
   } else {

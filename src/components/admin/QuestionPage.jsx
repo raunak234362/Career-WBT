@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { CgAdd } from "react-icons/cg";
 import AddQuestion from "./AddQuestion";
 import { useEffect, useState } from "react";
 
-const QuestionPage = ({ contestId }) => {
+const QuestionPage = () => {
   const [showQuestion, setShowQuestion] = useState({});
   const [showSetQuestion, setShowSetQuestion] = useState("");
   const [difficultyFilter, setDifficultyFilter] = useState("");
@@ -29,48 +30,11 @@ const QuestionPage = ({ contestId }) => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/contest/${contestId}`,
+        `https://wbt-quizcave.onrender.com/api/v1/admin/question/all`,
         requestOptions
       );
       const data = await response.json();
-      setShowSetQuestion(data?.data);
-      setSampleData([
-        {
-          id: 1,
-          question: "What is React?",
-          type: "MCQ",
-          set: "A",
-          difficulty: "Easy",
-        },
-        {
-          id: 2,
-          question: "Explain useState hook.",
-          type: "Short Answer",
-          set: "B",
-          difficulty: "Medium",
-        },
-        {
-          id: 3,
-          question: "What is JSX?",
-          type: "MCQ",
-          set: "A",
-          difficulty: "Easy",
-        },
-        {
-          id: 4,
-          question: "Describe the virtual DOM.",
-          type: "300 words Essay",
-          set: "A",
-          difficulty: "Hard",
-        },
-        {
-          id: 5,
-          question: "How to handle events in React?",
-          type: "MCQ",
-          set: "B",
-          difficulty: "Medium",
-        },
-      ]);
+      setSampleData(data?.data);
     } catch (error) {
       console.error(error);
     }
@@ -94,11 +58,11 @@ const QuestionPage = ({ contestId }) => {
 
   const getDifficultyBgColor = (difficulty) => {
     switch (difficulty) {
-      case "Easy":
+      case "easy":
         return "bg-green-400";
-      case "Medium":
+      case "medium":
         return "bg-yellow-200";
-      case "Hard":
+      case "hard":
         return "bg-red-400";
       default:
         return "";
@@ -213,10 +177,10 @@ const QuestionPage = ({ contestId }) => {
                   <td className="my-auto flex items-center justify-center rounded-lg px-2 py-2">
                     <div
                       className={`flex justify-center items-center rounded-lg w-24 h-8 ${getDifficultyBgColor(
-                        item.difficulty
+                        item.difficult
                       )}`}
                     >
-                      {item.difficulty}
+                      {item.difficult}
                     </div>
                   </td>
                   <td className="px-1 py-2 border">
@@ -270,8 +234,8 @@ const QuestionPage = ({ contestId }) => {
                               className="w-full px-3 py-2 border border-gray-300 rounded-md"
                             >
                               <option value="">Select Set</option>
-                              <option value="a">A</option>
-                              <option value="b">B</option>
+                              <option value="A">Technical</option>
+                              <option value="B">Non-Technical</option>
                             </select>
                           </div>
                           <div className="mb-4">
@@ -295,6 +259,10 @@ const QuestionPage = ({ contestId }) => {
                               <option value="hard">Hard</option>
                             </select>
                           </div>
+                          <select className="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value=""></option>
+
+                          </select>
                           <div className="flex w-full flex-col mb-2">
                             <label className=" flex text-gray-700 font-bold mb-2">
                               Answer

@@ -7,15 +7,15 @@ import { CompletedAssessment } from "./components/CompletedAssessment";
 import { Counterdown } from "./components/Counterdown";
 import parse from 'html-react-parser';
 
-export const AssessmentPage = ({contest, result}) => {
+export const AssessmentPage = ({contest, result, questions}) => {
 
   const [next, setNext] = useState(0);
   const [quesAppear, setQuestionAppear] = useState(
-    Array.from({ length: contest?.questions?.length }, () => false)
+    Array.from({ length: questions?.length }, () => false)
   );
 
   const handleTabChange = () => {
-    setNext(contest?.questions?.length);
+    setNext(questions?.length);
   };
 
   const handleContextMenu = (e) => {
@@ -48,7 +48,7 @@ export const AssessmentPage = ({contest, result}) => {
 
   return (
     <>
-      {next < contest?.questions?.length ? (
+      {next < questions?.length ? (
         // <section className={`grid grid-cols-[25%_50%_25%] mx-5 bg-white`}>
         <section className={`grid grid-cols-[75%_25%] mx-5 bg-white`}>
           {/* <div className="border-2 border-gray-500 rounded-xl m-2 p-2 text-lg">
@@ -61,8 +61,8 @@ export const AssessmentPage = ({contest, result}) => {
             </div> */}
           <div className="overflow-y-auto my-5 mx-10">
             <Question
-              key={contest?.questions[next]?._id} // Add a unique key prop to the Question component
-              Question={contest?.questions[next]}
+              key={questions[next]?._id} // Add a unique key prop to the Question component
+              Question={questions[next]}
               number={next + 1}
               setNext={setNext}
               result={result}
@@ -75,7 +75,7 @@ export const AssessmentPage = ({contest, result}) => {
                   TimeLeft: 
                 </span>
                 <Counterdown duration={contest?.duration} onCountdownEnd={()=> {
-                    setNext(contest?.questions?.length);
+                    setNext(questions?.length);
                     alert("Time Over!");
                 }}/>
             </div>

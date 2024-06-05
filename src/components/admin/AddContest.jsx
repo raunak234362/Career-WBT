@@ -4,16 +4,7 @@ import React, { useState } from 'react';
 import JoditEditor from 'jodit-react';
 
 const AddContest = ({ toggleForm, handleAddContest }) => {
-  const [contestDetails, setContestDetails] = useState({
-    name: '',
-    description: '',
-    rules: '',
-    duration: '',
-    startDate: '',
-    // passingMarks:'',
-    endDate: '',
-    active: false
-  });
+  const [contestDetails, setContestDetails] = useState({});
   const[contestId,setContestId]=useState('')
 
   const handleActiveToggle = newValue => {
@@ -83,16 +74,19 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
                 />
               </div>
               <div className='mb-4'>
-                <label className='block text-gray-700 font-bold mb-2'>
-                  Description:
-                </label>
-                <JoditEditor
-                  value={contestDetails.description}
-                  tabIndex={1}
-                  onChange={value => setContestDetails({ ...contestDetails, description: value })}
-                  className='w-full border border-gray-300 rounded-md'
-                />
-              </div>
+                  <label className='block text-gray-700 font-bold mb-2'>Set</label>
+                  <select
+                  value={contestDetails.set}
+                  onChange={e => setContestDetails({ ...contestDetails, set: e.target.value })}
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                  required
+                >
+                  <option value=''>Select Set</option>
+                  <option value='A'>Technical</option>
+                  <option value='B'>Non-Technical</option>
+                  </select>
+                </div>
+             
               <div className='mb-4'>
                 <label className='block text-gray-700 font-bold mb-2'>
                   Instructions:

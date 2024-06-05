@@ -20,7 +20,7 @@ const shuffleQuestions = (questions) => {
   return shuffledQuestions;
 };
 
-export function Assessment({ contest, result }) {
+export function Assessment({ contest, result, questions }) {
 
   const [assessmentPage, setAssessmentPage] = useState(false);
 
@@ -38,7 +38,7 @@ export function Assessment({ contest, result }) {
       }
       {
         (assessmentPage) && (
-          <AssessmentPage result={result} contest={contest}/>
+          <AssessmentPage result={result} contest={contest} questions={questions} />
         )
       }
     </>
