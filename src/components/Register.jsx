@@ -122,6 +122,8 @@ const RegisterStudent = () => {
       `Bearer ${localStorage.getItem('access')}`
     );
 
+    const sem = formData?.currentSemester?.charAt(formData.currentSemester.length -1);
+
     const form = new FormData();
     form.append('profile', formData.profilePic);
     form.append('resume', formData.resume);
@@ -135,7 +137,7 @@ const RegisterStudent = () => {
     form.append('gender', formData.gender);
     form.append('fatherName', formData.fatherName);
     form.append('motherName', formData.motherName);
-    form.append('currentSemester', formData.currentSemester);
+    form.append('currentSemester', (isNaN(Number.parseInt(sem))? 0 : Number.parseInt(sem)));
     form.append('marksheet', formData.marksheet);
     form.append('branch', formData.branch);
     form.append('course', formData.course);
