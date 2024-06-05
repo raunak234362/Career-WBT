@@ -36,33 +36,6 @@ const CardContest = ({ contestId }) => {
     }
   };
 
-  // const registerStudentContest = async () => {
-  //   const myHeaders = new Headers();
-  //   myHeaders.append(
-  //     "Authorization",
-  //     `Bearer ${localStorage.getItem("access")}`
-  //   );
-  //   myHeaders.append("Content-Type", "application/json");
-  //   const requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
-  //   try {
-  //     const response = await fetch(
-  //       `https://wbt-quizcave.onrender.com/api/v1/contest/register/${contestId}`,
-  //       requestOptions
-  //     );
-  //     if (!response.ok) {
-  //       throw new Error("Failed to register for the contest");
-  //     }
-  //     const data = await response.json();
-  //     console.log(data?.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   useEffect(() => {
     fetchContestQuestions();
   }, []);
@@ -145,12 +118,6 @@ const CardContest = ({ contestId }) => {
             </div>
 
             <div className="flex flex-row mt-4 justify-center">
-              {/* <button
-                onClick={registerStudentContest}
-                className="mr-2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700"
-              >
-                Register
-              </button> */}
 
               <button
                 onClick={handleAttempt}

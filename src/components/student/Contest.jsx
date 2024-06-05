@@ -28,7 +28,6 @@ const Contest = () => {
       )
       const data = await response.json()
       setContests(data?.data)
-      console.log(data?.data)
     } catch (error) {
       console.error(error)
     }
@@ -73,9 +72,12 @@ const Contest = () => {
         className='mt-4 rounded-lg shadow-lg p-5 mb-4 w-1/3'
       >
         <CardContest contestId={contest._id}/>
-
+        
       </div>
       ))}
+      {
+          console.log(contests)
+        }
       </div>
      
       </div>
