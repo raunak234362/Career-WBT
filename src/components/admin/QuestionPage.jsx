@@ -239,7 +239,7 @@ const QuestionPage = () => {
             <option value="multiple">Multiple Answer</option>
           </select>
         </div>
-        <div className="h-96 table-container overflow-y-auto w-full p-5 rounded-lg">
+        <div className=" h-[50vh] table-container overflow-y-auto w-full p-5 rounded-lg">
           <table className="w-full table-auto border-collapse text-center rounded-xl">
             <thead>
               <tr className="bg-gray-200">
@@ -258,7 +258,7 @@ const QuestionPage = () => {
                   className="bg-gray-100 text-xl hover:bg-gray-200"
                 >
                   <td className="px-1 py-2 w-[5%] border">{index + 1}</td>
-                  <td className="px-1 py-2 w-[55%] border text-left">
+                  <td className="px-1 py-2 w-[40%] border text-left">
                     {" "}
                     {item.question.split(" ").slice(0, 30).join(" ")}
                     {item.question.split(" ").length > 30 && "..."}
@@ -278,13 +278,13 @@ const QuestionPage = () => {
                     <div className="flex gap-2 justify-between w-1/2 mx-auto">
                       <button
                         onClick={() => toggleShowQuestion(index)}
-                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        className="modify-btn w-fit bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
                       >
                         Show
                       </button>
                       <button
                         onClick={() => toggleEditQuestion(index)}
-                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        className="modify-btn w-fit bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
                       >
                         Modify
                       </button>
