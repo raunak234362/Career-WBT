@@ -126,7 +126,8 @@ const Login = () => {
           {role === 'student' && (
             <div className='mt-4'>
               <p className='text-center'>
-                Don't have an account? <Link to='/register'>Register</Link>
+                Don't have an account? <Link to='/register' className='text-blue-500 hover:text-blue-700 transition-colors duration-300'>Register</Link>
+
               </p>
             </div>
           )}
