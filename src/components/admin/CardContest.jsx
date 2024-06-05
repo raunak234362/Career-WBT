@@ -70,6 +70,9 @@ const CardContest = ({ contestId }) => {
               <p>
                 <strong>Duration:</strong> {showSetQuestion?.duration}
               </p>
+              <p>
+                <strong>Set:</strong> {showSetQuestion?.set}
+              </p>
               {/* <p>
                 <strong>Passing Marks:</strong> {showSetQuestion?.passingMarks}
               </p> */}
