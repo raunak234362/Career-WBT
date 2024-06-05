@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import JoditEditor from 'jodit-react';
 
-const AddContest = ({ toggleForm, handleAddContest }) => {
+const AddContest = ({ toggleForm }) => {
   const [contestDetails, setContestDetails] = useState({});
   const[contestId,setContestId]=useState('')
 
@@ -37,12 +37,9 @@ const AddContest = ({ toggleForm, handleAddContest }) => {
       
       const data = await response.json();
       console.log(data);
-        setContestId(data?.data?._id);
-       localStorage.setItem('contestId', contestId);
-       localStorage.setItem('access', data?.data?.accessToken);
-       localStorage.setItem('refresh', data?.data?.refreshToken);
-      toggleForm();
-      handleAddContest(data);
+        setContestDetails(data?.data)
+       toggleForm();
+      
     } catch (error) {
       console.error(error);
       throw new Error('Error creating contest');
