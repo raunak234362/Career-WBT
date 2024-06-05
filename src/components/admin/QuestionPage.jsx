@@ -14,6 +14,8 @@ const QuestionPage = () => {
   const [sampleData, setSampleData] = useState([]);
   const [popupVisible, setPopupVisible] = useState(false);
   const [popupRowIndex, setPopupRowIndex] = useState(-1);
+  const [showSetA, setShowSetA] = useState(false);
+  const [showSetB, setShowSetB] = useState(false);
 
   const fetchContestQuestions = async () => {
     const myHeaders = new Headers();
@@ -51,17 +53,17 @@ const QuestionPage = () => {
 
   const toggleShowQuestion = (index) => {
     setShowQuestion((prev) => ({
-     ...prev,
-      [index]:!prev[index],
+      ...prev,
+      [index]: !prev[index],
     }));
-  }
+  };
 
   const getDifficultyBgColor = (difficulty) => {
     switch (difficulty) {
       case "easy":
-        return "bg-green-400";
+        return "bg-green-500";
       case "medium":
-        return "bg-yellow-200";
+        return "bg-yellow-400";
       case "hard":
         return "bg-red-400";
       default:
@@ -86,7 +88,7 @@ const QuestionPage = () => {
 
   const filteredData = sampleData.filter((item) => {
     return (
-      (difficultyFilter === "" || item.difficulty === difficultyFilter) &&
+      (difficultyFilter === "" || item.difficult === difficultyFilter) &&
       (setFilter === "" || item.set === setFilter) &&
       (typeFilter === "" || item.type === typeFilter)
     );
@@ -95,17 +97,97 @@ const QuestionPage = () => {
   return (
     <div>
       <div className="flex flex-row gap-10 w-full p-5">
-        <div className="flex flex-col w-1/4 gap-3 bg-white shadow-lg p-5 rounded-xl py-20">
+        <div
+          className="flex flex-col w-1/4 gap-3 bg-white shadow-lg p-5 rounded-xl py-20"
+          onMouseOver={() => {
+            setShowSetA(true);
+            setShowSetB(false);
+          }}
+          onMouseOut={() => {
+            setShowSetA(false);
+            setShowSetB(false);
+          }}
+        >
           <h1 className="text-2xl text-gray-600 font-bold text-center">
             No. Of Questions in Set-A
           </h1>
+          <p className="text-3xl font-bold mx-auto text-gray-800">{sampleData?.filter((item) => item.set === "A").length}</p>
+          
+          <div className={`${showSetA ? "" : "hidden"} w-40 text-lg absolute bg-white p-5 rounded-xl shadow-lg `}>
+            <p className="text-green-600">
+              Easy:{" "}
+              {
+                sampleData?.filter(
+                  (item) => item.set === "A" && item.difficult === "easy"
+                ).length
+              }
+            </p>
+            <p className="text-yellow-600">
+              Medium:{" "}
+              {
+                sampleData?.filter(
+                  (item) => item.set === "A" && item.difficult === "medium"
+                ).length
+              }
+            </p>
+            <p className="text-red-600">
+              Hard:{" "}
+              {
+                sampleData?.filter(
+                  (item) => item.set === "A" && item.difficult === "hard"
+                ).length
+              }
+            </p>
+          </div>
+          
+          
         </div>
-        <div className="flex flex-col gap-3 w-1/4 bg-white shadow-lg p-5 rounded-xl py-20">
+        <div
+          className="flex flex-col gap-3 w-1/4 bg-white shadow-lg p-5 rounded-xl py-20"
+          onMouseOver={() => {
+            setShowSetA(false);
+            setShowSetB(true);
+          }}
+          onMouseOut={() => {
+            setShowSetA(false);
+            setShowSetB(false);
+          }}
+        >
           <h1 className="text-2xl text-gray-600 font-bold text-center">
             No. Of Questions in Set-B
           </h1>
+          <p className="text-3xl font-bold mx-auto text-gray-800">{sampleData?.filter((item) => item.set === "B").length}</p>
+          <div className={`${showSetB ? "" : "hidden"}  w-40 text-lg absolute bg-white p-5 rounded-xl shadow-lg`}>
+            <p className="text-green-600">
+            Easy:{" "}
+              {
+                sampleData?.filter(
+                  (item) => item.set === "B" && item.difficult === "easy"
+                ).length
+              }
+            </p>
+            <p className="text-yellow-600">
+            Medium:{" "}
+              {
+                sampleData?.filter(
+                  (item) => item.set === "B" && item.difficult === "medium"
+                ).length
+              }
+            </p>
+            <p className="text-red-600">
+            Hard:{" "}
+              {
+                sampleData?.filter(
+                  (item) => item.set === "B" && item.difficult === "hard"
+                ).length
+              }
+            </p>
+          </div>
         </div>
         <div className="flex flex-col gap-5 w-1/4 bg-white shadow-lg p-5 items-center rounded-xl py-20">
+        <h1 className="text-2xl text-gray-600 font-bold text-center">
+           Add New Question
+          </h1>
           <CgAdd className="mx-auto text-green-500 text-2xl" />
           <button
             onClick={() => toggleQues(showSetQuestion?._id)}
@@ -131,9 +213,9 @@ const QuestionPage = () => {
             className="p-2 border rounded"
           >
             <option value="">All Difficulties</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
           </select>
           <select
             value={setFilter}
@@ -141,8 +223,8 @@ const QuestionPage = () => {
             className="p-2 border rounded"
           >
             <option value="">All Sets</option>
-            <option value="A">Set-A</option>
-            <option value="B">Set-B</option>
+            <option value="A">Technical</option>
+            <option value="B">Non-Technical</option>
           </select>
           <select
             value={typeFilter}
@@ -150,9 +232,11 @@ const QuestionPage = () => {
             className="p-2 border rounded"
           >
             <option value="">All Types</option>
-            <option value="MCQ">Multiple Choice</option>
-            <option value="Short Answer">Short Answer</option>
-            <option value="300 words Essay">Essay</option>
+            <option value="mcq">Multiple Choice</option>
+            <option value="short">Short Answer</option>
+            <option value="long">Long Answer</option>
+            <option value="numerical">Numerical</option>
+            <option value="multiple">Multiple Answer</option>
           </select>
         </div>
         <div className="h-96 table-container overflow-y-auto w-full p-5 rounded-lg">
@@ -169,14 +253,21 @@ const QuestionPage = () => {
             </thead>
             <tbody>
               {filteredData.map((item, index) => (
-                <tr key={index} className="bg-gray-100 hover:bg-gray-200">
-                  <td className="px-1 py-2 border">{index + 1}</td>
-                  <td className="px-4 py-2 border">{item.question}</td>
-                  <td className="px-4 py-2 border">{item.type}</td>
-                  <td className="px-4 py-2 border">{item.set}</td>
-                  <td className="my-auto flex items-center justify-center rounded-lg px-2 py-2">
+                <tr
+                  key={index}
+                  className="bg-gray-100 text-xl hover:bg-gray-200"
+                >
+                  <td className="px-1 py-2 w-[5%] border">{index + 1}</td>
+                  <td className="px-1 py-2 w-[55%] border text-left">
+                    {" "}
+                    {item.question.split(" ").slice(0, 30).join(" ")}
+                    {item.question.split(" ").length > 30 && "..."}
+                  </td>
+                  <td className="px-1 py-2 w-[5%] border">{item.type}</td>
+                  <td className="px-4 py-2 w-[5%] border">{item.set}</td>
+                  <td className="my-auto mx-auto w-[10%] rounded-lg px-2 py-2">
                     <div
-                      className={`flex justify-center items-center rounded-lg w-24 h-8 ${getDifficultyBgColor(
+                      className={`flex mx-auto justify-center items-center rounded-lg w-24 h-8 ${getDifficultyBgColor(
                         item.difficult
                       )}`}
                     >
@@ -185,20 +276,20 @@ const QuestionPage = () => {
                   </td>
                   <td className="px-1 py-2 border">
                     <div className="flex gap-2 justify-between w-1/2 mx-auto">
-                    <button
-                      onClick={() => toggleShowQuestion(index)}
-                      className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      Show
-                    </button>
-                    <button
-                      onClick={() => toggleEditQuestion(index)}
-                      className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      Modify
-                    </button>
+                      <button
+                        onClick={() => toggleShowQuestion(index)}
+                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Show
+                      </button>
+                      <button
+                        onClick={() => toggleEditQuestion(index)}
+                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Modify
+                      </button>
                     </div>
-                   
+
                     {popupRowIndex === index && (
                       <div
                         className={`popup-menu absolute right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
@@ -261,7 +352,6 @@ const QuestionPage = () => {
                           </div>
                           <select className="w-full px-3 py-2 border border-gray-300 rounded-md">
                             <option value=""></option>
-
                           </select>
                           <div className="flex w-full flex-col mb-2">
                             <label className=" flex text-gray-700 font-bold mb-2">

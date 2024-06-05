@@ -3,8 +3,62 @@ import { useEffect, useState } from "react";
 
 const Result = () => {
   const [formData, setFormData] = useState([]);
+  const [contestData, setContestData] = useState();
+  const [selected, setSelected] = useState([]);
 
-  const fetchStudent = async () => {
+  const fetchContestData = async () => {
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("access")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    const response = await fetch(
+      "https://wbt-quizcave.onrender.com/api/v1/admin/result/all",
+      requestOptions
+    );
+    const data = await response.json();
+    console.log("Fetched data:", data);
+    if (data?.data) {
+      setContestData(data?.data);
+      console.log(data?.data);
+    }
+  };
+  const evaluateResults = async (id) => {
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("access")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        `https://wbt-quizcave.onrender.com/api/v1/admin/result/${id}/declare`,
+        requestOptions
+      );
+      const data = await response.json();
+      if (data.success === true) {
+        console.log("Result declared successfully");
+      } else {
+        console.error("Error in declaring result");
+      }
+    } catch {
+      console.error("Error in fetching data");
+    }
+  };
+
+  const fetchStudent = async (id) => {
     const myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -20,75 +74,73 @@ const Result = () => {
 
     try {
       const response = await fetch(
-        "https://wbt-quizcave.onrender.com/api/v1/admin/result/results/",
+        `https://wbt-quizcave.onrender.com/api/v1/admin/result/results/${id}`,
         requestOptions
       );
       const data = await response.json();
-      console.log("Fetched data:", data);
-      if (data?.data) {
-        setFormData(data?.data);
-      } else {
-        console.error("Data format error:", data);
-      }
+      setFormData(data?.data);
+      console.log(data?.data);
     } catch (error) {
       console.error("Fetch error:", error);
     }
   };
 
   useEffect(() => {
-    fetchStudent();
+    fetchContestData();
   }, []);
-
-  const sampleData = [
-    // Add more sample data to demonstrate pagination
-    { studentId: "S001", name: "Alice", phone: "1234567890", totalMarks: 95 },
-    { studentId: "S002", name: "Bob", phone: "0987654321", totalMarks: 88 },
-    { studentId: "S003", name: "Charlie", phone: "2345678901", totalMarks: 75 },
-    { studentId: "S004", name: "David", phone: "3456789012", totalMarks: 82 },
-    { studentId: "S005", name: "Eve", phone: "4567890123", totalMarks: 91 },
-    { studentId: "S006", name: "Frank", phone: "5678901234", totalMarks: 67 },
-    { studentId: "S007", name: "Grace", phone: "6789012345", totalMarks: 77 },
-    { studentId: "S008", name: "Hannah", phone: "7890123456", totalMarks: 84 },
-    { studentId: "S009", name: "Ian", phone: "8901234567", totalMarks: 92 },
-    { studentId: "S010", name: "Jack", phone: "9012345678", totalMarks: 85 },
-    { studentId: "S011", name: "Kate", phone: "0123456789", totalMarks: 74 },
-    { studentId: "S012", name: "Leo", phone: "1234567801", totalMarks: 79 },
-    { studentId: "S013", name: "Mia", phone: "2345678901", totalMarks: 87 },
-    { studentId: "S014", name: "Nina", phone: "3456789012", totalMarks: 93 },
-    { studentId: "S015", name: "Oscar", phone: "4567890123", totalMarks: 89 },
-    { studentId: "S016", name: "Paul", phone: "5678901234", totalMarks: 80 },
-    { studentId: "S017", name: "Quinn", phone: "6789012345", totalMarks: 68 },
-    { studentId: "S018", name: "Rachel", phone: "7890123456", totalMarks: 81 },
-    { studentId: "S019", name: "Sam", phone: "8901234567", totalMarks: 73 },
-    { studentId: "S020", name: "Tina", phone: "9012345678", totalMarks: 90 },
-  ];
 
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
-  // Calculate the current rows to display
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = sampleData.slice(indexOfFirstRow, indexOfLastRow);
-
-  const totalPages = Math.ceil(sampleData.length / rowsPerPage);
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
   return (
     <div>
-      <div className="flex flex-row gap-8 w-full p-5">
-        <div className="flex flex-col gap-3 w-1/4 bg-white shadow-lg p-5 rounded-xl py-20">
-          <h1 className=" text-2xl text-gray-600 font-bold text-center">
-            Total Students Present in Result
-          </h1>
-        </div>
+      <div className="flex flex-row gap-8 w-full p-5 items-center">
+        {contestData?.map((item, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-xl rounded-lg w-[35%] h-64 p-5"
+          >
+            <h1 className="text-2xl text-center font-semibold text-gray-800">
+              Evaluate The Result of <br />
+              <strong>{item?.name}</strong>
+            </h1>
+            <p className="text-lg text-center">
+              Number of Unevaluated Result: <strong>{item?.unEvaluated}</strong>
+            </p>
+            <p className="text-lg text-center">
+              Total Number of Student Participated:{" "}
+              <strong>{item?.participants?.length}</strong>
+            </p>
+            <p className="text-lg text-center">
+              Set:{" "}
+              <strong>
+                {item?.set === "A" ? "Technical" : "Non-Technical"}
+              </strong>
+            </p>
+            {item?.unEvaluated > 0 && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault(0);
+                  evaluateResults(item?._id);
+                }}
+                className="px-4 py-2 flex justify-center items-center mx-auto mt-5 bg-green-500 text-white rounded"
+              >
+                Evaluate
+              </button>
+            )}
+            {item?.unEvaluated == 0 && item?.participants?.length > 0 && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault(0);
+                  fetchStudent(item?._id);
+                }}
+                className="px-4 py-2 flex justify-center items-center mx-auto mt-5 bg-green-500 text-white rounded"
+              >
+                Display Result
+              </button>
+            )}
+          </div>
+        ))}
       </div>
 
       <div className="bg-white shadow-lg p-5 rounded-xl m-5">
@@ -120,68 +172,47 @@ const Result = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {formData.length > 0 ? (
-              formData.map((item, index) => (
-                <tr key={index} className="bg-gray-100 hover:bg-gray-200">
-                  <td className="px-1 py-2 border">{index + 1}</td>
-                  <td className="px-4 py-2 border">{item?.studentId}</td>
-                  <td className="px-4 py-2 border">{item?.name}</td>
-                  <td className="px-4 py-2 border">{item?.course}</td>
-                  <td className="px-4 py-2 border">{item?.phone}</td>
-                  <td className="px-4 py-2 border">
-                    <select className='w-full px-3 py-2 border border-gray-300 rounded-md'>
-                      <option value=''>Select Result</option>
-                      <option value='selected'>Selected</option>
-                      <option value='notSelected'>Not-Selected</option>
-                    </select>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="px-4 py-2 border">
-                  No data available
-                </td>
-              </tr>
-            )} */}
-              {sampleData.map((item, index) => (
+              {formData?.map((item, index) => (
                 <tr key={index} className="bg-gray-100 hover:bg-gray-200">
                   <td className="px-1 py-3 border">{index + 1}</td>
-                  <td className="px-4 py-3 border">{item?.studentId}</td>
-                  <td className="px-4 py-3 border">{item?.name}</td>
-                  <td className="px-4 py-3 border">{item?.phone}</td>
+                  <td className="px-4 py-3 border">
+                    {item?.userId?.studentId}
+                  </td>
+                  <td className="px-4 py-3 border">{item?.userId?.name}</td>
+                  <td className="px-4 py-3 border">{item?.userId?.phone}</td>
                   <td className="px-4 py-3 border">{item?.totalMarks}</td>
                   <td className=" px-2 py-3 border">
-                    <select className="px-1 py-3">
-                      <option value="">Select Result</option>
-                      <option value="selected">Selected</option>
-                      <option value="notSelected">Not-Selected</option>
-                    </select>
+                    <label className="inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selected?.includes(item?.userId?._id)}
+                        className="sr-only peer"
+                        onChange={(e) => {
+                          // Prevent default behavior is not necessary here
+                          if (e.target.checked) {
+                            if (!selected?.includes(item?.userId?._id)) {
+                              setSelected([...selected, item?.userId?._id]);
+                            }
+                          } else {
+                            setSelected(
+                              selected.filter((id) => id !== item?.userId?._id)
+                            );
+                          }
+                        }}
+                      />
+                      <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                      <span className={`ms-3 text-lg font-medium ${(selected?.includes(item?.userId?._id)) ? "text-green-500":"text-red-500"}`}>
+                        {selected?.includes(item?.userId?._id)
+                          ? "Selected"
+                          : "Not Selected"}
+                      </span>
+                    </label>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {/* <div className="flex justify-between mt-4 px-5">
-          <button
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-            className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span>
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div> */}
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export function Assessment({ contest, result, questions }) {
 
   const [assessmentPage, setAssessmentPage] = useState(false);
 
-  contest.questions = shuffleQuestions(contest.questions);
+  questions = shuffleQuestions(questions);
 
   return (
     <>
