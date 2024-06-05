@@ -274,17 +274,17 @@ const QuestionPage = () => {
                       {item.difficult}
                     </div>
                   </td>
-                  <td className="px-1 py-2 border">
+                  <td className="px-1 py-2 w-[10%] border">
                     <div className="flex gap-2 justify-between w-1/2 mx-auto">
                       <button
                         onClick={() => toggleShowQuestion(index)}
-                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
                       >
                         Show
                       </button>
                       <button
                         onClick={() => toggleEditQuestion(index)}
-                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        className="modify-btn w-1/2 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
                       >
                         Modify
                       </button>
