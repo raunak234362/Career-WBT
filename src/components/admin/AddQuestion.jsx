@@ -95,6 +95,8 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
         const data = await response.json();
         if (data.success === true) {
           console.log(data.message);
+          toggleQues(false)
+          alert(`Successfully added ${questions.length} questions`)
         } else {
           console.log(data.message);
         }
