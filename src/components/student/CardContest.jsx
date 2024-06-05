@@ -11,6 +11,7 @@ const CardContest = ({ contestId }) => {
   const [showFilledQuestion, setShowFilledQuestion] = useState(false);
   const [attempt, setAttempt] = useState(false);
   const [contest, setContest] = useState({});
+  const [questions, setQuestions] = useState({});
   const [result, setResult] = useState({});
 
   const fetchContestQuestions = async () => {
@@ -76,9 +77,12 @@ const CardContest = ({ contestId }) => {
       );
       const data = await response.json();
       if (data?.success) {
+        console.log(data?.data);
         setResult(data?.data?.result);
+        setQuestions(data?.data?.questions)
         setContest(data?.data?.contest);
         setAttempt(true);
+      
       }
     } catch (error) {
       console.error(error);
@@ -89,7 +93,7 @@ const CardContest = ({ contestId }) => {
     return (
       <>
         <div className="w-screen h-screen absolute top-0 left-0 z-50 bg-white ">
-           <Assessment contest={contest} result={result} />
+           <Assessment contest={contest} result={result} questions={questions}/>
         </div>
       </>
     );
