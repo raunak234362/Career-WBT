@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import AddQuestion from './AddQuestion'
-import parse from 'html-react-parser'
 
 const CardContest = ({ contestId }) => {
   const [showQuestion, setShowQuestion] = useState({})
@@ -66,11 +65,7 @@ const CardContest = ({ contestId }) => {
             {
               console.log(showSetQuestion)
             }
-            {
-              showSetQuestion && (
-                <h3 className=' text-2xl text-center'>{parse(showSetQuestion?.description)}</h3>
-              )
-            }
+           
             <div className='flex flex-col mt-5 items-center justify-center'>
               <p>
                 <strong>Duration:</strong> {showSetQuestion?.duration}
