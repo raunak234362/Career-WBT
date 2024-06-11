@@ -42,6 +42,30 @@ const QuestionPage = () => {
     }
   };
 
+  const fetchDeleteQuestion = async(index) =>{
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("access")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+    try {
+      const response = await fetch(
+        `https://wbt-quizcave.onrender.com/api/v1/admin/question/remove/${index}`,
+        requestOptions
+      );
+      const data = await response.json();
+      console.log(data)
+    }catch(error){
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     fetchContestQuestions();
   }, []);
@@ -252,7 +276,7 @@ const QuestionPage = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((item, index) => (
+              {filteredData?.map((item, index) => (
                 <tr
                   key={index}
                   className="bg-gray-100 text-xl hover:bg-gray-200"
@@ -370,7 +394,7 @@ const QuestionPage = () => {
                               Edit
                             </button>
                             <button
-                              onClick={() => toggleEditQuestion(index)}
+                              onClick={() => fetchDeleteQuestion(item?._id)}
                               className="modify-btn w-1/3 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                             >
                               Delete
