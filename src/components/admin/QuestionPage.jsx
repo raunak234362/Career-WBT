@@ -292,7 +292,7 @@ const QuestionPage = () => {
 
                     {popupRowIndex === index && (
                       <div
-                        className={`popup-menu absolute right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
+                        className={`popup-menu absolute overflow-y-auto bottom-0 right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
                           popupVisible ? "visible" : "hidden"
                         }`}
                       >
