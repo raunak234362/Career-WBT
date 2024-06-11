@@ -16,6 +16,12 @@ const QuestionPage = () => {
   const [popupRowIndex, setPopupRowIndex] = useState(-1);
   const [showSetA, setShowSetA] = useState(false);
   const [showSetB, setShowSetB] = useState(false);
+  const [formState, setFormState] = useState({
+    question: "",
+    set: "",
+    difficulty: "",
+    answer: "",
+  });
 
   const fetchContestQuestions = async () => {
     const myHeaders = new Headers();
@@ -41,8 +47,31 @@ const QuestionPage = () => {
       console.error(error);
     }
   };
+  const fetchQuestionUpdate = async (index) => {
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("access")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      redirect: "follow",
+    };
 
-  const fetchDeleteQuestion = async(index) =>{
+    try {
+      const response = await fetch(
+        `https://wbt-quizcave.onrender.com/api/v1/admin/question/update/${index}`,
+        requestOptions
+      );
+      const data = await response.json();
+      setSampleData(data?.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const fetchDeleteQuestion = async (index) => {
     const myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -60,17 +89,26 @@ const QuestionPage = () => {
         requestOptions
       );
       const data = await response.json();
-      console.log(data)
-    }catch(error){
+      console.log(data);
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchContestQuestions();
   }, []);
 
   const toggleEditQuestion = (index) => {
+    if (!popupVisible) {
+      const question = sampleData[index];
+      setFormState({
+        question: question.question,
+        set: question.set,
+        difficulty: question.difficult,
+        answer: question.answer,
+      });
+    }
     setPopupRowIndex(index);
     setPopupVisible(!popupVisible);
   };
@@ -106,6 +144,27 @@ const QuestionPage = () => {
     setter(event.target.value);
   };
 
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleFormSubmit = () => {
+    const updatedData = [...sampleData];
+    updatedData[popupRowIndex] = {
+      ...updatedData[popupRowIndex],
+      question: formState.question,
+      set: formState.set,
+      difficult: formState.difficulty,
+      answer: formState.answer,
+    };
+    setSampleData(updatedData);
+    setPopupVisible(false);
+  };
+
   const addQuestions = (newQuestions) => {
     setSampleData((prevData) => [...prevData, ...newQuestions]);
   };
@@ -135,9 +194,15 @@ const QuestionPage = () => {
           <h1 className="text-2xl text-gray-600 font-bold text-center">
             No. Of Questions in Set-A
           </h1>
-          <p className="text-3xl font-bold mx-auto text-gray-800">{sampleData?.filter((item) => item.set === "A").length}</p>
-          
-          <div className={`${showSetA ? "" : "hidden"} w-40 text-lg absolute bg-white p-5 rounded-xl shadow-lg `}>
+          <p className="text-3xl font-bold mx-auto text-gray-800">
+            {sampleData?.filter((item) => item.set === "A").length}
+          </p>
+
+          <div
+            className={`${
+              showSetA ? "" : "hidden"
+            } w-40 text-lg absolute bg-white p-5 rounded-xl shadow-lg `}
+          >
             <p className="text-green-600">
               Easy:{" "}
               {
@@ -163,8 +228,6 @@ const QuestionPage = () => {
               }
             </p>
           </div>
-          
-          
         </div>
         <div
           className="flex flex-col gap-3 w-1/4 bg-white shadow-lg p-5 rounded-xl py-20"
@@ -180,10 +243,16 @@ const QuestionPage = () => {
           <h1 className="text-2xl text-gray-600 font-bold text-center">
             No. Of Questions in Set-B
           </h1>
-          <p className="text-3xl font-bold mx-auto text-gray-800">{sampleData?.filter((item) => item.set === "B").length}</p>
-          <div className={`${showSetB ? "" : "hidden"}  w-40 text-lg absolute bg-white p-5 rounded-xl shadow-lg`}>
+          <p className="text-3xl font-bold mx-auto text-gray-800">
+            {sampleData?.filter((item) => item.set === "B").length}
+          </p>
+          <div
+            className={`${
+              showSetB ? "" : "hidden"
+            }  w-40 text-lg absolute bg-white p-5 rounded-xl shadow-lg`}
+          >
             <p className="text-green-600">
-            Easy:{" "}
+              Easy:{" "}
               {
                 sampleData?.filter(
                   (item) => item.set === "B" && item.difficult === "easy"
@@ -191,7 +260,7 @@ const QuestionPage = () => {
               }
             </p>
             <p className="text-yellow-600">
-            Medium:{" "}
+              Medium:{" "}
               {
                 sampleData?.filter(
                   (item) => item.set === "B" && item.difficult === "medium"
@@ -199,7 +268,7 @@ const QuestionPage = () => {
               }
             </p>
             <p className="text-red-600">
-            Hard:{" "}
+              Hard:{" "}
               {
                 sampleData?.filter(
                   (item) => item.set === "B" && item.difficult === "hard"
@@ -209,8 +278,8 @@ const QuestionPage = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5 w-1/4 bg-white shadow-lg p-5 items-center rounded-xl py-20">
-        <h1 className="text-2xl text-gray-600 font-bold text-center">
-           Add New Question
+          <h1 className="text-2xl text-gray-600 font-bold text-center">
+            Add New Question
           </h1>
           <CgAdd className="mx-auto text-green-500 text-2xl" />
           <button
@@ -276,7 +345,7 @@ const QuestionPage = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData?.map((item, index) => (
+              {filteredData.map((item, index) => (
                 <tr
                   key={index}
                   className="bg-gray-100 text-xl hover:bg-gray-200"
@@ -316,11 +385,12 @@ const QuestionPage = () => {
 
                     {popupRowIndex === index && (
                       <div
-                        className={`popup-menu absolute overflow-y-auto bottom-10 right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
+                        className={`popup-menu absolute overflow-y-auto bottom-0 right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
                           popupVisible ? "visible" : "hidden"
                         }`}
                       >
                         <div className="flex flex-col w-[100%] flew-wrap p-2">
+                          
                           <div className="flex w-full flex-col mb-2">
                             <label
                               htmlFor="question"
@@ -330,7 +400,10 @@ const QuestionPage = () => {
                             </label>
                             <input
                               type="text"
-                              className="'w-[100%] py-2 border border-gray-300 rounded-md'"
+                              name="question"
+                              value={formState.question}
+                              onChange={handleFormChange}
+                              className="w-full py-2 border border-gray-300 rounded-md"
                             />
                           </div>
                           <div className="mb-4">
@@ -338,14 +411,9 @@ const QuestionPage = () => {
                               Set:
                             </label>
                             <select
-                              // value={question.set}
-                              // onChange={(e) =>
-                              //   handleQuestionChange(
-                              //     index,
-                              //     "set",
-                              //     e.target.value
-                              //   )
-                              // }
+                              name="set"
+                              value={formState.set}
+                              onChange={handleFormChange}
                               className="w-full px-3 py-2 border border-gray-300 rounded-md"
                             >
                               <option value="">Select Set</option>
@@ -358,48 +426,39 @@ const QuestionPage = () => {
                               Difficulty:
                             </label>
                             <select
-                              // value={question.difficulty}
-                              // onChange={(e) =>
-                              //   handleQuestionChange(
-                              //     index,
-                              //     "difficulty",
-                              //     e.target.value
-                              //   )
-                              // }
+                              name="difficulty"
+                              value={formState.difficulty}
+                              onChange={handleFormChange}
                               className="w-full px-3 py-2 border border-gray-300 rounded-md"
                             >
                               <option value="">Select Difficulty</option>
                               <option value="easy">Easy</option>
-                              <option value="moderate">Moderate</option>
+                              <option value="medium">Medium</option>
                               <option value="hard">Hard</option>
                             </select>
                           </div>
-                          <select className="w-full px-3 py-2 border border-gray-300 rounded-md">
-                            <option value=""></option>
-                          </select>
-                          <div className="flex w-full flex-col mb-2">
-                            <label className=" flex text-gray-700 font-bold mb-2">
-                              Answer
-                            </label>
-                            <input
-                              type="text"
-                              className="'w-[100%] py-2 border border-gray-300 rounded-md'"
-                            />
-                          </div>
+                          
                           <div className="flex w-full flex-row gap-5">
                             <button
-                              onClick={() => toggleEditQuestion(index)}
+                              onClick={handleFormSubmit}
                               className="modify-btn w-2/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
-                              Edit
+                              Update
                             </button>
                             <button
-                              onClick={() => fetchDeleteQuestion(item?._id)}
-                              className="modify-btn w-1/3 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                              onClick={() => fetchQuestionUpdate(item?._id)}
+                              className="modify-btn w-1/3 bg-red-300 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
                             >
-                              Delete
+                              Cancel
                             </button>
                           </div>
+                          <button
+                            onClick={() => fetchDeleteQuestion(item?._id)}
+                            className="modify-btn w-full mt-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                          >
+                            Delete
+                          </button>
+                        
                         </div>
                       </div>
                     )}
