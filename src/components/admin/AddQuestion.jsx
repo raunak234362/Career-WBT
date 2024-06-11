@@ -99,6 +99,7 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
           alert(`Successfully added ${questions.length} questions`)
         } else {
           console.log(data.message);
+          alert(`Question not added`)
         }
         return data;
       });
