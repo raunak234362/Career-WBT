@@ -458,7 +458,6 @@ const QuestionPage = () => {
                           >
                             Delete
                           </button>
-                        
                         </div>
                       </div>
                     )}
