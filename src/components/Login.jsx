@@ -6,6 +6,7 @@ import { FaUser } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import career from '../assets/career.jpg';
+import { BASE_URL } from '../constants';
 
 const Login = () => {
   const [userId, setUserId] = useState('');
@@ -18,8 +19,8 @@ const Login = () => {
     e.preventDefault();
     try {
       const url = role === 'admin' 
-        ? 'https://wbt-quizcave.onrender.com/api/v1/admin/user/login' 
-        : 'https://wbt-quizcave.onrender.com/api/v1/user/login';
+        ? `${BASE_URL}/api/v1/admin/user/login` 
+        : `${BASE_URL}/api/v1/user/login`;
 
       const response = await fetch(url, {
         method: 'POST',

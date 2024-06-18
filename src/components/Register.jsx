@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../constants';
 
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({
@@ -157,7 +158,7 @@ const RegisterStudent = () => {
 
     try {
       const response = await fetch(
-        'https://wbt-quizcave.onrender.com/api/v1/user/register',
+        `${BASE_URL}/api/v1/user/register`,
         requestOptions
       );
       const data = await response.json();

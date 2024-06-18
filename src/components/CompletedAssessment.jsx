@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import { BASE_URL } from "../constants";
 import "./style/complete.css";
 
 export const CompletedAssessment = ({result, contest}) => {
@@ -17,7 +18,7 @@ export const CompletedAssessment = ({result, contest}) => {
         alert("You answers are successfully submitted.\nYou will be notified when results are declared")
         // window.location.reload();
 
-        const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/result/submit/${result._id}`, requestOptions);
+        const response = await fetch(`${BASE_URL}/api/v1/result/submit/${result._id}`, requestOptions);
         const data = await response.json();
         console.log(data);
         if(data.status === 200) {

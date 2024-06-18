@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Watermark } from "@hirohe/react-watermark";
+import { BASE_URL } from "../constants";
 
 export const Question = ({ Question, number, setNext, result, appeared }) => {
   const [answered, setAnswered] = useState(false);
@@ -42,7 +43,7 @@ export const Question = ({ Question, number, setNext, result, appeared }) => {
     // });
 
     const response = await fetch(
-      `https://wbt-quizcave.onrender.com/api/v1/result/add-answer/${result._id}`,
+      `${BASE_URL}/api/v1/result/add-answer/${result._id}`,
       requestOptions
     );
     const data = await response.json();
