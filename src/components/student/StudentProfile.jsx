@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Assessment } from "../../Assessment";
+import { BASE_URL } from "../../constants";
 
 const StudentProfile = () => {
   const [formData, setFormData] = useState("");
@@ -31,7 +32,7 @@ const StudentProfile = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/user/`,
+        `${BASE_URL}/api/v1/user/`,
         requestOptions
       );
       const data = await response.json();
@@ -57,7 +58,7 @@ const StudentProfile = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/contest/all`,
+        `${BASE_URL}/api/v1/contest/all`,
         requestOptions
       );
       const data = await response.json();
@@ -84,7 +85,7 @@ const StudentProfile = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/contest/attempt/${contestId}`,
+        `${BASE_URL}/api/v1/contest/attempt/${contestId}`,
         requestOptions
       );
       const data = await response.json();
@@ -310,7 +311,7 @@ const StudentProfile = () => {
 
           <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
             <img
-              src={`https://wbt-quizcave.onrender.com/${formData?.profilePic}`}
+              src={`${BASE_URL}/${formData?.profilePic}`}
               alt="Profile Pic"
               className="w-60 h-auto rounded-lg border-2 border-white shadow-lg object-cover"
             />

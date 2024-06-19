@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { BASE_URL } from "../../constants";
 
 const AddQuestion = ({ toggleQues, addQuestions }) => {
   const [questions, setQuestions] = useState([]);
@@ -91,7 +92,7 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
         };
         // console.log(formattedQuestions);
 
-        const response = await fetch(`https://wbt-quizcave.onrender.com/api/v1/admin/question/create`, requestOptions);
+        const response = await fetch(`${BASE_URL}/api/v1/admin/question/create`, requestOptions);
         const data = await response.json();
         if (data.success === true) {
           console.log(data.message);

@@ -4,6 +4,7 @@ import { CgAdd } from 'react-icons/cg'
 import AddContest from './AddContest'
 import AddQuestion from './AddQuestion'
 import CardContest from './CardContest'
+import { BASE_URL } from '../../constants'
 
 const Contest = () => {
   const [showForm, setShowForm] = useState(false)
@@ -26,7 +27,7 @@ const Contest = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/contest/all`,
+        `${BASE_URL}/api/v1/admin/contest/all`,
         requestOptions
       )
       const data = await response.json()

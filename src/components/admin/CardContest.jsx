@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import AddQuestion from './AddQuestion'
+import { BASE_URL } from '../../constants'
 
 const CardContest = ({ contestId }) => {
   const [showQuestion, setShowQuestion] = useState({})
@@ -25,7 +26,7 @@ const CardContest = ({ contestId }) => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/contest/${contestId}`,
+        `${BASE_URL}/api/v1/admin/contest/${contestId}`,
         requestOptions
       )
       const data = await response.json()

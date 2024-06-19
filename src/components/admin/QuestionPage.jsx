@@ -4,6 +4,7 @@
 import { CgAdd } from "react-icons/cg";
 import AddQuestion from "./AddQuestion";
 import { useEffect, useState } from "react";
+import { BASE_URL } from "../../constants";
 
 const QuestionPage = () => {
   const [showQuestion, setShowQuestion] = useState({});
@@ -38,7 +39,7 @@ const QuestionPage = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/question/all`,
+        `${BASE_URL}/api/v1/admin/question/all`,
         requestOptions
       );
       const data = await response.json();
@@ -62,7 +63,7 @@ const QuestionPage = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/question/update/${index}`,
+        `${BASE_URL}/api/v1/admin/question/update/${index}`,
         requestOptions
       );
       const data = await response.json();
@@ -85,7 +86,7 @@ const QuestionPage = () => {
     };
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/question/remove/${index}`,
+        `${BASE_URL}/api/v1/admin/question/remove/${index}`,
         requestOptions
       );
       const data = await response.json();

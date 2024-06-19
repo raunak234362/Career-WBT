@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
+import { BASE_URL } from "../../constants";
 
 const Result = () => {
   const [formData, setFormData] = useState([]);
@@ -19,7 +20,7 @@ const Result = () => {
       redirect: "follow",
     };
     const response = await fetch(
-      "https://wbt-quizcave.onrender.com/api/v1/admin/result/all",
+      `${BASE_URL}/api/v1/admin/result/all`,
       requestOptions
     );
     const data = await response.json();
@@ -44,7 +45,7 @@ const Result = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/result/${id}/declare`,
+        `${BASE_URL}/api/v1/admin/result/${id}/declare`,
         requestOptions
       );
       const data = await response.json();
@@ -74,7 +75,7 @@ const Result = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/admin/result/results/${id}`,
+        `${BASE_URL}/api/v1/admin/result/results/${id}`,
         requestOptions
       );
       const data = await response.json();

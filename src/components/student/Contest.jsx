@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import CardContest from './CardContest'
+import { BASE_URL } from '../../constants'
 
 const Contest = () => {
   const [showForm, setShowForm] = useState(false)
@@ -23,7 +24,7 @@ const Contest = () => {
 
     try {
       const response = await fetch(
-        `https://wbt-quizcave.onrender.com/api/v1/contest/all`,
+        `${BASE_URL}/api/v1/contest/all`,
         requestOptions
       )
       const data = await response.json()
