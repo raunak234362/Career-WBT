@@ -20,10 +20,7 @@ export const CompletedAssessment = ({result, contest}) => {
 
         const response = await fetch(`${BASE_URL}/api/v1/result/submit/${result._id}`, requestOptions);
         const data = await response.json();
-        console.log(data);
-        if(data.status === 200) {
-            window.location.href = "https://whiteboard-website.web.app/";
-        }
+        window.location.href = "https://whiteboardtec.com/";
     }
 
     return (
