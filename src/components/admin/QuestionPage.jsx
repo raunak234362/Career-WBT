@@ -370,12 +370,12 @@ const QuestionPage = () => {
                   </td>
                   <td className="px-1 py-2 w-[10%] border">
                     <div className="flex gap-2 w-full justify-center mx-auto">
-                      <button
+                      {/* <button
                         onClick={() => toggleShowQuestion(index)}
                         className="modify-btn w-fit bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
                       >
                         Show
-                      </button>
+                      </button> */}
                       <button
                         onClick={() => toggleEditQuestion(index)}
                         className="modify-btn w-fit bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
