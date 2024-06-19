@@ -447,7 +447,7 @@ const QuestionPage = () => {
                               Update
                             </button>
                             <button
-                              onClick={() => fetchQuestionUpdate(item?._id)}
+                              onClick={() =>toggleEditQuestion(item?._id)}
                               className="modify-btn w-1/3 bg-red-300 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
                             >
                               Cancel
