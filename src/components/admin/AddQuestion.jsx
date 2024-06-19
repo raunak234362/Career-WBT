@@ -59,6 +59,18 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
     reader.readAsDataURL(file);
   };
 
+  // const handleFileChange = (e, fileType) => {
+  //   const file = e.target.files[0];
+  //   if (fileType === 'questionImage') {
+  //     setQuestionPreview(URL.createObjectURL(file));
+  //     setFormData((prevState) => ({
+  //       ...prevState,
+  //       questionImage: file
+  //     }));
+  //   }
+  //   }
+  // };
+
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
@@ -90,7 +102,7 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
           body: JSON.stringify(formdata),
           redirect: "follow"
         };
-        // console.log(formattedQuestions);
+        console.log(formdata);
 
         const response = await fetch(`${BASE_URL}/api/v1/admin/question/create`, requestOptions);
         const data = await response.json();

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Watermark } from "@hirohe/react-watermark";
 import { BASE_URL } from "../constants";
 
-export const Question = ({ Question, number, setNext, result, appeared }) => {
+export const Question = ({ Question, number, setNext, result, appeared, questionImage }) => {
   const [answered, setAnswered] = useState(false);
   const [answer, setAnswer] = useState(
     Question.type === "multiple"
@@ -74,7 +74,7 @@ export const Question = ({ Question, number, setNext, result, appeared }) => {
             {Question?.question && (
               <>
                 <div className="text-black font-semibold text-xl flex flex-row justify-between select-none">
-                  <span>{`${number}) ${Question.question}`}</span>
+                  <span>{`${number}) ${Question?.question}`}</span>
                   <span className="text-red-500 font-medium font-mono text-lg">
                     {(Question.difficult === "easy") ? "1" : (Question.difficult === "medium") ? "3" : "5"} marks
                   </span>
@@ -83,7 +83,7 @@ export const Question = ({ Question, number, setNext, result, appeared }) => {
             )}
             {Question?.questionImage && (
               <img
-                src={Question.questionImage}
+                src={`${BASE_URL}/${Question?.questionImage}`}
                 alt="Question"
                 className="mx-10 h-96"
               />
@@ -131,7 +131,7 @@ export const Question = ({ Question, number, setNext, result, appeared }) => {
             )}
             {Question?.type === "multiple" && (
               <>
-                {Question.multipleQuestion.map((option, index) => (
+                {Question?.multipleQuestion?.map((option, index) => (
                   <div
                     key={index}
                     className="flex flex-row items-center ml-0 w-full mx-10"
