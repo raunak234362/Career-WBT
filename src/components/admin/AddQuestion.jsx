@@ -64,11 +64,11 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
     try {
       const formattedQuestions = questions.map(async (question) => {
         const formdata = {
-          question: question.question,
-          type: question.type,
-          set:question.set,
-          difficult:question.difficult,
-          questionImage: question.imageUrl,
+          question: question?.question,
+          type: question?.type,
+          set:question?.set,
+          difficult:question?.difficult,
+          questionImage: question?.imageUrl,
         };
 
         if (question.type === "mcq") {
