@@ -6,6 +6,8 @@ const Result = () => {
   const [formData, setFormData] = useState([]);
   const [contestData, setContestData] = useState();
   const [selected, setSelected] = useState([]);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupRowIndex, setPopupRowIndex] = useState(-1);
 
   const fetchContestData = async () => {
     const myHeaders = new Headers();
@@ -84,6 +86,11 @@ const Result = () => {
     } catch (error) {
       console.error("Fetch error:", error);
     }
+  };
+
+  const toggleStudentDetail = (index) => {
+    setPopupRowIndex(index);
+    setPopupVisible(!popupVisible);
   };
 
   useEffect(() => {
@@ -176,9 +183,13 @@ const Result = () => {
               {formData?.map((item, index) => (
                 <tr key={index} className="bg-gray-100 hover:bg-gray-200">
                   <td className="px-1 py-3 border">{index + 1}</td>
-                  <td className="px-4 py-3 border">
+                  <td
+                    className="px-4 py-3 border"
+                    onClick={() => toggleStudentDetail(index)}
+                  >
                     {item?.userId?.studentId}
                   </td>
+
                   <td className="px-4 py-3 border">{item?.userId?.name}</td>
                   <td className="px-4 py-3 border">{item?.userId?.phone}</td>
                   <td className="px-4 py-3 border">{item?.totalMarks}</td>
@@ -202,13 +213,31 @@ const Result = () => {
                         }}
                       />
                       <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                      <span className={`ms-3 text-lg font-medium ${(selected?.includes(item?.userId?._id)) ? "text-green-500":"text-red-500"}`}>
+                      <span
+                        className={`ms-3 text-lg font-medium ${
+                          selected?.includes(item?.userId?._id)
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
                         {selected?.includes(item?.userId?._id)
                           ? "Selected"
                           : "Not Selected"}
                       </span>
                     </label>
                   </td>
+                  {popupRowIndex === index && (
+                    <div
+                      className={`popup-menu absolute overflow-y-auto inset-0 my-auto h-1/2 mx-auto right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
+                        popupVisible ? "visible" : "hidden"
+                      }`}
+                    >
+                      <div>Name: {item?.userId?.name}</div>
+                      <div>Phone: {item?.userId?.phone}</div>
+                      <div>Email: {item?.userId?.email}</div>
+                      {/* <div>Father Name: {item?.userId?.fname}</div> */}
+                    </div>
+                  )}
                 </tr>
               ))}
             </tbody>

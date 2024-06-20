@@ -187,9 +187,12 @@ const RegisterStudent = () => {
   return (
     <div>
       <div className="flex flex-col border mx-[20%] my-3 rounded-lg p-4 bg-white shadow-lg shadow-green-500/50">
-    
         <div className="flex flex-col">
-          <div className={`flex flex-row ${(profilePreview !== null) ? "justify-between":"justify-center"} flex-wrap items-center mx-10 my-5`}>
+          <div
+            className={`flex flex-row ${
+              profilePreview !== null ? "justify-between" : "justify-center"
+            } flex-wrap items-center mx-10 my-5`}
+          >
             <img
               src={Logo}
               className="w-[20%] items-center ml-2 mb-5"
@@ -261,10 +264,10 @@ const RegisterStudent = () => {
               }
             />
           </div>
-          <div className="mt-3">
-            <label htmlFor="email">Password</label>
+          <div className="mt-3 relative group">
+            <label htmlFor="password">Password</label>
             <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500"
               type="password"
               value={formData?.password}
               required
@@ -274,6 +277,9 @@ const RegisterStudent = () => {
                 setFormData({ ...formData, password: e.target.value })
               }
             />
+            <span className="absolute left-0 text-xs text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Minimum character should be 6
+            </span>
           </div>
           <div className="mt-3">
             <label htmlFor="contact">Student Contact Number</label>
@@ -289,10 +295,9 @@ const RegisterStudent = () => {
                 console.log(e.target.value);
                 console.log(phonePattern.test(e.target.value));
                 if (phonePattern.test(e.target.value)) {
-                  setFormData({...formData, phone: e.target.value });
+                  setFormData({ ...formData, phone: e.target.value });
                 }
-              }
-              }
+              }}
             />
           </div>
           <div className="mt-3">
