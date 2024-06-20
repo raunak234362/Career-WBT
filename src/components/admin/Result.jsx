@@ -235,7 +235,7 @@ const Result = () => {
                       <div>Name: {item?.userId?.name}</div>
                       <div>Phone: {item?.userId?.phone}</div>
                       <div>Email: {item?.userId?.email}</div>
-                      {/* <div>Father Name: {item?.userId?.fname}</div> */}
+                      <div>User ID: {item?.userId?.userId}</div>
                     </div>
                   )}
                 </tr>
