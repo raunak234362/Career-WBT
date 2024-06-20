@@ -160,6 +160,7 @@ const Result = () => {
       </div>
 
       <div className="bg-white shadow-lg p-5 rounded-xl m-5">
+        <div className="flex flex-row justify-around">
         <div className="flex gap-2 w-full p-5">
           <input
             type="text"
@@ -168,13 +169,21 @@ const Result = () => {
             // onChange={(e) => setSearchQuery(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded"
           />
+          <div>
+
           <button
             onClick={() => setCurrentPage(1)} // Reset to first page on search
             className="px-4 py-2 bg-green-500 text-white rounded"
           >
             Search
           </button>
+          </div>
         </div>
+          <button className="px-4 py-2 bg-green-500 text-white rounded">
+            Save
+          </button>
+        </div>
+       
         <div className=" h-[550px] table-container overflow-y-auto w-full p-5 rounded-lg">
           <table className="w-full table-auto border-collapse text-center rounded-xl">
             <thead>
