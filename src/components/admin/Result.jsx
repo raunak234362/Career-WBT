@@ -88,6 +88,14 @@ const Result = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   const toggleStudentDetail = (index) => {
     setPopupRowIndex(index);
     setPopupVisible(!popupVisible);
@@ -184,7 +192,7 @@ const Result = () => {
                 <tr key={index} className="bg-gray-100 hover:bg-gray-200">
                   <td className="px-1 py-3 border">{index + 1}</td>
                   <td
-                    className="px-4 py-3 border"
+                    className="px-4 py-3 border cursor-pointer"
                     onClick={() => toggleStudentDetail(index)}
                   >
                     {item?.userId?.studentId}
@@ -228,14 +236,96 @@ const Result = () => {
                   </td>
                   {popupRowIndex === index && (
                     <div
-                      className={`popup-menu absolute overflow-y-auto inset-0 my-auto h-1/2 mx-auto right-52 w-[500px] bg-white rounded-lg shadow-lg p-2 ${
+                      className={`popup-menu absolute overflow-y-auto inset-0 my-auto h-2/3 mx-auto right-52 max-w-2xl bg-white shadow-green-500 rounded-lg shadow-lg p-2 ${
                         popupVisible ? "visible" : "hidden"
                       }`}
                     >
-                      <div>Name: {item?.userId?.name}</div>
-                      <div>Phone: {item?.userId?.phone}</div>
-                      <div>Email: {item?.userId?.email}</div>
-                      <div>User ID: {item?.userId?.userId}</div>
+                      <div className="bg-white shadow-md my-auto rounded-lg p-4 max-w-xl mx-auto">
+                        {/* <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
+                          <img
+                            src={`${BASE_URL}/api/v1/admin/result/${item?.userId?.profilePic}`}
+                            alt="Profile Pic"
+                            className="w-60 h-auto rounded-lg border-2 border-white shadow-lg object-cover"
+                          />
+                        </div> */}
+                        <div className="mb-4">
+                          <div className="text-2xl font-bold mb-5 underline">
+                            Student Information
+                          </div>
+                          <div className="flex flex-col text-left">
+                            <div className="mb-2">
+                              <span className="font-semibold">Student ID:</span>{" "}
+                              <span>{item?.userId?.userId}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">Name:</span>{" "}
+                              <span>{item?.userId?.name}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">Phone:</span>{" "}
+                              <span>{item?.userId?.phone}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">Email:</span>{" "}
+                              <span>{item?.userId?.email}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">Gender:</span>{" "}
+                              <span>{item?.userId?.gender}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">
+                                Date of Birth:
+                              </span>{" "}
+                              <span>
+                                {item?.userId?.dob
+                                  ? formatDate(item.userId.dob)
+                                  : "N/A"}
+                              </span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">
+                                Father Name:
+                              </span>{" "}
+                              <span>{item?.userId?.fatherName}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">
+                                Mother Name:
+                              </span>{" "}
+                              <span>{item?.userId?.motherName}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">
+                                Current Address:
+                              </span>{" "}
+                              <span className="text-gray-900">
+                                {item?.userId?.currAddress?.streetLine1}{" "}
+                                {item?.userId?.currAddress?.streetLine2?.toUpperCase()}{" "}
+                                {item?.userId?.currAddress?.city?.toUpperCase()}
+                              </span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">
+                                College Name:
+                              </span>{" "}
+                              <span>{item?.userId?.college}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">Branch:</span>{" "}
+                              <span>{item?.userId?.branch}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">Course:</span>{" "}
+                              <span>{item?.userId?.course}</span>
+                            </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">CGPA:</span>{" "}
+                              <span>{item?.userId?.cgpa}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </tr>
