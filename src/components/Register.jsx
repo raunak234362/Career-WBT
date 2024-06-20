@@ -206,10 +206,10 @@ const RegisterStudent = () => {
             )}
           </div>
           <div className="flex flex-row items-center justify-end mx-5">
-            <h1 className="text-2xl font-bold text-gray-800 text-center underline items-center mr-60">
+            <h1 className="text-2xl font-bold text-gray-800 text-center underline items-center w-full pl-28">
               New Student Registration Form
             </h1>
-            <h1 className="text-lg font-bold text-gray-800 text-center items-center">
+            <h1 className="text-lg font-bold text-gray-800 text-center items-center w-fit">
               {date.toLocaleDateString()}
             </h1>
           </div>
