@@ -4,7 +4,14 @@ import { useState } from "react";
 import { Watermark } from "@hirohe/react-watermark";
 import { BASE_URL } from "../constants";
 
-export const Question = ({ Question, number, setNext, result, appeared, questionImage }) => {
+export const Question = ({
+  Question,
+  number,
+  setNext,
+  result,
+  appeared,
+  questionImage,
+}) => {
   const [answered, setAnswered] = useState(false);
   const [answer, setAnswer] = useState(
     Question.type === "multiple"
@@ -69,14 +76,23 @@ export const Question = ({ Question, number, setNext, result, appeared, question
         fontSize={20}
         gutter={10}
       >
-        <div className="h-[80vh] w-full">
+        <div className="w-full border-2 border-green-800 bg-green-200 bg-opacity-60 text-green-700 m-3 rounded-lg font-semibold px-5 mx-auto py-2">
+          Please note: Once you proceed to the next question, you cannot return
+          to the previous one, so please attempt carefully.
+        </div>
+        <div className="h-[78vh] w-full">
           <div className="h-fit w-full">
             {Question?.question && (
               <>
                 <div className="text-black font-semibold text-xl flex flex-row justify-between select-none">
                   <span>{`${number}) ${Question?.question}`}</span>
                   <span className="text-red-500 font-medium font-mono text-lg">
-                    {(Question.difficult === "easy") ? "1" : (Question.difficult === "medium") ? "3" : "5"} marks
+                    {Question.difficult === "easy"
+                      ? "1"
+                      : Question.difficult === "medium"
+                      ? "3"
+                      : "5"}{" "}
+                    marks
                   </span>
                 </div>
               </>

@@ -187,6 +187,7 @@ const RegisterStudent = () => {
   return (
     <div>
       <div className="flex flex-col border mx-[20%] my-3 rounded-lg p-4 bg-white shadow-lg shadow-green-500/50">
+    
         <div className="flex flex-col">
           <div className={`flex flex-row ${(profilePreview !== null) ? "justify-between":"justify-center"} flex-wrap items-center mx-10 my-5`}>
             <img
