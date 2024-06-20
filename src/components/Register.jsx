@@ -283,8 +283,14 @@ const RegisterStudent = () => {
               required
               placeholder="Contact Number"
               id="phone"
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
+              onChange={(e) => {
+                const phonePattern = new RegExp("^[0-9]{10}$");
+                console.log(e.target.value);
+                console.log(phonePattern.test(e.target.value));
+                if (phonePattern.test(e.target.value)) {
+                  setFormData({...formData, phone: e.target.value });
+                }
+              }
               }
             />
           </div>
