@@ -182,14 +182,39 @@ const RegisterStudent = () => {
     }
   };
 
+  const date = new Date();
+
   return (
     <div>
       <div className="flex flex-col border mx-[20%] my-3 rounded-lg p-4 bg-white shadow-lg shadow-green-500/50">
-        <img
-          src={Logo}
-          className="w-[20%] justify-center items-center m-auto mb-5"
-          alt="Logo"
-        />
+        <div className="flex flex-col">
+          <div className={`flex flex-row ${(profilePreview !== null) ? "justify-between":"justify-center"} flex-wrap items-center mx-10 my-5`}>
+            <img
+              src={Logo}
+              className="w-[20%] items-center ml-2 mb-5"
+              alt="Logo"
+            />
+
+            {profilePreview && (
+              <div className="flex justify-end right-0">
+                <img
+                  src={profilePreview}
+                  alt="Profile Preview"
+                  className="w-28 h-28 rounded-full my-auto"
+                />
+              </div>
+            )}
+          </div>
+          <div className="flex flex-row items-center justify-end mx-5">
+            <h1 className="text-2xl font-bold text-gray-800 text-center underline items-center mr-60">
+              New Student Registration Form
+            </h1>
+            <h1 className="text-lg font-bold text-gray-800 text-center items-center">
+              {date.toLocaleDateString()}
+            </h1>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="Name">Student Name</label>
@@ -208,7 +233,7 @@ const RegisterStudent = () => {
             </div>
           </div>
           <div className="mt-3">
-            <label htmlFor="email">Student Email</label>
+            <label htmlFor="email">Personal Email</label>
             <input
               className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
               type="email"
@@ -222,7 +247,7 @@ const RegisterStudent = () => {
             />
           </div>
           <div className="mt-3">
-            <label htmlFor="CollegeID">Student ID</label>
+            <label htmlFor="CollegeID">Student College ID</label>
             <input
               className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
               type="text"
@@ -281,6 +306,7 @@ const RegisterStudent = () => {
             <input
               className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
               type="text"
+              pattern="[A-Za-z]*"
               value={formData?.fatherName}
               required
               placeholder="Father Name"
@@ -328,7 +354,7 @@ const RegisterStudent = () => {
               type="date"
               value={formData?.dob}
               required
-              placeholder="Date of Birth"
+              placeholder="dd-mm-yyyy"
               id="dob"
               onChange={(e) =>
                 setFormData({ ...formData, dob: e.target.value })
@@ -359,15 +385,21 @@ const RegisterStudent = () => {
               onChange={handleCourseChange}
             >
               <option value="">Select Your Course</option>
-              <option value="DIPLOMA">Diploma</option>
-              <option value="BE/BTECH">B.E/B.Tech</option>
-              <option value="MTECH">M.Tech</option>
-              <option value="MBA">Master's of Business Administrations</option>
-              <option value="BCA">Bachelor's of Computer Applications</option>
-              <option value="BBA">
-                Bachelor's of Business Administrations
-              </option>
-              <option value="BCOM">Bachelor's of Commerce</option>
+              <optgroup label="Technical">
+                <option value="DIPLOMA">Diploma</option>
+                <option value="BE/BTECH">B.E/B.Tech</option>
+                <option value="MTECH">M.Tech</option>
+                <option value="BCA">Bachelor's of Computer Applications</option>
+              </optgroup>
+              <optgroup label="Non-Technical">
+                <option value="MBA">
+                  Master's of Business Administrations
+                </option>
+                <option value="BBA">
+                  Bachelor's of Business Administrations
+                </option>
+                <option value="BCOM">Bachelor's of Commerce</option>
+              </optgroup>
             </select>
           </div>
           <div className="mt-3">
@@ -383,7 +415,6 @@ const RegisterStudent = () => {
               }
             />
           </div>
-          
 
           <div className="mt-3">
             <label htmlFor="currentSemester">Select Semester</label>
@@ -483,15 +514,6 @@ const RegisterStudent = () => {
                 }));
               }}
             />
-            {profilePreview && (
-              <div className="mt-2">
-                <img
-                  src={profilePreview}
-                  alt="Profile Preview"
-                  className="w-20 h-20 rounded-full"
-                />
-              </div>
-            )}
           </div>
           <div className="mt-3">
             <label htmlFor="resume">Upload Resume</label>
