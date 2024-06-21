@@ -277,9 +277,9 @@ const RegisterStudent = () => {
                 setFormData({ ...formData, password: e.target.value })
               }
             />
-            <span className="absolute left-0 text-xs text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {/* <span className="absolute left-0 text-xs text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               Minimum character should be 6
-            </span>
+            </span> */}
           </div>
           <div className="mt-3">
             <label htmlFor="contact">Student Contact Number</label>
