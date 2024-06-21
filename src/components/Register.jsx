@@ -291,12 +291,10 @@ const RegisterStudent = () => {
               placeholder="Contact Number"
               id="phone"
               onChange={(e) => {
-                const phonePattern = new RegExp("^[0-9]{10}$");
-                console.log(e.target.value);
-                console.log(phonePattern.test(e.target.value));
-                if (phonePattern.test(e.target.value)) {
-                  setFormData({ ...formData, phone: e.target.value });
-                }
+                
+                setFormData({ ...formData, phone: e.target.value });
+                // if (phonePattern.test(e.target.value)) {
+                // }
               }}
             />
           </div>
@@ -463,14 +461,14 @@ const RegisterStudent = () => {
             />
           </div>
           <div className="mt-3">
-            <label htmlFor="email">Backlog</label>
+            <label htmlFor="email">No. of Backlog</label>
             <input
               className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
               type="number"
               min="0"
               value={formData?.backlog}
               required
-              placeholder="Backlog"
+              placeholder="No. of Backlog"
               id="backlog"
               onChange={(e) =>
                 setFormData({ ...formData, backlog: e.target.value })

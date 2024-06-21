@@ -96,6 +96,35 @@ const Result = () => {
     return `${day}-${month}-${year}`;
   };
 
+  const handleSave = async () =>{
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("access")}`
+    );
+    myHeaders.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      redirect: "follow",
+      body:JSON.stringify({resultList: selected})
+    };
+
+    console.log(selected);
+    
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/admin/result/send`,
+        requestOptions
+      );
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+    
+  }
+
   const toggleStudentDetail = (index) => {
     setPopupRowIndex(index);
     setPopupVisible(!popupVisible);
@@ -179,7 +208,11 @@ const Result = () => {
           </button>
           </div>
         </div>
-          <button className="px-4 py-2 bg-green-500 text-white rounded">
+          <button className="px-4 py-2 bg-green-500 text-white rounded" 
+          onClick={(e)=>{
+            e.preventDefault();
+            handleSave();
+          }}>
             Save
           </button>
         </div>
@@ -214,17 +247,17 @@ const Result = () => {
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={selected?.includes(item?.userId?._id)}
+                        checked={selected?.includes(item?._id)}
                         className="sr-only peer"
                         onChange={(e) => {
                           // Prevent default behavior is not necessary here
                           if (e.target.checked) {
-                            if (!selected?.includes(item?.userId?._id)) {
-                              setSelected([...selected, item?.userId?._id]);
+                            if (!selected?.includes(item?._id)) {
+                              setSelected([...selected, item?._id]);
                             }
                           } else {
                             setSelected(
-                              selected.filter((id) => id !== item?.userId?._id)
+                              selected.filter((id) => id !== item?._id)
                             );
                           }
                         }}
@@ -232,12 +265,12 @@ const Result = () => {
                       <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                       <span
                         className={`ms-3 text-lg font-medium ${
-                          selected?.includes(item?.userId?._id)
+                          selected?.includes(item?._id)
                             ? "text-green-500"
                             : "text-red-500"
                         }`}
                       >
-                        {selected?.includes(item?.userId?._id)
+                        {selected?.includes(item?._id)
                           ? "Selected"
                           : "Not Selected"}
                       </span>
