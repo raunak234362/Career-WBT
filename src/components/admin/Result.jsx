@@ -365,6 +365,10 @@ const Result = () => {
                               <span className="font-semibold">CGPA:</span>{" "}
                               <span>{item?.userId?.cgpa}</span>
                             </div>
+                            <div className="mb-2">
+                              <span className="font-semibold">Resume:</span>{" "}
+                              <a target="_blank" href={`${BASE_URL}/${item?.userId?.resume}`}>Open Resume</a>
+                            </div>
                           </div>
                         </div>
                       </div>
