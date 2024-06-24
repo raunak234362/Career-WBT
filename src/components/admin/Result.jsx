@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../../constants";
+import ReactDOM from 'react-dom';
+import PdfCreator from "./PdfCreator";
 
 const Result = () => {
   const [formData, setFormData] = useState([]);
@@ -189,7 +191,7 @@ const Result = () => {
       </div>
 
       <div className="bg-white shadow-lg p-5 rounded-xl m-5">
-        <div className="flex flex-row justify-around">
+        <div className="flex flex-row justify-around ">
         <div className="flex gap-2 w-full p-5">
           <input
             type="text"
@@ -217,7 +219,7 @@ const Result = () => {
           </button>
         </div>
        
-        <div className=" h-[550px] table-container overflow-y-auto w-full p-5 rounded-lg">
+        <div className="h-fit max-h-80 table-container overflow-y-auto w-full p-5 rounded-lg">
           <table className="w-full table-auto border-collapse text-center rounded-xl">
             <thead>
               <tr className="bg-gray-200">
@@ -227,6 +229,7 @@ const Result = () => {
                 <th className="px-2 py-2">Contact No.</th>
                 <th className="px-2 py-2">Marks</th>
                 <th className="px-1 py-2">Option</th>
+                <th className="px-1 py-2">Answer Sheet</th>
               </tr>
             </thead>
             <tbody>
@@ -278,7 +281,7 @@ const Result = () => {
                   </td>
                   {popupRowIndex === index && (
                     <div
-                      className={`popup-menu absolute overflow-y-auto inset-0 my-auto h-2/3 mx-auto right-52 max-w-2xl bg-white shadow-green-500 rounded-lg shadow-lg p-2 ${
+                      className={`popup-menu absolute overflow-y-auto inset-0 my-auto h-2/3 mx-auto right-52 max-w-2xl bg-white shadow-black/50 rounded-lg shadow-lg p-2 ${
                         popupVisible ? "visible" : "hidden"
                       }`}
                     >
@@ -371,15 +374,33 @@ const Result = () => {
                             </div>
                           </div>
                         </div>
+                        <button onClick={() => toggleStudentDetail(index)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-200">
+                          Close
+                        </button>
                       </div>
                     </div>
                   )}
+                  <td className="px-4 py-3 border">
+                    <button
+                    
+                      onClick={() => {
+                        const pdfRoot = ReactDOM.createRoot(
+                          document.getElementById("pdf")
+                        );
+                        pdfRoot.render(<PdfCreator question={item?.answers} />);
+                      }}
+                      className="px-4 py-2 bg-green-500 text-white rounded"
+                    >
+                      Download
+                    </button> 
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+              <div id="pdf" className="flex flex-wrap flex-row justify-center"></div>
     </div>
   );
 };
