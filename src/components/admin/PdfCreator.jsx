@@ -22,16 +22,25 @@ const styles = StyleSheet.create({
     padding: 10,
     flexGrow: 1,
   },
-  question: {
-    fontSize: "bold",
+  img: {
+    width: '250px'
   }
 });
 
-function PdfCreator({question}) {
+function PdfCreator({question, username, marks}) {
   return (
     <PDFViewer width={`1200px`} height={`900px`}>
     <Document style={styles.doc}>
     <Page size="A4" style={styles.page}>
+
+        <View style={styles.section}>
+            <View>
+                <Text>Student: {username}</Text>
+            </View>
+            <View>
+                <Text>Marks: {marks}/60</Text>
+            </View>
+        </View>
       {
         question?.map((item, index) => (
           <View key={item?._id} style={styles.section}>
@@ -63,11 +72,26 @@ function PdfCreator({question}) {
             {
                 (item?.questionId?.questionImage) && (
                     <View>
-                    <Image src={`${BASE_URL}/${item?.questionId?.questionImage}`} /> 
+                    <Image src={`${BASE_URL}/${item?.questionId?.questionImage}`} style={styles.img}/> 
                     </View>
                 )
             }
-
+            <View>
+                {   
+                    (item?.questionId?.answer) && (
+                        <Text>Correct Answer: {item?.questionId?.answer}</Text>
+                    )
+                }
+                {
+                    (item?.questionId?.multipleAnswer?.length > 0) && (
+                        item?.questionId?.multipleAnswer?.map((answer, index) => (
+                            <View key={index}>
+                            <Text>Sub Answer {index+1}: {answer}</Text>
+                            </View>
+                        ))
+                    )
+                }
+            </View>
             <View>
             <Text >Answer By Student</Text>
             </View>

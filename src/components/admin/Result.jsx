@@ -387,7 +387,7 @@ const Result = () => {
                         const pdfRoot = ReactDOM.createRoot(
                           document.getElementById("pdf")
                         );
-                        pdfRoot.render(<PdfCreator question={item?.answers} />);
+                        pdfRoot.render(<PdfCreator question={item?.answers} username={item?.userId?.name} marks={item?.totalMarks} />);
                       }}
                       className="px-4 py-2 bg-green-500 text-white rounded"
                     >
