@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../constants";
+import { BASE_URL, IMG_URL } from "../../constants";
 import ReactDOM from 'react-dom';
 import PdfCreator from "./PdfCreator";
 
@@ -385,7 +385,7 @@ const Result = () => {
                             </div>
                             <div className="mb-2">
                               <span className="font-semibold">Resume:</span>{" "}
-                              <a target="_blank" href={`${BASE_URL}/${item?.userId?.resume}`}>Open Resume</a>
+                              <a target="_blank" href={`${IMG_URL}/${item?.userId?.resume}`}>Open Resume</a>
                             </div>
                           </div>
                         </div>

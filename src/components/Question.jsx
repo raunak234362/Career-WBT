@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Watermark } from "@hirohe/react-watermark";
-import { BASE_URL } from "../constants";
+import { BASE_URL, IMG_URL } from "../constants";
 
 export const Question = ({
   Question,
@@ -99,7 +99,7 @@ export const Question = ({
             )}
             {Question?.questionImage && (
               <img
-                src={`${BASE_URL}/${Question?.questionImage}`}
+                src={`${IMG_URL}/${Question?.questionImage}`}
                 alt="Question"
                 className="mx-10 h-96"
               />

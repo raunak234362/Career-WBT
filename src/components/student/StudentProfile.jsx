@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Assessment } from "../../Assessment";
-import { BASE_URL } from "../../constants";
+import { BASE_URL, IMG_URL } from "../../constants";
 
 const StudentProfile = () => {
   const [formData, setFormData] = useState("");
@@ -311,7 +311,7 @@ const StudentProfile = () => {
 
           <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
             <img
-              src={`${BASE_URL}/${formData?.profilePic}`}
+              src={`${IMG_URL}/${formData?.profilePic}`}
               alt="Profile Pic"
               className="w-60 h-auto rounded-lg border-2 border-white shadow-lg object-cover"
             />

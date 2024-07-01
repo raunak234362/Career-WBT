@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
-import { BASE_URL } from '../../constants';
+import { IMG_URL } from '../../constants';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -72,7 +72,7 @@ function PdfCreator({question, username, marks}) {
             {
                 (item?.questionId?.questionImage) && (
                     <View>
-                    <Image src={`${BASE_URL}/${item?.questionId?.questionImage}`} style={styles.img}/> 
+                    <Image src={`${IMG_URL}/${item?.questionId?.questionImage}`} style={styles.img}/> 
                     </View>
                 )
             }

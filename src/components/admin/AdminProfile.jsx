@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BASE_URL } from '../../constants'
+import { BASE_URL, IMG_URL } from '../../constants'
 
 const AdminProfile = () => {
   const [adminData, setAdminData] = useState({})
@@ -82,7 +82,7 @@ const AdminProfile = () => {
         <div className='div'>
           <div className='flex justify-center mb-6'>
             <img
-              src={`${BASE_URL}/${adminData.profilePic}`}
+              src={`${IMG_URL}/${adminData.profilePic}`}
               alt='Profile Pic'
               className='w-32 h-32 rounded-full object-cover'
             />
