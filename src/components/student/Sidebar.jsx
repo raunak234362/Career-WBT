@@ -6,6 +6,9 @@ import { BiHome } from "react-icons/bi"
 
 import { MdLogout } from "react-icons/md"
 import { useState } from "react"
+import { TbEyeStar } from "react-icons/tb"
+import { PiExam } from "react-icons/pi"
+import { BsFileEarmarkSpreadsheet } from "react-icons/bs"
 
 
 
@@ -51,7 +54,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
                 : "hover:bg-green-700"
               }`}
           >
-            <BiHome className="text-xl" />
+            <PiExam className="text-xl" />
             <span>Test</span>
           </Link>
           <Link
@@ -62,7 +65,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
                 : "hover:bg-green-700"
               }`}
           >
-            <BiHome className="text-xl" />
+            <BsFileEarmarkSpreadsheet className="text-xl" />
             <span>Result</span>
           </Link>
 

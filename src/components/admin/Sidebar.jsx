@@ -4,8 +4,11 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
 import { BiHome } from "react-icons/bi"
 
-import { MdLogout } from "react-icons/md"
+import { MdContentPaste, MdLogout } from "react-icons/md"
 import { useState } from "react"
+import { BsFileEarmarkSpreadsheet, BsQuestion, BsQuestionCircleFill } from "react-icons/bs"
+import { FaRegCaretSquareLeft } from "react-icons/fa"
+import { FaMarsStroke } from "react-icons/fa6"
 
 
 
@@ -49,9 +52,20 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
                 : "hover:bg-green-700"
               }`}
           >
-            <BiHome className="text-xl" />
+            <MdContentPaste className="text-xl" />
             <span>Contest</span>
           </Link>
+          {/* <Link
+            to="/admin/csv"
+            onClick={() => handleNavLinkClick("csv")}
+            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "/admin/csv"
+                ? "bg-green-500 text-white"
+                : "hover:bg-green-700"
+              }`}
+          >
+            <BiHome className="text-xl" />
+            <span>CSV</span>
+          </Link> */}
           <Link
             to="/admin/question"
             onClick={() => handleNavLinkClick("question")}
@@ -60,7 +74,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
                 : "hover:bg-green-700"
               }`}
           >
-            <BiHome className="text-xl" />
+            <BsQuestionCircleFill className="text-xl" />
             <span>Question</span>
           </Link>
           <Link
@@ -71,7 +85,7 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
                 : "hover:bg-green-700"
               }`}
           >
-            <BiHome className="text-xl" />
+            <BsFileEarmarkSpreadsheet className="text-xl" />
             <span>Result</span>
           </Link>
 

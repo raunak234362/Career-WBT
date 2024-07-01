@@ -279,6 +279,21 @@ const Result = () => {
                       </span>
                     </label>
                   </td>
+                  
+                  <td className="px-4 py-3 border">
+                    <button
+                    
+                      onClick={() => {
+                        const pdfRoot = ReactDOM.createRoot(
+                          document.getElementById("pdf")
+                        );
+                        pdfRoot.render(<PdfCreator question={item?.answers} username={item?.userId?.name} marks={item?.totalMarks} />);
+                      }}
+                      className="px-4 py-2 bg-green-500 text-white rounded"
+                    >
+                      Download
+                    </button> 
+                  </td>
                   {popupRowIndex === index && (
                     <div
                       className={`popup-menu absolute overflow-y-auto inset-0 my-auto h-2/3 mx-auto right-52 max-w-2xl bg-white shadow-black/50 rounded-lg shadow-lg p-2 ${
@@ -380,20 +395,6 @@ const Result = () => {
                       </div>
                     </div>
                   )}
-                  <td className="px-4 py-3 border">
-                    <button
-                    
-                      onClick={() => {
-                        const pdfRoot = ReactDOM.createRoot(
-                          document.getElementById("pdf")
-                        );
-                        pdfRoot.render(<PdfCreator question={item?.answers} username={item?.userId?.name} marks={item?.totalMarks} />);
-                      }}
-                      className="px-4 py-2 bg-green-500 text-white rounded"
-                    >
-                      Download
-                    </button> 
-                  </td>
                 </tr>
               ))}
             </tbody>
