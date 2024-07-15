@@ -38,8 +38,8 @@ const AddContest = ({ toggleForm }) => {
       
       const data = await response.json();
       console.log(data);
-        setContestDetails(data?.data)
-       toggleForm();
+      setContestDetails(data?.data)
+      toggleForm();
       
     } catch (error) {
       console.error(error);
