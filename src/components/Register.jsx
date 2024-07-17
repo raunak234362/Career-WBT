@@ -316,7 +316,7 @@ const RegisterStudent = () => {
             <input
               className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
               type="text"
-              pattern="[A-Za-z]*"
+              // pattern="[A-Za-z]*"
               value={formData?.fatherName}
               required
               placeholder="Father Name"
