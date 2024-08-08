@@ -10,7 +10,9 @@ const styles = StyleSheet.create({
         fontSize: 11,
         lineHeight: 1.5,
         letterSpacing: 1.1,
-        width: '900px'
+        width: '900px',
+        marginVertical: '12px',
+        marginHorizontal: '7px'
     },
   page: {
     flexDirection: 'col',
@@ -22,10 +24,32 @@ const styles = StyleSheet.create({
     padding: 10,
     flexGrow: 1,
   },
+  header: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+    fontWeight: 'bold',
+  },
+  questHeader:{
+    fontSize: 14,
+    textAlign: 'left',
+    // fontWeight: 'extrabold',
+    fontWeight: "4",
+    justifyContent:'space-between'
+  },
   img: {
     width: '250px'
+  },
+  color: {
+    color: "red"
   }
 });
+
+const mark = {
+    "easy":1,
+    "medium":3,
+    "hard":5
+}
 
 function PdfCreator({question, username, marks}) {
   return (
@@ -33,7 +57,7 @@ function PdfCreator({question, username, marks}) {
     <Document style={styles.doc}>
     <Page size="A4" style={styles.page}>
 
-        <View style={styles.section}>
+        <View style={styles.header}>
             <View>
                 <Text>Student: {username}</Text>
             </View>
@@ -44,11 +68,12 @@ function PdfCreator({question, username, marks}) {
       {
         question?.map((item, index) => (
           <View key={item?._id} style={styles.section}>
-            <View>
-                <Text>Question{index+1}</Text>
+            <View style={styles.questHeader}>
+                <Text>Question{index+1} <Text style={styles.color}>[{mark[item?.questionId?.difficult]} Marks]</Text></Text>
+                <Text>{item?.question}</Text>
             </View>
             <View>
-            <Text>{item?.questionId?.question}</Text>
+            <Text >{item?.questionId?.question}</Text>
             </View>
             {
                 (item?.questionId?.mcqOptions?.length > 0) && (
