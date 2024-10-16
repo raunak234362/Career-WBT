@@ -5,135 +5,168 @@ import { IMG_URL } from '../../constants';
 
 // Create styles
 const styles = StyleSheet.create({
-    doc: {
-        fontFamily: 'Helvetica',
-        fontSize: 11,
-        lineHeight: 1.5,
-        letterSpacing: 1.1,
-        width: '900px',
-        marginVertical: '12px',
-        marginHorizontal: '7px'
-    },
-  page: {
-    flexDirection: 'col',
-    backgroundColor: '#E4E4E4',
-    fontSize: '10px'
+  doc: {
+    fontFamily: 'Helvetica',
+    fontSize: 10,
+    lineHeight: 1.2,
+    letterSpacing: 1.1,
+    width: '900px',
+    marginVertical: '20px',
+    marginHorizontal: '12px',
   },
-  section: {
-    margin: 10,
-    padding: 10,
-    // flexGrow: 1,
+  page: {
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+    fontSize: 10,
   },
   header: {
-    fontSize: 20,
+    fontSize: 24,
     textAlign: 'center',
-    margin: 10,
+    marginBottom: 20,
+    color: '#2c3e50',
     fontWeight: 'bold',
   },
-  questHeader:{
+  subHeader: {
     fontSize: 14,
-    textAlign: 'left',
-    // fontWeight: 'extrabold',
-    fontWeight: "4",
-    justifyContent:'space-between'
+    textAlign: 'center',
+    marginBottom: 10,
+    color: '#34495e',
+  },
+  section: {
+    marginVertical: 10,
+    padding: 15,
+    backgroundColor: '#ffffff',
+    borderRadius: 5,
+    borderColor: '#dcdde1',
+    borderWidth: 1,
+  },
+  questHeader: {
+    fontSize: 14,
+    marginBottom: 8,
+    color: '#2980b9',
+    fontWeight: 'bold',
+  },
+  questionText: {
+    fontSize: 12,
+    marginBottom: 5,
+    color: '#2c3e50',
+  },
+  answerText: {
+    fontSize: 12,
+    color: '#27ae60',
+    marginBottom: 5,
+  },
+  studentAnswerText: {
+    fontSize: 12,
+    color: '#c0392b',
+    marginBottom: 5,
   },
   img: {
-    width: '250px'
+    width: '100%',
+    maxWidth: '250px',
+    marginVertical: 10,
   },
   color: {
-    color: "red"
-  }
+    color: 'red',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
 });
 
 const mark = {
-    "easy":1,
-    "medium":3,
-    "hard":5
-}
+  easy: 1,
+  medium: 3,
+  hard: 5,
+};
 
-function PdfCreator({question, username, marks}) {
+// Helper function to chunk questions
+const chunkQuestions = (questions, chunkSize) => {
+  const chunks = [];
+  for (let i = 0; i < questions.length; i += chunkSize) {
+    chunks.push(questions.slice(i, i + chunkSize));
+  }
+  return chunks;
+};
+
+function PdfCreator({ question, username, marks }) {
+  const questionChunks = chunkQuestions(question, 3); // Limit to 3 questions per page
+
   return (
-    <PDFViewer width={`1200px`} height={`900px`}>
-    <Document style={styles.doc}>
-    <Page size="A4" style={styles.page}>
-
-        <View style={styles.header}>
-            <View>
-                <Text>Student: {username}</Text>
-            </View>
-            <View>
-                <Text>Marks: {marks}/60</Text>
-            </View>
-        </View>
-      {
-        question?.map((item, index) => (
-          <View key={item?._id} style={styles.section}>
-            <View style={styles.questHeader}>
-                <Text>Question{index+1} <Text style={styles.color}>[{mark[item?.questionId?.difficult]} Marks]</Text></Text>
-                <Text>{item?.question}</Text>
-            </View>
-            <View>
-            <Text >{item?.questionId?.question}</Text>
-            </View>
-            {
-                (item?.questionId?.mcqOptions?.length > 0) && (
-                    item?.questionId?.mcqOptions?.map((option, index) => (
-                        <View key={index}>
-                        <Text>MCQ Option {index+1}: {option}</Text>
-                    </View>
-                    ))
-                )
-            }
-            {
-                (item?.questionId?.multipleQuestion.length > 0) && (
-                    item?.questionId?.multipleQuestion?.map((question, index) => (
-                        <View key={index}>
-                        <Text>Sub Question {index+1}: {question}</Text>
-                    </View>
-                ))
-            )
-            }
-
-            {
-                (item?.questionId?.questionImage) && (
-                    <View>
-                    <Image src={`${IMG_URL}/${item?.questionId?.questionImage}`} style={styles.img}/> 
-                    </View>
-                )
-            }
-            <View>
-                {   
-                    (item?.questionId?.answer) && (
-                        <Text>Correct Answer: {item?.questionId?.answer}</Text>
-                    )
-                }
-                {
-                    (item?.questionId?.multipleAnswer?.length > 0) && (
-                        item?.questionId?.multipleAnswer?.map((answer, index) => (
-                            <View key={index}>
-                            <Text>Sub Answer {index+1}: {answer}</Text>
-                            </View>
-                        ))
-                    )
-                }
-            </View>
-            <View>
-            <Text >Answer By Student</Text>
-            </View>
-
-            <Text>{item?.answer?.map((answer, index) => (
-                <View key={index}>
-                    <Text >{`${index+1}:${answer}\n`}</Text>
-                    <Text><br/></Text>
+    <PDFViewer width="1000px" height="900px">
+      <Document style={styles.doc}>
+        {questionChunks.map((chunk, pageIndex) => (
+          <Page key={pageIndex} size="A4" style={styles.page}>
+            {pageIndex === 0 && (
+              <>
+                <View style={styles.header}>
+                  <Text>Student: {username}</Text>
                 </View>
-            ))}</Text>
-          </View>
-        ))
-      }
-    </Page>
-  </Document>
-  </PDFViewer>
-  )
+                <View style={styles.subHeader}>
+                  <Text>Marks: {marks}/60</Text>
+                </View>
+              </>
+            )}
+            {chunk.map((item, index) => (
+              <View key={item?._id} style={styles.section}>
+                <View style={styles.questHeader}>
+                  <Text>
+                    Question {pageIndex * 3 + index + 1} <Text style={styles.color}>[{mark[item?.questionId?.difficult]} Marks]</Text>
+                  </Text>
+                </View>
+                <Text style={styles.questionText}>{item?.questionId?.question}</Text>
+                {item?.questionId?.mcqOptions?.length > 0 && (
+                  <View>
+                    {item?.questionId?.mcqOptions?.map((option, index) => (
+                      <Text key={index} style={styles.questionText}>
+                        MCQ Option {index + 1}: {option}
+                      </Text>
+                    ))}
+                  </View>
+                )}
+                {item?.questionId?.multipleQuestion?.length > 0 && (
+                  <View>
+                    {item?.questionId?.multipleQuestion?.map((question, index) => (
+                      <Text key={index} style={styles.questionText}>
+                        Sub Question {index + 1}: {question}
+                      </Text>
+                    ))}
+                  </View>
+                )}
+                {item?.questionId?.questionImage && (
+                  <Image src={`${IMG_URL}/${item?.questionId?.questionImage}`} style={styles.img} />
+                )}
+                <View>
+                  {item?.questionId?.answer && (
+                    <Text style={styles.answerText}>
+                      Correct Answer: {item?.questionId?.answer}
+                    </Text>
+                  )}
+                  {item?.questionId?.multipleAnswer?.length > 0 && (
+                    <View>
+                      {item?.questionId?.multipleAnswer?.map((answer, index) => (
+                        <Text key={index} style={styles.answerText}>
+                          Sub Answer {index + 1}: {answer}
+                        </Text>
+                      ))}
+                    </View>
+                  )}
+                </View>
+                <View>
+                  <Text style={styles.bold}>Answer By Student:</Text>
+                  {item?.answer?.map((answer, index) => (
+                    <Text key={index} style={styles.studentAnswerText}>
+                      {`${index + 1}: ${answer}`}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+            ))}
+          </Page>
+        ))}
+      </Document>
+    </PDFViewer>
+  );
 }
 
-export default PdfCreator
+export default PdfCreator;
