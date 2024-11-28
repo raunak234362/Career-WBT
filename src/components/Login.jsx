@@ -63,28 +63,7 @@ const Login = () => {
       <div className="flex flex-col justify-center md:w-1/2 p-10">
         <h1 className="text-3xl font-bold text-center mb-8">Login</h1>
         <form onSubmit={handleLogin}>
-          <div className="role-selection mb-6">
-            <label className="mr-4">
-              <input
-                type="radio"
-                value="admin"
-                checked={role === "admin"}
-                onChange={() => setRole("admin")}
-                className="mr-2"
-              />
-              Admin
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="student"
-                checked={role === "student"}
-                onChange={() => setRole("student")}
-                className="mr-2"
-              />
-              Student
-            </label>
-          </div>
+          
           <div className="mb-6">
             <div className="flex items-center border-b border-gray-300 py-2">
               <FaUser className="text-gray-500 mr-3" />
