@@ -186,7 +186,7 @@ const RegisterStudent = () => {
 
   return (
     <div>
-      <div className="flex flex-col border mx-[20%] my-3 rounded-lg p-4 bg-white shadow-lg shadow-green-500/50">
+      <div className="flex flex-col border 2xl:mx-[20%] lg:mx-[10%] my-3 rounded-lg p-4 bg-white shadow-lg shadow-green-500/50 md:mx-[10%]">
         <div className="flex flex-col">
           <div
             className={`flex flex-row ${
@@ -195,582 +195,667 @@ const RegisterStudent = () => {
           >
             <img
               src={Logo}
-              className="w-[20%] items-center ml-2 mb-5"
+              className="w-[20%] items-center ml-2 mb-5 lg:w-[30%] xl:w-[30%] md:w-[30%] sm:w-[30%]"
               alt="Logo"
             />
 
             {profilePreview && (
-              <div className="flex justify-end right-0">
+              <div className="right-0 flex justify-end">
                 <img
                   src={profilePreview}
                   alt="Profile Preview"
-                  className="w-28 h-28 rounded-full my-auto"
+                  className="my-auto rounded-full w-28 h-28"
                 />
               </div>
             )}
           </div>
           <div className="flex flex-row items-center justify-end mx-5">
-            <h1 className="text-2xl font-bold text-gray-800 text-center underline items-center w-full pl-28">
+            <h1 className="w-full font-bold text-center text-gray-800 2xl:items-center 2xl:text-2xl pl-28 lg:text-2xl lg:pl-14 md:text-xl md:pl-14 sm:text-xl">
               New Student Registration Form
             </h1>
-            <h1 className="text-lg font-bold text-gray-800 text-center items-center w-fit">
+            <h1 className="items-center px-1 py-1 font-bold text-center text-gray-800 rounded-md 2xl:text-md xl:text-md lg:text-sm md:text-md sm:text-xs bg-green-50 w-fit">
               {date.toLocaleDateString()}
             </h1>
           </div>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="Name">Student Name</label>
-            <div className="flex flex-row w-full gap-3 mt-2">
+          <div
+            id="studentDetails"
+            className="flex-row p-5 m-4 rounded-lg bg-green-50"
+          >
+            <p className="font-bold text-green-800 2xl:text-xl xl:text-xl lg:text-xl md:text-lg sm:text-lg">
+              Student Details
+            </p>
+            <div>
+              <label htmlFor="Name" className="text-sm">
+                Student Name
+              </label>
+              <div className="flex flex-row w-full gap-3 mt-2 2xl:text-md md:text-sm">
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.name}
+                  required
+                  placeholder="Name"
+                  id="name"
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div className="mt-3">
+              <label htmlFor="email" className="text-sm">
+                Personal Email
+              </label>
               <input
-                className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-                type="text"
-                value={formData?.name}
+                className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                type="email"
+                value={formData?.email}
                 required
-                placeholder="Name"
-                id="name"
+                placeholder="Email"
+                id="email"
                 onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
               />
             </div>
-          </div>
-          <div className="mt-3">
-            <label htmlFor="email">Personal Email</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="email"
-              value={formData?.email}
-              required
-              placeholder="Email"
-              id="email"
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="CollegeID">Student College ID</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              value={formData?.studentId}
-              required
-              placeholder="Student ID"
-              id="studentId"
-              onChange={(e) =>
-                setFormData({ ...formData, studentId: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3 relative group">
-            <label htmlFor="password">Password</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500"
-              type="password"
-              value={formData?.password}
-              required
-              placeholder="Password"
-              id="password"
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-            />
-            {/* <span className="absolute left-0 text-xs text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="mt-3 text-sm">
+              <label htmlFor="CollegeID">Student College ID</label>
+              <input
+                className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                type="text"
+                value={formData?.studentId}
+                required
+                placeholder="Student ID"
+                id="studentId"
+                onChange={(e) =>
+                  setFormData({ ...formData, studentId: e.target.value })
+                }
+              />
+            </div>
+            {/* Contacts */}
+            <div className="flex flex-col gap-6 sm:flex-row sm:gap-5">
+              <div className="mt-3 w-full sm:w-[560px]">
+                <label htmlFor="contact" className="text-sm">
+                  Student Contact Number
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.phone}
+                  required
+                  placeholder="Contact Number"
+                  id="phone"
+                  onChange={(e) => {
+                    setFormData({ ...formData, phone: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="mt-3 w-full sm:w-[560px]">
+                <label htmlFor="contact" className="text-sm">
+                  Alternate Contact Number
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.altPhone}
+                  placeholder="Alternative Contact Number"
+                  id="altphone"
+                  onChange={(e) =>
+                    setFormData({ ...formData, altPhone: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            {/*gender, dob*/}
+            <div className="flex flex-col gap-6 sm:flex-row sm:gap-5">
+              <div className="mt-3 w-full sm:w-[560px]">
+                <label htmlFor="contact" className="text-sm">
+                  Gender
+                </label>
+                <select
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  value={formData?.gender}
+                  required
+                  id="gender"
+                  onChange={(e) =>
+                    setFormData({ ...formData, gender: e.target.value })
+                  }
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div className="mt-3 w-full sm:w-[560px]">
+                <label htmlFor="contact" className="text-sm">
+                  Date of Birth
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="date"
+                  value={formData?.dob}
+                  required
+                  placeholder="dd-mm-yyyy"
+                  id="dob"
+                  onChange={(e) =>
+                    setFormData({ ...formData, dob: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="relative mt-3 group">
+              <label htmlFor="password" className="text-sm">
+                Password
+              </label>
+              <input
+                className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                type="password"
+                value={formData?.password}
+                required
+                placeholder="Password"
+                id="password"
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+              />
+              {/* <span className="absolute left-0 p-2 text-xs text-white transition-opacity duration-300 rounded-lg opacity-0 group-hover:opacity-100">
               Minimum character should be 6
             </span> */}
+            </div>
           </div>
-          <div className="mt-3">
-            <label htmlFor="contact">Student Contact Number</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              value={formData?.phone}
-              required
-              placeholder="Contact Number"
-              id="phone"
-              onChange={(e) => {
-                
-                setFormData({ ...formData, phone: e.target.value });
-                // if (phonePattern.test(e.target.value)) {
-                // }
-              }}
-            />
+          {/*personal information*/}
+          <div className="flex flex-col p-5 m-4 rounded-lg bg-green-50">
+            <p className="font-bold text-green-800 2xl:text-xl xl:text-xl lg:text-xl md:text-lg sm:text-lg">
+              Personal Information
+            </p>
+            <div className="flex flex-col gap-6 sm:flex-row sm:gap-5">
+              <div className="mt-3 w-full sm:w-[560px]">
+                <label htmlFor="contact" className="text-sm">
+                  Father Name
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.fatherName}
+                  required
+                  placeholder="Father Name"
+                  id="fatherName"
+                  onChange={(e) =>
+                    setFormData({ ...formData, fatherName: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mt-3 w-full sm:w-[560px]">
+                <label htmlFor="contact" className="text-sm">
+                  Mother Name
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.motherName}
+                  required
+                  placeholder="Mother Name"
+                  id="motherName"
+                  onChange={(e) =>
+                    setFormData({ ...formData, motherName: e.target.value })
+                  }
+                />
+              </div>
+            </div>
           </div>
-          <div className="mt-3">
-            <label htmlFor="contact">Alternate Contact Number</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              value={formData?.altPhone}
-              placeholder="Alternative Contact Number"
-              id="altphone"
-              onChange={(e) =>
-                setFormData({ ...formData, altPhone: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="contact">Father Name</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              // pattern="[A-Za-z]*"
-              value={formData?.fatherName}
-              required
-              placeholder="Father Name"
-              id="fatherName"
-              onChange={(e) =>
-                setFormData({ ...formData, fatherName: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="contact">Mother Name</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              value={formData?.motherName}
-              required
-              placeholder="Mother Name"
-              id="motherName"
-              onChange={(e) =>
-                setFormData({ ...formData, motherName: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="contact">Gender</label>
-            <select
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              value={formData?.gender}
-              required
-              id="gender"
-              onChange={(e) =>
-                setFormData({ ...formData, gender: e.target.value })
-              }
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div className="mt-3">
-            <label htmlFor="contact">Date of Birth</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="date"
-              value={formData?.dob}
-              required
-              placeholder="dd-mm-yyyy"
-              id="dob"
-              onChange={(e) =>
-                setFormData({ ...formData, dob: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="email">College Name</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              value={formData?.college}
-              required
-              placeholder="College Name"
-              id="college"
-              onChange={(e) =>
-                setFormData({ ...formData, college: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="course">Course</label>
-            <select
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              value={formData.course}
-              required
-              id="course"
-              onChange={handleCourseChange}
-            >
-              <option value="">Select Your Course</option>
-              <optgroup label="Technical">
-                <option value="DIPLOMA">Diploma</option>
-                <option value="BE/BTECH">B.E/B.Tech</option>
-                <option value="MTECH">M.Tech</option>
-                <option value="BCA">Bachelor's of Computer Applications</option>
-              </optgroup>
-              <optgroup label="Non-Technical">
-                <option value="MBA">
-                  Master's of Business Administrations
-                </option>
-                <option value="BBA">
-                  Bachelor's of Business Administrations
-                </option>
-                <option value="BCOM">Bachelor's of Commerce</option>
-              </optgroup>
-            </select>
-          </div>
-          <div className="mt-3">
-            <label htmlFor="email">Branch</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              value={formData?.branch}
-              placeholder="Branch"
-              id="branch"
-              onChange={(e) =>
-                setFormData({ ...formData, branch: e.target.value })
-              }
-            />
+          {/*college details*/}
+          <div className="flex-row p-5 m-4 rounded-lg p- bg-green-50">
+            <p className="font-bold text-green-800 2xl:text-xl xl:text-xl lg:text-xl md:text-lg sm:text-lg">
+              College Details
+            </p>
+            <div className="mt-3">
+              <label htmlFor="email" className="text-sm">
+                College Name
+              </label>
+              <input
+                className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                type="text"
+                value={formData?.college}
+                required
+                placeholder="College Name"
+                id="college"
+                onChange={(e) =>
+                  setFormData({ ...formData, college: e.target.value })
+                }
+              />
+            </div>
+
+            {/*cgpa,backlogs, year of passing*/}
+            <div className="flex flex-col gap-6 sm:flex-row sm:gap-5">
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="course" className="text-sm">
+                  Course
+                </label>
+                <select
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  value={formData.course}
+                  required
+                  id="course"
+                  onChange={handleCourseChange}
+                >
+                  <option value="">Select Your Course</option>
+                  <optgroup label="Technical">
+                    <option value="DIPLOMA">Diploma</option>
+                    <option value="BE/BTECH">B.E/B.Tech</option>
+                    <option value="MTECH">M.Tech</option>
+                    <option value="BCA">
+                      Bachelor's of Computer Applications
+                    </option>
+                  </optgroup>
+                  <optgroup label="Non-Technical">
+                    <option value="MBA">
+                      Master's of Business Administrations
+                    </option>
+                    <option value="BBA">
+                      Bachelor's of Business Administrations
+                    </option>
+                    <option value="BCOM">Bachelor's of Commerce</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="branch" className="text-sm">
+                  Branch
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.branch}
+                  placeholder="Branch"
+                  id="branch"
+                  onChange={(e) =>
+                    setFormData({ ...formData, branch: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="currentSemester" className="text-sm">
+                  Select Semester
+                </label>
+                <select
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  value={formData.currentSemester}
+                  required
+                  id="currentSemester"
+                  onChange={handleSemesterChange}
+                >
+                  <option value="">Current Semester</option>
+                  {getSemesters().map((semester) => (
+                    <option key={semester} value={semester}>
+                      {semester}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-6 sm:flex-row sm:gap-5">
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="cgpa" className="text-sm">
+                  CGPA
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="10"
+                  value={formData?.cgpa}
+                  required
+                  placeholder="CGPA"
+                  id="cgpa"
+                  onChange={(e) =>
+                    setFormData({ ...formData, cgpa: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="backlog" className="text-sm">
+                  No. of Backlog
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="number"
+                  min="0"
+                  value={formData?.backlog}
+                  required
+                  placeholder="No. of Backlog"
+                  id="backlog"
+                  onChange={(e) =>
+                    setFormData({ ...formData, backlog: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="passingYear" className="text-sm">
+                  Year of Passing
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="number"
+                  min="2000"
+                  max="2025"
+                  value={formData?.passingYear}
+                  required
+                  placeholder="Passing Year"
+                  id="passingYear"
+                  onChange={(e) =>
+                    setFormData({ ...formData, passingYear: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            {/*files*/}
+            <div className="flex flex-col gap-6 sm:flex-row sm:gap-5">
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="marksheet" className="text-sm">
+                  Upload Marksheet
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="file"
+                  id="marksheet"
+                  required
+                  accept=".pdf,.doc,.docx"
+                  onChange={async (e) => {
+                    handleFileChange(e, "marksheet");
+                    await setFormData((prevState) => ({
+                      ...prevState,
+                      marksheet: e?.target?.files[0],
+                    }));
+                  }}
+                />
+              </div>
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="profile" className="text-sm">
+                  Upload Profile Image
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="file"
+                  id="profile"
+                  required
+                  accept="image/*"
+                  onChange={async (e) => {
+                    handleFileChange(e, "profile");
+                    await setFormData((prevState) => ({
+                      ...prevState,
+                      profile: e?.target?.files[0],
+                    }));
+                  }}
+                />
+              </div>
+              <div className="mt-3 w-full sm:w-[375px]">
+                <label htmlFor="resume" className="text-sm">
+                  Upload Resume
+                </label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="file"
+                  id="resume"
+                  required
+                  accept=".pdf,.doc,.docx"
+                  onChange={async (e) => {
+                    handleFileChange(e, "resume");
+                    await setFormData((prevState) => ({
+                      ...prevState,
+                      resume: e?.target?.files[0],
+                    }));
+                  }}
+                />
+                {resumeName && (
+                  <div className="mt-2">
+                    <p>Resume: {resumeName}</p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
-          <div className="mt-3">
-            <label htmlFor="currentSemester">Select Semester</label>
-            <select
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              value={formData.currentSemester}
-              required
-              id="currentSemester"
-              onChange={handleSemesterChange}
-            >
-              <option value="">Current Semester</option>
-              {getSemesters().map((semester) => (
-                <option key={semester} value={semester}>
-                  {semester}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mt-3">
-            <label htmlFor="email">CGPA</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="number"
-              step="0.01"
-              min="0"
-              max="10"
-              value={formData?.cgpa}
-              required
-              placeholder="CGPA"
-              id="cgpa"
-              onChange={(e) =>
-                setFormData({ ...formData, cgpa: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="email">No. of Backlog</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="number"
-              min="0"
-              value={formData?.backlog}
-              required
-              placeholder="No. of Backlog"
-              id="backlog"
-              onChange={(e) =>
-                setFormData({ ...formData, backlog: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="email">Year of Passing</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="number"
-              min="2000"
-              max="2025"
-              value={formData?.passingYear}
-              required
-              placeholder="Passing Year"
-              id="passingYear"
-              onChange={(e) =>
-                setFormData({ ...formData, passingYear: e.target.value })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="marksheet">Upload Marksheet</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="file"
-              id="marksheet"
-              required
-              accept=".pdf,.doc,.docx"
-              onChange={async (e) => {
-                handleFileChange(e, "marksheet");
-                await setFormData((prevState) => ({
-                  ...prevState,
-                  marksheet: e?.target?.files[0],
-                }));
-              }}
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="profile">Upload Profile Image</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="file"
-              id="profile"
-              required
-              accept="image/*"
-              onChange={async (e) => {
-                handleFileChange(e, "profile");
-                await setFormData((prevState) => ({
-                  ...prevState,
-                  profile: e?.target?.files[0],
-                }));
-              }}
-            />
-          </div>
-          <div className="mt-3">
-            <label htmlFor="resume">Upload Resume</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="file"
-              id="resume"
-              required
-              accept=".pdf,.doc,.docx"
-              onChange={async (e) => {
-                handleFileChange(e, "resume");
-                await setFormData((prevState) => ({
-                  ...prevState,
-                  resume: e?.target?.files[0],
-                }));
-              }}
-            />
-            {resumeName && (
-              <div className="mt-2">
-                <p>Resume: {resumeName}</p>
-              </div>
-            )}
-          </div>
-          <div className="mt-3">
-            <label htmlFor="permanentAddress">Permanent Address</label>
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
-              type="text"
-              value={formData?.permAddress?.streetLine1}
-              required
-              placeholder="Street Line 1"
-              id="permanentStreetLine1"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  permAddress: {
-                    ...formData?.permAddress,
-                    streetLine1: e.target.value,
-                  },
-                })
-              }
-            />
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-              type="text"
-              value={formData?.permAddress?.streetLine2}
-              placeholder="Street Line 2"
-              id="permanentStreetLine2"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  permAddress: {
-                    ...formData?.permAddress,
-                    streetLine2: e.target.value,
-                  },
-                })
-              }
-            />
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-              type="text"
-              value={formData?.permAddress?.city}
-              required
-              placeholder="City"
-              id="permanentCity"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  permAddress: {
-                    ...formData?.permAddress,
-                    city: e.target.value,
-                  },
-                })
-              }
-            />
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-              type="text"
-              value={formData?.permAddress?.state}
-              required
-              placeholder="State"
-              id="permanentState"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  permAddress: {
-                    ...formData?.permAddress,
-                    state: e.target.value,
-                  },
-                })
-              }
-            />
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-              type="text"
-              value={formData?.permAddress?.country}
-              required
-              placeholder="Country"
-              id="permanentCountry"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  permAddress: {
-                    ...formData?.permAddress,
-                    country: e.target.value,
-                  },
-                })
-              }
-            />
-            <input
-              className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-              type="text"
-              value={formData?.permAddress?.zip}
-              required
-              placeholder="Zip Code"
-              id="permanentZip"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  permAddress: {
-                    ...formData?.permAddress,
-                    zip: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div className="mt-3">
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                checked={isSameAddress}
-                onChange={handleCheckboxChange}
-                className="form-checkbox"
-              />
-              <span className="ml-2">Same as Permanent Address</span>
-            </label>
-          </div>
-          {!isSameAddress && (
+          {/*address*/}
+          <div className="flex-row p-5 m-4 rounded-lg bg-green-50">
             <div className="mt-3">
-              <label htmlFor="currentAddress">Current Address</label>
+              <p className="text-2xl font-bold text-green-800"></p>
+              <label htmlFor="permanentAddress" className="font-bold">Permanent Address</label>
               <input
-                className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
                 type="text"
-                value={formData?.currAddress?.streetLine1}
+                value={formData?.permAddress?.streetLine1}
                 required
                 placeholder="Street Line 1"
-                id="currentStreetLine1"
+                id="permanentStreetLine1"
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    currAddress: {
-                      ...formData?.currAddress,
+                    permAddress: {
+                      ...formData?.permAddress,
                       streetLine1: e.target.value,
                     },
                   })
                 }
               />
               <input
-                className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
+                className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
                 type="text"
-                value={formData?.currAddress?.streetLine2}
+                value={formData?.permAddress?.streetLine2}
                 placeholder="Street Line 2"
-                id="currentStreetLine2"
+                id="permanentStreetLine2"
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    currAddress: {
-                      ...formData?.currAddress,
+                    permAddress: {
+                      ...formData?.permAddress,
                       streetLine2: e.target.value,
                     },
                   })
                 }
               />
-              <input
-                className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-                type="text"
-                value={formData?.currAddress?.city}
-                required
-                placeholder="City"
-                id="currentCity"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    currAddress: {
-                      ...formData?.currAddress,
-                      city: e.target.value,
-                    },
-                  })
-                }
-              />
-              <input
-                className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-                type="text"
-                value={formData?.currAddress?.state}
-                required
-                placeholder="State"
-                id="currentState"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    currAddress: {
-                      ...formData?.currAddress,
-                      state: e.target.value,
-                    },
-                  })
-                }
-              />
-              <input
-                className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-                type="text"
-                value={formData?.currAddress?.country}
-                required
-                placeholder="Country"
-                id="currentCountry"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    currAddress: {
-                      ...formData?.currAddress,
-                      country: e.target.value,
-                    },
-                  })
-                }
-              />
-              <input
-                className="appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 peer mt-2"
-                type="text"
-                value={formData?.currAddress?.zip}
-                required
-                placeholder="Zip Code"
-                id="currentZip"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    currAddress: {
-                      ...formData?.currAddress,
-                      zip: e.target.value,
-                    },
-                  })
-                }
-              />
+              {/*address[4 fields]*/}
+              <div className="flex gap-2">
+                <input
+                  className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.permAddress?.city}
+                  required
+                  placeholder="City"
+                  id="permanentCity"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      permAddress: {
+                        ...formData?.permAddress,
+                        city: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <input
+                  className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.permAddress?.state}
+                  required
+                  placeholder="State"
+                  id="permanentState"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      permAddress: {
+                        ...formData?.permAddress,
+                        state: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <input
+                  className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.permAddress?.country}
+                  required
+                  placeholder="Country"
+                  id="permanentCountry"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      permAddress: {
+                        ...formData?.permAddress,
+                        country: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <input
+                  className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.permAddress?.zip}
+                  required
+                  placeholder="Zip Code"
+                  id="permanentZip"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      permAddress: {
+                        ...formData?.permAddress,
+                        zip: e.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
             </div>
-          )}
-          <div className="mt-6">
+            <div className="mt-3">
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={isSameAddress}
+                  onChange={handleCheckboxChange}
+                  className="form-checkbox"
+                />
+                <span className="ml-2">Same as Permanent Address</span>
+              </label>
+            </div>
+            {!isSameAddress && (
+              <div className="mt-3">
+                <label htmlFor="currentAddress" className="font-bold">Current Address</label>
+                <input
+                  className="w-full px-4 py-3 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.currAddress?.streetLine1}
+                  required
+                  placeholder="Street Line 1"
+                  id="currentStreetLine1"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      currAddress: {
+                        ...formData?.currAddress,
+                        streetLine1: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <input
+                  className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                  type="text"
+                  value={formData?.currAddress?.streetLine2}
+                  placeholder="Street Line 2"
+                  id="currentStreetLine2"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      currAddress: {
+                        ...formData?.currAddress,
+                        streetLine2: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <div className="flex gap-2">
+                  <input
+                    className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                    type="text"
+                    value={formData?.currAddress?.city}
+                    required
+                    placeholder="City"
+                    id="currentCity"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        currAddress: {
+                          ...formData?.currAddress,
+                          city: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <input
+                    className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                    type="text"
+                    value={formData?.currAddress?.state}
+                    required
+                    placeholder="State"
+                    id="currentState"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        currAddress: {
+                          ...formData?.currAddress,
+                          state: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <input
+                    className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                    type="text"
+                    value={formData?.currAddress?.country}
+                    required
+                    placeholder="Country"
+                    id="currentCountry"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        currAddress: {
+                          ...formData?.currAddress,
+                          country: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <input
+                    className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
+                    type="text"
+                    value={formData?.currAddress?.zip}
+                    required
+                    placeholder="Zip Code"
+                    id="currentZip"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        currAddress: {
+                          ...formData?.currAddress,
+                          zip: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center justify-center">
             <button
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+              className="px-4 py-3 text-xl font-bold text-white bg-green-600 rounded-lg shadow-lg hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
               type="submit"
             >
               Submit

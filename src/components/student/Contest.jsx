@@ -60,17 +60,17 @@ const Contest = () => {
 
 
   return (
-    <div className='flex flex-col items-center w-full bg-white p-5'>
+    <div className='flex flex-col items-center w-full p-5 bg-white'>
       
 
   
-      <div className="bg-gray-100 w-full p-5 rounded-xl mt-5">
-      <h1 className=' text-2xl font-bold text-center '>Test List</h1>
+      <div className="w-full p-5 mt-5 bg-gray-100 rounded-xl">
+      <h1 className='text-2xl font-bold text-center '>Test List</h1>
       <div className="flex flex-row flex-wrap justify-center mt-5">
-      {contests.map((contest,index)=>(
+      {contests?.map((contest,index)=>(
         <div
         key={index}
-        className='mt-4 rounded-lg shadow-lg p-5 mb-4 w-1/3'
+        className='w-1/3 p-5 mt-4 mb-4 rounded-lg shadow-lg'
       >
         <CardContest contestId={contest._id}/>
         

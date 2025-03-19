@@ -115,29 +115,29 @@ const StudentProfile = () => {
 
   if (attempt) {
     return (
-      <div className="w-screen h-screen absolute top-0 left-0 z-50 bg-white ">
+      <div className="absolute top-0 left-0 z-50 w-screen h-screen bg-white ">
         <Assessment contest={contest} result={result} questions={questions} />
       </div>
     );
   } else {
     return (
-      <div className="max-w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
-        <div className="flex flex-row justify-between items-center mb-6">
+      <div className="max-w-full p-8 mx-auto bg-white rounded-lg shadow-lg">
+        <div className="flex flex-row items-center justify-between mb-6">
           <h1 className="text-4xl font-bold text-gray-800">Profile</h1>
-          {contests.length > 0 && (
+          {contests?.length > 0 && (
             <button
               onClick={() => handleAttempt(contests[0]._id)}
-              className="bg-green-500 text-white py-2 px-6 rounded-full hover:bg-green-700 transition duration-300"
+              className="px-6 py-2 text-white transition duration-300 bg-green-500 rounded-full hover:bg-green-700"
             >
               Attempt Test
             </button>
           )}
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between bg-gray-50 p-6 rounded-lg shadow-md">
+        <div className="flex flex-col justify-between p-6 rounded-lg shadow-md md:flex-row bg-gray-50">
           <div className="flex flex-col w-full md:w-3/4">
             <div className="flex flex-wrap mb-4">
-              <div className="w-full md:w-1/2 mb-4 md:mb-0">
+              <div className="w-full mb-4 md:w-1/2 md:mb-0">
                 <h2 className="text-lg font-semibold text-gray-700">
                   Student Name
                 </h2>
@@ -154,7 +154,7 @@ const StudentProfile = () => {
             </div>
 
             <div className="flex flex-wrap mb-4">
-              <div className="w-full md:w-1/2 mb-4 md:mb-0">
+              <div className="w-full mb-4 md:w-1/2 md:mb-0">
                 <h2 className="text-lg font-semibold text-gray-700">
                   Mother Name
                 </h2>
@@ -171,7 +171,7 @@ const StudentProfile = () => {
             </div>
 
             <div className="flex flex-wrap mb-4">
-              <div className="w-full md:w-1/2 mb-4 md:mb-0">
+              <div className="w-full mb-4 md:w-1/2 md:mb-0">
                 <h2 className="text-lg font-semibold text-gray-700">Email</h2>
                 <p className="text-gray-900">
                   {formData?.email?.toLowerCase()}
@@ -186,7 +186,7 @@ const StudentProfile = () => {
             </div>
 
             <div className="flex flex-wrap mb-4">
-              <div className="w-full md:w-1/2 mb-4 md:mb-0">
+              <div className="w-full mb-4 md:w-1/2 md:mb-0">
                 <h2 className="text-lg font-semibold text-gray-700">
                   Permanent Address
                 </h2>
@@ -209,7 +209,7 @@ const StudentProfile = () => {
             </div>
 
             <div className="flex flex-wrap mb-4">
-              <div className="w-full md:w-1/2 mb-4 md:mb-0">
+              <div className="w-full mb-4 md:w-1/2 md:mb-0">
                 <h2 className="text-lg font-semibold text-gray-700">
                   Current Semester
                 </h2>
@@ -224,7 +224,7 @@ const StudentProfile = () => {
             </div>
 
             <div className="flex flex-wrap mb-4">
-              <div className="w-full md:w-1/2 mb-4 md:mb-0">
+              <div className="w-full mb-4 md:w-1/2 md:mb-0">
                 <h2 className="text-lg font-semibold text-gray-700">
                   Marks/CGPA
                 </h2>
@@ -244,48 +244,48 @@ const StudentProfile = () => {
               Edit Profile
             </button>
             {isEditing && (
-            <div className="bg-white p-8 rounded-lg shadow-lg mt-4">
-              <h2 className="text-lg font-semibold text-gray-700 mb-4">
+            <div className="p-8 mt-4 bg-white rounded-lg shadow-lg">
+              <h2 className="mb-4 text-lg font-semibold text-gray-700">
                 Edit Profile
               </h2>
               <form onSubmit={""}>
                 <div className="mb-4">
                   <label
                     htmlFor="name"
-                    className="block text-gray-700 font-semibold mb-2"
+                    className="block mb-2 font-semibold text-gray-700"
                   >
                     Student Name
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="px-3 py-2 border rounded-lg w-full"
+                    className="w-full px-3 py-2 border rounded-lg"
                   />
                 </div>
                 <div className="mb-4">
                   <label
                     htmlFor="name"
-                    className="block text-gray-700 font-semibold mb-2"
+                    className="block mb-2 font-semibold text-gray-700"
                   >
                     Contact Number
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="px-3 py-2 border rounded-lg w-full"
+                    className="w-full px-3 py-2 border rounded-lg"
                   />
                 </div>
                 <div className="mb-4">
                   <label
                     htmlFor="name"
-                    className="block text-gray-700 font-semibold mb-2"
+                    className="block mb-2 font-semibold text-gray-700"
                   >
                     Current Address
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="px-3 py-2 border rounded-lg w-full"
+                    className="w-full px-3 py-2 border rounded-lg"
                   />
                 </div>
                 {/* Add more fields for Age, Date of Birth, Profile Image, Phone Number, Current Address */}
@@ -293,13 +293,13 @@ const StudentProfile = () => {
                   <button
                     type="button"
                     onClick={toggleEdit}
-                    className="bg-red-300 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+                    className="px-4 py-2 text-white transition duration-300 bg-red-300 rounded-lg hover:bg-red-700"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+                    className="px-4 py-2 text-white transition duration-300 bg-green-500 rounded-lg hover:bg-green-700"
                   >
                     Save
                   </button>
@@ -309,11 +309,11 @@ const StudentProfile = () => {
           )}
           </div>
 
-          <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
+          <div className="flex justify-center w-full mt-6 md:w-1/4 md:mt-0">
             <img
               src={`${IMG_URL}/${formData?.profilePic}`}
               alt="Profile Pic"
-              className="w-60 h-auto rounded-lg border-2 border-white shadow-lg object-cover"
+              className="object-cover h-auto border-2 border-white rounded-lg shadow-lg w-60"
             />
           </div>
         </div>
