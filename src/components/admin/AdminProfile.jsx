@@ -55,27 +55,27 @@ const AdminProfile = () => {
 
   return (
     <div className='flex flex-col justify-center w-[90%] mx-auto bg-white rounded-lg shadow-lg p-8'>
-      <div className='flex flex-row gap-5 justify-between'>
+      <div className='flex flex-row justify-between gap-5'>
         <div>
-          <p className='text-gray-600 font-bold text-center text-3xl mb-6'>
+          <p className='mb-6 text-3xl font-bold text-center text-gray-600'>
             {adminData?.designation?.toUpperCase()}
           </p>
           <div className='space-y-2'>
             <div className='flex items-center'>
-              <span className='text-gray-600 font-semibold text-xl mr-2'>Email:</span>
-              <span className='text-gray-800 text-xl'>{adminData.email}</span>
+              <span className='mr-2 text-xl font-semibold text-gray-600'>Email:</span>
+              <span className='text-xl text-gray-800'>{adminData.email}</span>
             </div>
             <div className='flex items-center'>
-              <span className='text-gray-600 font-semibold text-xl mr-2'>Phone:</span>
-              <span className='text-gray-800 text-xl'>{adminData.phone}</span>
+              <span className='mr-2 text-xl font-semibold text-gray-600'>Phone:</span>
+              <span className='text-xl text-gray-800'>{adminData.phone}</span>
             </div>
             <div className='flex items-center'>
-              <span className='text-gray-600 font-semibold text-xl mr-2'>User ID:</span>
-              <span className='text-gray-800 text-xl'>{adminData.userId}</span>
+              <span className='mr-2 text-xl font-semibold text-gray-600'>User ID:</span>
+              <span className='text-xl text-gray-800'>{adminData.userId}</span>
             </div>
             <div className='flex items-center'>
-              <span className='text-gray-600 font-semibold text-xl mr-2'>Role:</span>
-              <span className='text-gray-800 text-xl'>{adminData?.role?.toUpperCase()}</span>
+              <span className='mr-2 text-xl font-semibold text-gray-600'>Role:</span>
+              <span className='text-xl text-gray-800'>{adminData?.role?.toUpperCase()}</span>
             </div>
           </div>
         </div>
@@ -84,10 +84,10 @@ const AdminProfile = () => {
             <img
               src={`${IMG_URL}/${adminData.profilePic}`}
               alt='Profile Pic'
-              className='w-32 h-32 rounded-full object-cover'
+              className='object-cover w-32 h-32 rounded-full'
             />
           </div>
-          <h3 className='text-2xl font-bold text-gray-800 text-center mb-2'>
+          <h3 className='mb-2 text-2xl font-bold text-center text-gray-800'>
             {adminData?.name?.toUpperCase()}
           </h3>
         </div>
