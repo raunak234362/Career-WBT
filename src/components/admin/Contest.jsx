@@ -4,14 +4,14 @@ import { CgAdd } from 'react-icons/cg'
 import AddContest from './AddContest'
 import AddQuestion from './AddQuestion'
 import CardContest from './CardContest'
-import { BASE_URL } from '../../constants'
+import Service from '../../config/Service'
 
 const Contest = () => {
   const [showForm, setShowForm] = useState(false)
   const [showQuestion, setShowQuestion] = useState(false)
   const [showSetQuestion, setShowSetQuestion] = useState(false)
   const [contests, setContests] = useState([])
-
+  // const [questions, setQuestions] = useState([])
   const fetchContests = async () => {
     const myHeaders = new Headers()
     myHeaders.append(
@@ -26,16 +26,13 @@ const Contest = () => {
     }
 
     try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/admin/contest/all`,
-        requestOptions
-      )
-      const data = await response.json()
-      setContests(data?.data)
-      console.log(data?.data)
+      const data = await Service.getAllContests()
+      setContests(data)
+      console.log('Fetched contests:', data)
     } catch (error) {
-      console.error(error)
+      console.error('Error fetching contests:', error)
     }
+    
   }
 
   useEffect(() => {
@@ -67,18 +64,18 @@ const Contest = () => {
   }
 
   return (
-    <div className='flex flex-col items-center w-full bg-white p-5'>
-      <div className='flex flex-row gap-5 w-full'>
+    <div className='flex flex-col items-center w-full p-5 bg-white'>
+      <div className='flex flex-row w-full gap-5'>
         <div className='flex flex-col justify-center bg-white rounded-lg w-full md:w-[30%] shadow-lg p-5'>
           <div className='flex justify-center p-5'>
             <CgAdd className='flex justify-center text-2xl text-black' />
           </div>
-          <h3 className='text-xl font-semibold pt-5 text-gray-800 text-center'>
+          <h3 className='pt-5 text-xl font-semibold text-center text-gray-800'>
             Create Contest
           </h3>
           <button
             onClick={toggleForm}
-            className='mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700'
+            className='inline-block px-4 py-2 mt-4 text-white bg-green-500 rounded-lg hover:bg-green-700'
           >
             Create
           </button>
@@ -86,13 +83,13 @@ const Contest = () => {
       </div>
 
       {showForm && <AddContest toggleForm={toggleForm} />}
-      <div className="bg-gray-100 w-full p-5 rounded-xl mt-5">
-      <h1 className=' text-2xl font-bold text-center '>Contest List</h1>
-      <div className="flex  flex-row flex-wrap justify-center mt-5">
+      <div className="w-full p-5 mt-5 bg-gray-100 rounded-xl">
+      <h1 className='text-2xl font-bold text-center '>Contest List</h1>
+      <div className="flex flex-row flex-wrap justify-center mt-5">
       {contests?.map((contest,index)=>(
         <div
         key={index}
-        className='mt-4 rounded-lg w-1/3 shadow-lg p-5 mb-4'
+        className='w-1/3 p-5 mt-4 mb-4 rounded-lg shadow-lg'
       >
         <CardContest contestId={contest._id}/>
 

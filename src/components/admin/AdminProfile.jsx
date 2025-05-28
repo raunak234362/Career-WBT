@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BASE_URL, IMG_URL } from '../../constants'
-
+import Service from '../../config/Service'
+import { set } from 'react-hook-form'
 const AdminProfile = () => {
   const [adminData, setAdminData] = useState({})
   const [error, setError] = useState(null)
@@ -14,7 +15,7 @@ const AdminProfile = () => {
     const myHeaders = new Headers()
     myHeaders.append(
       'Authorization',
-      `Bearer ${localStorage.getItem('access')}`
+      `Bearer ${sessionStorage.getItem('token')}`
     )
     myHeaders.append('Content-Type', 'application/json')
     const requestOptions = {
@@ -22,36 +23,19 @@ const AdminProfile = () => {
       headers: myHeaders,
       redirect: 'follow'
     }
-
-    try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/admin/user/`,
-        requestOptions
-      )
-      const data = await response.json()
-      setAdminData(data?.data)
-      console.log(data?.data)
-    } catch (error) {
-      setError(error.message)
-      console.error(error)
-    }
+    const response = await Service.getCurrentUser();
+    console.log("Response from getCurrentUser:", response);
+    setAdminData(response)
   }
 
   useEffect(() => {
-    if (!userId) {
-      navigate('/') // Redirect to login if no userId is found
-    } else {
       fetchAdminData()
-    }
   }, [userId, navigate])
 
   if (error) {
     return <div>{error}</div>
   }
 
-  if (!adminData) {
-    return <div>Loading...</div>
-  }
 
   return (
     <div className='flex flex-col justify-center w-[90%] mx-auto bg-white rounded-lg shadow-lg p-8'>
@@ -63,15 +47,15 @@ const AdminProfile = () => {
           <div className='space-y-2'>
             <div className='flex items-center'>
               <span className='mr-2 text-xl font-semibold text-gray-600'>Email:</span>
-              <span className='text-xl text-gray-800'>{adminData.email}</span>
+              <span className='text-xl text-gray-800'>{adminData?.email}</span>
             </div>
             <div className='flex items-center'>
               <span className='mr-2 text-xl font-semibold text-gray-600'>Phone:</span>
-              <span className='text-xl text-gray-800'>{adminData.phone}</span>
+              <span className='text-xl text-gray-800'>{adminData?.phone}</span>
             </div>
             <div className='flex items-center'>
               <span className='mr-2 text-xl font-semibold text-gray-600'>User ID:</span>
-              <span className='text-xl text-gray-800'>{adminData.userId}</span>
+              <span className='text-xl text-gray-800'>{adminData?.userId}</span>
             </div>
             <div className='flex items-center'>
               <span className='mr-2 text-xl font-semibold text-gray-600'>Role:</span>
@@ -82,7 +66,7 @@ const AdminProfile = () => {
         <div className='div'>
           <div className='flex justify-center mb-6'>
             <img
-              src={`${IMG_URL}/${adminData.profilePic}`}
+              src={`${IMG_URL}/${adminData?.profilePic}`}
               alt='Profile Pic'
               className='object-cover w-32 h-32 rounded-full'
             />

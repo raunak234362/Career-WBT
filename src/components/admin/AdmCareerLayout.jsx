@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Outlet, Route, Routes } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Contest from "./Contest";
 import AdminProfile from "./AdminProfile";
@@ -21,7 +21,7 @@ const StdCareerLayout = () => {
   };
 
   return (
-    <div className='flex flex-col md:flex-row min-h-screen h-screen relative overflow-y-hidden'>
+    <div className='relative flex flex-col h-screen min-h-screen overflow-y-hidden md:flex-row'>
     {/* Sidebar */}
     <div
       className={`fixed inset-0 z-0 bg-black bg-opacity-50 transition-opacity duration-300 md:hidden ${
@@ -63,10 +63,10 @@ const StdCareerLayout = () => {
     {/* Main Content */}
     <div className='flex-1 overflow-y-auto'>
       {/* Header with Toggler Button */}
-      <div className='flex justify-between items-center bg-white/70 p-2 rounded-lg shadow-md mb-4 border-b border-neutral-700/80'>
+      <div className='flex items-center justify-between p-2 mb-4 border-b rounded-lg shadow-md bg-white/70 border-neutral-700/80'>
         <Header activeLink={activeLink} />
         <button
-          className='md:hidden text-gray-600 hover:text-gray-800 focus:outline-none'
+          className='text-gray-600 md:hidden hover:text-gray-800 focus:outline-none'
           onClick={toggleSidebar}
         >
           {showSidebar ? (
@@ -78,16 +78,9 @@ const StdCareerLayout = () => {
       </div>
 
       {/* Content */}
-      <div className='flex-1 rounded-lg h-auto pb-20'>
+      <div className='flex-1 h-auto pb-20 rounded-lg'>
     
-        <Routes>
-          <Route path='/' element={<AdminProfile />} />
-          <Route path='/contest' element={<Contest />} />
-          <Route path='/question' element={<QuestionPage />} />
-          <Route path='/result' element={<Result />} />
-          
-          
-        </Routes>
+    <Outlet/>
       </div>
       
     </div>

@@ -12,16 +12,16 @@ const Layout = () => {
   const [contest, setContest] = useState({});
   const [result, setResult] = useState({});
 
-  return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/successful" element={<Successful />} />
-      <Route path="/student/*" element={<StdCareerLayout />} />
-      <Route path="/admin/*" element={<AdmCareerLayout />} />
-      <Route path="/start-test" element={<Assessment contest={contest} result={result} />} />
-    </Routes>
-  );
+  // return (
+  //   <Routes>
+  //     <Route path="/" element={<Login />} />
+  //     <Route path="/register" element={<Register />} />
+  //     <Route path="/successful" element={<Successful />} />
+  //     <Route path="/student/*" element={<StdCareerLayout />} />
+  //     <Route path="/admin/*" element={<AdmCareerLayout />} />
+  //     <Route path="/start-test" element={<Assessment contest={contest} result={result} />} />
+  //   </Routes>
+  // );
 };
 
 export default Layout;

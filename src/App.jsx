@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Layout from "./components/Layout"
 import { FormProvider } from "./hooks/FormContext"
+import { Outlet } from "react-router-dom";
 
 function App() {
   
@@ -23,12 +24,7 @@ function App() {
 
   return (
     <>
-  
-    <FormProvider>
-      
-     <Layout/>
-      
-    </FormProvider>
+     <Outlet/>
     </>
   )
 }

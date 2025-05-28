@@ -4,7 +4,8 @@ import { useState } from "react";
 import Logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../constants";
-
+import Service from "../config/Service";
+import { useForm } from "react-hook-form";
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({
     profilePic: "",
@@ -44,6 +45,13 @@ const RegisterStudent = () => {
       zip: "",
     },
   });
+const {
+  register,
+  setValue,
+  handleSubmit,
+  watch,
+  formState: { errors },
+} = useForm();
 
   const [isSameAddress, setIsSameAddress] = useState(false);
   const [profilePreview, setProfilePreview] = useState(null);
@@ -84,13 +92,13 @@ const RegisterStudent = () => {
     }
   };
 
-  const handleChange = (e, field) => {
-    const value = e.target.value;
-    setFormData((prevState) => ({
-      ...prevState,
-      [field]: value,
-    }));
-  };
+  // const handleChange = (e, field) => {
+  //   const value = e.target.value;
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     [field]: value,
+  //   }));
+  // };
 
   const handleFileChange = (e, fileType) => {
     const file = e.target.files[0];
@@ -114,72 +122,83 @@ const RegisterStudent = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("access")}`
-    );
+  //   const myHeaders = new Headers();
+  //   myHeaders.append(
+  //     "Authorization",
+  //     `Bearer ${localStorage.getItem("access")}`
+  //   );
 
-    const sem = formData?.currentSemester?.charAt(
-      formData.currentSemester.length - 1
-    );
+  //   const sem = formData?.currentSemester?.charAt(
+  //     formData.currentSemester.length - 1
+  //   );
 
-    const form = new FormData();
-    form.append("profile", formData.profilePic);
-    form.append("resume", formData.resume);
-    form.append("name", formData.name);
-    form.append("email", formData.email);
-    form.append("phone", formData.phone);
-    form.append("altphone", formData.altPhone);
-    form.append("password", formData.password);
-    form.append("dob", formData.dob);
-    form.append("studentId", formData.studentId);
-    form.append("gender", formData.gender);
-    form.append("fatherName", formData.fatherName);
-    form.append("motherName", formData.motherName);
-    form.append(
-      "currentSemester",
-      isNaN(Number.parseInt(sem)) ? 0 : Number.parseInt(sem)
-    );
-    form.append("marksheet", formData.marksheet);
-    form.append("branch", formData.branch);
-    form.append("course", formData.course);
-    form.append("college", formData.college);
-    form.append("passingYear", formData.passingYear);
-    form.append("cgpa", formData.cgpa);
-    form.append("backlog", formData.backlog);
-    form.append("permAddress", JSON.stringify(formData.permAddress));
-    form.append("currAddress", JSON.stringify(formData.currAddress));
+  //   const form = new FormData();
+  //   form.append("profile", formData.profilePic);
+  //   form.append("resume", formData.resume);
+  //   form.append("name", formData.name);
+  //   form.append("email", formData.email);
+  //   form.append("phone", formData.phone);
+  //   form.append("altphone", formData.altPhone);
+  //   form.append("password", formData.password);
+  //   form.append("dob", formData.dob);
+  //   form.append("studentId", formData.studentId);
+  //   form.append("gender", formData.gender);
+  //   form.append("fatherName", formData.fatherName);
+  //   form.append("motherName", formData.motherName);
+  //   form.append(
+  //     "currentSemester",
+  //     isNaN(Number.parseInt(sem)) ? 0 : Number.parseInt(sem)
+  //   );
+  //   form.append("marksheet", formData.marksheet);
+  //   form.append("branch", formData.branch);
+  //   form.append("course", formData.course);
+  //   form.append("college", formData.college);
+  //   form.append("cgpa", formData.cgpa);
+  //   form.append("passingYear", formData.passingYear);
+  //   form.append("backlog", formData.backlog);
+  //   form.append("permAddress", JSON.stringify(formData.permAddress));
+  //   form.append("currAddress", JSON.stringify(formData.currAddress));
+  //   form.append("profile", formData.profilePic);
 
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: form,
-      redirect: "follow",
-    };
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: form,
+  //     redirect: "follow",
+  //   };
+    
 
-    try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/user/register`,
-        requestOptions
-      );
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("access", data?.data?.accessToken);
-        localStorage.setItem("refresh", data?.data?.refreshToken);
+  //   // try {
+  //   //   const response = await fetch(
+  //   //     `${BASE_URL}/api/v1/user/register`,
+  //   //     requestOptions
+  //   //   );
+  //   //   const data = await response.json();
+  //   //   if (response.ok) {
+  //   //     localStorage.setItem("access", data?.data?.accessToken);
+  //   //     localStorage.setItem("refresh", data?.data?.refreshToken);
 
-        setFormData(data?.data);
-        console.log(data?.data);
-        navigate("/student/");
-      } else {
-        console.error("Registration failed");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  //   //     setFormData(data?.data);
+  //   //     console.log(data?.data);
+  //   //     navigate("/student/");
+  //   //   } else {
+  //   //     console.error("Registration failed");
+  //   //   }
+  //   // } catch (error) {
+  //   //   console.error(error);
+  //   // }
+
+  //   const response = await Service.registerUser(formData);
+  //   console.log("Response from registerUser:", response);
+    
+  // };
+
+  const onSubmit = async (data) => {
+    console.log("ooooooooooooooo:", data);
+
   };
 
   const date = new Date();
@@ -195,6 +214,7 @@ const RegisterStudent = () => {
           >
             <img
               src={Logo}
+              name="profile"
               className="w-[20%] items-center ml-2 mb-5 lg:w-[30%] xl:w-[30%] md:w-[30%] sm:w-[30%]"
               alt="Logo"
             />
@@ -204,6 +224,7 @@ const RegisterStudent = () => {
                 <img
                   src={profilePreview}
                   alt="Profile Preview"
+                  name="profile"
                   className="my-auto rounded-full w-28 h-28"
                 />
               </div>
@@ -219,7 +240,7 @@ const RegisterStudent = () => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div
             id="studentDetails"
             className="flex-row p-5 m-4 rounded-lg bg-green-50"
@@ -239,9 +260,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Name"
                   id="name"
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
+                  {...register("name", { required: true })} 
                 />
               </div>
             </div>
@@ -256,9 +275,7 @@ const RegisterStudent = () => {
                 required
                 placeholder="Email"
                 id="email"
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                {...register("email", { required: true })}
               />
             </div>
             <div className="mt-3 text-sm">
@@ -270,9 +287,7 @@ const RegisterStudent = () => {
                 required
                 placeholder="Student ID"
                 id="studentId"
-                onChange={(e) =>
-                  setFormData({ ...formData, studentId: e.target.value })
-                }
+                {...register("studentId", { required: true })}
               />
             </div>
             {/* Contacts */}
@@ -288,9 +303,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Contact Number"
                   id="phone"
-                  onChange={(e) => {
-                    setFormData({ ...formData, phone: e.target.value });
-                  }}
+                  {...register("phone", { required: true })}
                 />
               </div>
               <div className="mt-3 w-full sm:w-[560px]">
@@ -303,9 +316,7 @@ const RegisterStudent = () => {
                   value={formData?.altPhone}
                   placeholder="Alternative Contact Number"
                   id="altphone"
-                  onChange={(e) =>
-                    setFormData({ ...formData, altPhone: e.target.value })
-                  }
+                  {...register("altPhone", { required: false })}
                 />
               </div>
             </div>
@@ -320,9 +331,7 @@ const RegisterStudent = () => {
                   value={formData?.gender}
                   required
                   id="gender"
-                  onChange={(e) =>
-                    setFormData({ ...formData, gender: e.target.value })
-                  }
+                  {...register("gender", {required:true})}
                 >
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
@@ -341,9 +350,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="dd-mm-yyyy"
                   id="dob"
-                  onChange={(e) =>
-                    setFormData({ ...formData, dob: e.target.value })
-                  }
+                  {...register("dob", { required: true })}
                 />
               </div>
             </div>
@@ -359,9 +366,7 @@ const RegisterStudent = () => {
                 required
                 placeholder="Password"
                 id="password"
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                {...register("password", { required: true, minLength: 6 })}
               />
               {/* <span className="absolute left-0 p-2 text-xs text-white transition-opacity duration-300 rounded-lg opacity-0 group-hover:opacity-100">
               Minimum character should be 6
@@ -385,9 +390,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Father Name"
                   id="fatherName"
-                  onChange={(e) =>
-                    setFormData({ ...formData, fatherName: e.target.value })
-                  }
+                 {...register("fatherName", { required: true })}
                 />
               </div>
               <div className="mt-3 w-full sm:w-[560px]">
@@ -401,9 +404,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Mother Name"
                   id="motherName"
-                  onChange={(e) =>
-                    setFormData({ ...formData, motherName: e.target.value })
-                  }
+                  {...register("motherName", { required: true })}
                 />
               </div>
             </div>
@@ -424,9 +425,7 @@ const RegisterStudent = () => {
                 required
                 placeholder="College Name"
                 id="college"
-                onChange={(e) =>
-                  setFormData({ ...formData, college: e.target.value })
-                }
+                {...register("college", { required: true })}
               />
             </div>
 
@@ -441,7 +440,7 @@ const RegisterStudent = () => {
                   value={formData.course}
                   required
                   id="course"
-                  onChange={handleCourseChange}
+                 {...register("course", { required: true })}
                 >
                   <option value="">Select Your Course</option>
                   <optgroup label="Technical">
@@ -473,9 +472,7 @@ const RegisterStudent = () => {
                   value={formData?.branch}
                   placeholder="Branch"
                   id="branch"
-                  onChange={(e) =>
-                    setFormData({ ...formData, branch: e.target.value })
-                  }
+                  {...register("branch", { required: true })}
                 />
               </div>
               <div className="mt-3 w-full sm:w-[375px]">
@@ -487,10 +484,10 @@ const RegisterStudent = () => {
                   value={formData.currentSemester}
                   required
                   id="currentSemester"
-                  onChange={handleSemesterChange}
+                  {...register("currentSemester", { required: true })}
                 >
                   <option value="">Current Semester</option>
-                  {getSemesters().map((semester) => (
+                  {getSemesters()?.map((semester) => (
                     <option key={semester} value={semester}>
                       {semester}
                     </option>
@@ -514,9 +511,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="CGPA"
                   id="cgpa"
-                  onChange={(e) =>
-                    setFormData({ ...formData, cgpa: e.target.value })
-                  }
+                  {...register("cgpa", { required: true })}
                 />
               </div>
               <div className="mt-3 w-full sm:w-[375px]">
@@ -531,9 +526,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="No. of Backlog"
                   id="backlog"
-                  onChange={(e) =>
-                    setFormData({ ...formData, backlog: e.target.value })
-                  }
+                  {...register("backlog", { required: true })}
                 />
               </div>
               <div className="mt-3 w-full sm:w-[375px]">
@@ -549,9 +542,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Passing Year"
                   id="passingYear"
-                  onChange={(e) =>
-                    setFormData({ ...formData, passingYear: e.target.value })
-                  }
+                  {...register("passingYear", { required: true })}
                 />
               </div>
             </div>
@@ -635,15 +626,7 @@ const RegisterStudent = () => {
                 required
                 placeholder="Street Line 1"
                 id="permanentStreetLine1"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    permAddress: {
-                      ...formData?.permAddress,
-                      streetLine1: e.target.value,
-                    },
-                  })
-                }
+                {...register("permAddress.streetLine1", { required: true })}
               />
               <input
                 className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -651,15 +634,7 @@ const RegisterStudent = () => {
                 value={formData?.permAddress?.streetLine2}
                 placeholder="Street Line 2"
                 id="permanentStreetLine2"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    permAddress: {
-                      ...formData?.permAddress,
-                      streetLine2: e.target.value,
-                    },
-                  })
-                }
+                {...register("permAddress.streetLine2", { required: false })}
               />
               {/*address[4 fields]*/}
               <div className="flex gap-2">
@@ -670,15 +645,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="City"
                   id="permanentCity"
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      permAddress: {
-                        ...formData?.permAddress,
-                        city: e.target.value,
-                      },
-                    })
-                  }
+                  {...register("permAddress.city", { required: true })}
                 />
                 <input
                   className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -687,15 +654,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="State"
                   id="permanentState"
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      permAddress: {
-                        ...formData?.permAddress,
-                        state: e.target.value,
-                      },
-                    })
-                  }
+                  {...register("permAddress.state", { required: true })}
                 />
                 <input
                   className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -704,15 +663,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Country"
                   id="permanentCountry"
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      permAddress: {
-                        ...formData?.permAddress,
-                        country: e.target.value,
-                      },
-                    })
-                  }
+                  {...register("permAddress.country", { required: true })}
                 />
                 <input
                   className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -721,15 +672,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Zip Code"
                   id="permanentZip"
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      permAddress: {
-                        ...formData?.permAddress,
-                        zip: e.target.value,
-                      },
-                    })
-                  }
+                  {...register("permAddress.zip", { required: true })}
                 />
               </div>
             </div>
@@ -754,15 +697,7 @@ const RegisterStudent = () => {
                   required
                   placeholder="Street Line 1"
                   id="currentStreetLine1"
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      currAddress: {
-                        ...formData?.currAddress,
-                        streetLine1: e.target.value,
-                      },
-                    })
-                  }
+                  {...register("currAddress.streetLine1", { required: true })}
                 />
                 <input
                   className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -770,15 +705,7 @@ const RegisterStudent = () => {
                   value={formData?.currAddress?.streetLine2}
                   placeholder="Street Line 2"
                   id="currentStreetLine2"
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      currAddress: {
-                        ...formData?.currAddress,
-                        streetLine2: e.target.value,
-                      },
-                    })
-                  }
+                  {...register("currAddress.streetLine2", { required: false })}
                 />
                 <div className="flex gap-2">
                   <input
@@ -788,15 +715,7 @@ const RegisterStudent = () => {
                     required
                     placeholder="City"
                     id="currentCity"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        currAddress: {
-                          ...formData?.currAddress,
-                          city: e.target.value,
-                        },
-                      })
-                    }
+                    {...register("currAddress.city", { required: true })}
                   />
                   <input
                     className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -805,15 +724,7 @@ const RegisterStudent = () => {
                     required
                     placeholder="State"
                     id="currentState"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        currAddress: {
-                          ...formData?.currAddress,
-                          state: e.target.value,
-                        },
-                      })
-                    }
+                    {...register("currAddress.state", { required: true })}
                   />
                   <input
                     className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -822,15 +733,7 @@ const RegisterStudent = () => {
                     required
                     placeholder="Country"
                     id="currentCountry"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        currAddress: {
-                          ...formData?.currAddress,
-                          country: e.target.value,
-                        },
-                      })
-                    }
+                    {...register("currAddress.country", { required: true })}
                   />
                   <input
                     className="w-full px-4 py-3 mt-2 leading-tight text-gray-700 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 peer"
@@ -839,15 +742,7 @@ const RegisterStudent = () => {
                     required
                     placeholder="Zip Code"
                     id="currentZip"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        currAddress: {
-                          ...formData?.currAddress,
-                          zip: e.target.value,
-                        },
-                      })
-                    }
+                    {...register("currAddress.zip", { required: true })}
                   />
                 </div>
               </div>

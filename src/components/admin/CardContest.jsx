@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import AddQuestion from './AddQuestion'
-import { BASE_URL } from '../../constants'
+import Service from '../../config/Service'
 
 const CardContest = ({ contestId }) => {
   const [showQuestion, setShowQuestion] = useState({})
@@ -22,19 +22,22 @@ const CardContest = ({ contestId }) => {
       redirect: 'follow'
     }
 
-    console.log(contestId)
+    // console.log("ssssssssss",contestId)
 
-    try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/admin/contest/${contestId}`,
-        requestOptions
-      )
-      const data = await response.json()
-      console.log(data?.data)
-      setShowSetQuestion(data?.data)
-    } catch (error) {
-      console.error(error)
-    }
+    // try {
+    //   const response = await fetch(
+    //     `${BASE_URL}/api/v1/admin/contest/${contestId}`,
+    //     requestOptions
+    //   )
+    //   const data = await response.json()
+    //   console.log(data)
+    //   setShowSetQuestion(data?.data)
+    // } catch (error) {
+    //   console.error(error)
+    // }
+    const response = await Service.getContestById(contestId)
+    console.log("response", response)
+    setShowSetQuestion(response)
   }
 
   useEffect(() => {
@@ -57,17 +60,17 @@ const CardContest = ({ contestId }) => {
 
   return (
     <div>
-      <div className='bg-white flex flex-col shadow-lg w-full p-5 rounded-lg mt-5'>
-        <div className='overflow-y-auto mt-8 w-full h-60 card-container'>
+      <div className='flex flex-col w-full p-5 mt-5 bg-white rounded-lg shadow-lg'>
+        <div className='w-full mt-8 overflow-y-auto h-60 card-container'>
           <div className='flex flex-col'>
-            <h2 className='text-3xl font-bold mb-2 text-center'>
+            <h2 className='mb-2 text-3xl font-bold text-center'>
               {showSetQuestion?.name}
             </h2>
             {
-              console.log(showSetQuestion)
+              // console.log(showSetQuestion)
             }
            
-            <div className='flex flex-col mt-5 items-center justify-center'>
+            <div className='flex flex-col items-center justify-center mt-5'>
               <p>
                 <strong>Duration:</strong> {showSetQuestion?.duration}
               </p>
@@ -88,10 +91,10 @@ const CardContest = ({ contestId }) => {
             </div>
           </div>
 
-          <div className='flex flex-row mt-4 w-full justify-center'>
+          <div className='flex flex-row justify-center w-full mt-4'>
             <button
               onClick={() => toggleQues(showSetQuestion?._id)}
-              className='mr-2 bg-green-500 text-white py-2 w-1/3 px-4 h-10 rounded-lg hover:bg-green-700'
+              className='w-1/3 h-10 px-4 py-2 mr-2 text-white bg-green-500 rounded-lg hover:bg-green-700'
             >
               Edit
             </button>
@@ -109,23 +112,23 @@ const CardContest = ({ contestId }) => {
             )}
             <button
               onClick={toggleShowQues}
-              className='bg-green-500 text-white w-1/3 px-4 py-2 h-10 rounded-lg hover:bg-green-700'
+              className='w-1/3 h-10 px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-700'
             >
               Show
             </button>
             {showFilledQuestion && (
-              <div className="h-full mt-10 top-0  overflow-y-auto">
+              <div className="top-0 h-full mt-10 overflow-y-auto">
 
-              <div className='absolute z-20 top-0 left-0 w-full h-full overflow-y-auto bg-gray-900 bg-opacity-20 flex items-center justify-center'>
+              <div className='absolute top-0 left-0 z-20 flex items-center justify-center w-full h-full overflow-y-auto bg-gray-900 bg-opacity-20'>
                 <div className='bg-white w-[70%] h-full overflow-y-auto mt-4 p-6 rounded-lg shadow-md'>
                     <div className="flex flex-row justify-between">
-                  <h3 className='text-lg font-semibold mb-2'>Questions:</h3>
-                    <button onClick={toggleShowQues} className='bg-red-300 rounded-lg p-5'>Close</button>
+                  <h3 className='mb-2 text-lg font-semibold'>Questions:</h3>
+                    <button onClick={toggleShowQues} className='p-5 bg-red-300 rounded-lg'>Close</button>
                     </div>
                   {console.log(showSetQuestion)}
                   {showSetQuestion?.questions?.map((question, index) => (
-                    <div key={index} className='border-b border-gray-300 pb-3'>
-                      <h4 className='font-semibold mb-1'>
+                    <div key={index} className='pb-3 border-b border-gray-300'>
+                      <h4 className='mb-1 font-semibold'>
                         {question.question}
                       </h4>
                       <p>
@@ -151,7 +154,7 @@ const CardContest = ({ contestId }) => {
                         <img
                           src={question?.imageUrl}
                           alt='Question'
-                          className='mt-2 w-32 h-auto'
+                          className='w-32 h-auto mt-2'
                         />
                       )}
                       {question.type === 'multiple' && (

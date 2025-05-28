@@ -5,6 +5,8 @@ import { CgAdd } from "react-icons/cg";
 import AddQuestion from "./AddQuestion";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../../constants";
+import Service from "../../config/Service";
+import { set } from "react-hook-form";
 
 const QuestionPage = () => {
   const [showQuestion, setShowQuestion] = useState({});
@@ -37,17 +39,11 @@ const QuestionPage = () => {
       redirect: "follow",
     };
 
-    try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/admin/question/all`,
-        requestOptions
-      );
-      const data = await response.json();
-      setSampleData(data?.data);
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await Service.getAllQuestions();
+    console.log("response", response);
+    setSampleData(response);
   };
+  
   const fetchQuestionUpdate = async (index) => {
     const myHeaders = new Headers();
     myHeaders.append(
@@ -61,16 +57,23 @@ const QuestionPage = () => {
       redirect: "follow",
     };
 
-    try {
-      const response = await fetch(
-        `${BASE_URL}/api/v1/admin/question/update/${index}`,
-        requestOptions
-      );
-      const data = await response.json();
-      setSampleData(data?.data);
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   const response = await fetch(
+    //     `${BASE_URL}/api/v1/admin/question/update/${index}`,
+    //     requestOptions
+    //   );
+    //   const data = await response.json();
+    //   setSampleData(data?.data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    const response = await Service.updateQuestion(index, formState);
+    console.log("response", response);
+    setSampleData((prevData) =>
+      prevData.map((item, idx) =>
+        idx === index ? { ...item, ...formState } : item
+      )
+    );
   };
   const fetchDeleteQuestion = async (index) => {
     const myHeaders = new Headers();
@@ -170,7 +173,7 @@ const QuestionPage = () => {
     setSampleData((prevData) => [...prevData, ...newQuestions]);
   };
 
-  const filteredData = sampleData.filter((item) => {
+  const filteredData = sampleData?.filter((item) => {
     return (
       (difficultyFilter === "" || item.difficult === difficultyFilter) &&
       (setFilter === "" || item.set === setFilter) &&
@@ -180,9 +183,9 @@ const QuestionPage = () => {
 
   return (
     <div>
-      <div className="flex flex-row gap-10 w-full p-5">
+      <div className="flex flex-row w-full gap-10 p-5">
         <div
-          className="flex flex-col w-1/4 gap-3 bg-white shadow-lg p-5 rounded-xl py-20"
+          className="flex flex-col w-1/4 gap-3 p-5 py-20 bg-white shadow-lg rounded-xl"
           onMouseOver={() => {
             setShowSetA(true);
             setShowSetB(false);
@@ -192,10 +195,10 @@ const QuestionPage = () => {
             setShowSetB(false);
           }}
         >
-          <h1 className="text-2xl text-gray-600 font-bold text-center">
+          <h1 className="text-2xl font-bold text-center text-gray-600">
             No. Of Questions in Set-A
           </h1>
-          <p className="text-3xl font-bold mx-auto text-gray-800">
+          <p className="mx-auto text-3xl font-bold text-gray-800">
             {sampleData?.filter((item) => item.set === "A").length}
           </p>
 
@@ -231,7 +234,7 @@ const QuestionPage = () => {
           </div>
         </div>
         <div
-          className="flex flex-col gap-3 w-1/4 bg-white shadow-lg p-5 rounded-xl py-20"
+          className="flex flex-col w-1/4 gap-3 p-5 py-20 bg-white shadow-lg rounded-xl"
           onMouseOver={() => {
             setShowSetA(false);
             setShowSetB(true);
@@ -241,10 +244,10 @@ const QuestionPage = () => {
             setShowSetB(false);
           }}
         >
-          <h1 className="text-2xl text-gray-600 font-bold text-center">
+          <h1 className="text-2xl font-bold text-center text-gray-600">
             No. Of Questions in Set-B
           </h1>
-          <p className="text-3xl font-bold mx-auto text-gray-800">
+          <p className="mx-auto text-3xl font-bold text-gray-800">
             {sampleData?.filter((item) => item.set === "B").length}
           </p>
           <div
@@ -278,14 +281,14 @@ const QuestionPage = () => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-5 w-1/4 bg-white shadow-lg p-5 items-center rounded-xl py-20">
-          <h1 className="text-2xl text-gray-600 font-bold text-center">
+        <div className="flex flex-col items-center w-1/4 gap-5 p-5 py-20 bg-white shadow-lg rounded-xl">
+          <h1 className="text-2xl font-bold text-center text-gray-600">
             Add New Question
           </h1>
-          <CgAdd className="mx-auto text-green-500 text-2xl" />
+          <CgAdd className="mx-auto text-2xl text-green-500" />
           <button
             onClick={() => toggleQues(showSetQuestion?._id)}
-            className="mr-2 w-1/2 bg-green-500 text-white py-2 px-4 h-10 rounded-lg hover:bg-green-700"
+            className="w-1/2 h-10 px-4 py-2 mr-2 text-white bg-green-500 rounded-lg hover:bg-green-700"
           >
             Add
           </button>
@@ -299,7 +302,7 @@ const QuestionPage = () => {
         </div>
       </div>
 
-      <div className="bg-white p-5 m-5 rounded-xl shadow-xl">
+      <div className="p-5 m-5 bg-white shadow-xl rounded-xl">
         <div className="flex gap-5 p-5">
           <select
             value={difficultyFilter}
@@ -334,7 +337,7 @@ const QuestionPage = () => {
           </select>
         </div>
         <div className=" h-[50vh] table-container overflow-y-auto w-full p-5 rounded-lg">
-          <table className="w-full table-auto border-collapse text-center rounded-xl">
+          <table className="w-full text-center border-collapse table-auto rounded-xl">
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-1 py-2">S.No</th>
@@ -346,10 +349,10 @@ const QuestionPage = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((item, index) => (
+              {filteredData?.map((item, index) => (
                 <tr
                   key={index}
-                  className="bg-gray-100 text-xl hover:bg-gray-200"
+                  className="text-xl bg-gray-100 hover:bg-gray-200"
                 >
                   <td className="px-1 py-2 w-[5%] border">{index + 1}</td>
                   <td className="px-1 py-2 w-[40%] border text-left">
@@ -369,16 +372,16 @@ const QuestionPage = () => {
                     </div>
                   </td>
                   <td className="px-1 py-2 w-[10%] border">
-                    <div className="flex gap-2 w-full justify-center mx-auto">
+                    <div className="flex justify-center w-full gap-2 mx-auto">
                       {/* <button
                         onClick={() => toggleShowQuestion(index)}
-                        className="modify-btn w-fit bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        className="px-4 py-2 text-white bg-green-500 rounded modify-btn w-fit hover:bg-green-700"
                       >
                         Show
                       </button> */}
                       <button
                         onClick={() => toggleEditQuestion(index)}
-                        className="modify-btn w-fit bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        className="px-4 py-2 text-white bg-green-500 rounded modify-btn w-fit hover:bg-green-700"
                       >
                         Modify
                       </button>
@@ -392,10 +395,10 @@ const QuestionPage = () => {
                       >
                         <div className="flex flex-col w-[100%] flew-wrap p-2">
                           
-                          <div className="flex w-full flex-col mb-2">
+                          <div className="flex flex-col w-full mb-2">
                             <label
                               htmlFor="question"
-                              className=" flex text-gray-700 font-bold mb-2"
+                              className="flex mb-2 font-bold text-gray-700 "
                             >
                               Question
                             </label>
@@ -408,7 +411,7 @@ const QuestionPage = () => {
                             />
                           </div>
                           <div className="mb-4">
-                            <label className="flex text-gray-700 font-bold mb-2">
+                            <label className="flex mb-2 font-bold text-gray-700">
                               Set:
                             </label>
                             <select
@@ -423,7 +426,7 @@ const QuestionPage = () => {
                             </select>
                           </div>
                           <div className="mb-4">
-                            <label className="flex text-gray-700 font-bold mb-2">
+                            <label className="flex mb-2 font-bold text-gray-700">
                               Difficulty:
                             </label>
                             <select
@@ -439,23 +442,23 @@ const QuestionPage = () => {
                             </select>
                           </div>
                           
-                          <div className="flex w-full flex-row gap-5">
+                          <div className="flex flex-row w-full gap-5">
                             <button
                               onClick={handleFormSubmit}
-                              className="modify-btn w-2/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                              className="w-2/3 px-4 py-2 font-bold text-white bg-green-500 rounded modify-btn hover:bg-green-700"
                             >
                               Update
                             </button>
                             <button
                               onClick={() =>toggleEditQuestion(item?._id)}
-                              className="modify-btn w-1/3 bg-red-300 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+                              className="w-1/3 px-4 py-2 font-bold text-white bg-red-300 rounded modify-btn hover:bg-red-500"
                             >
                               Cancel
                             </button>
                           </div>
                           <button
                             onClick={() => fetchDeleteQuestion(item?._id)}
-                            className="modify-btn w-full mt-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            className="w-full px-4 py-2 mt-5 font-bold text-white bg-red-500 rounded modify-btn hover:bg-red-700"
                           >
                             Delete
                           </button>

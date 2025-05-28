@@ -40,12 +40,9 @@ const Login = () => {
       sessionStorage.setItem("refresh", user.data.refreshToken);
       sessionStorage.setItem("userId", userId);
       sessionStorage.setItem("role", role);
-
-      if (user.data.role !== role.toUpperCase()) {
-        setErrorMessage(`Please log in through the ${user.data.role} portal`);
-        return;
-      }
-      navigate(role === "admin" ? "/admin" : "/student");
+      console.log("User logged in:", user.data);
+      // navigate(user?.data?.role === "admin" ? "admin" : "student");
+      navigate("/dashboard/admin");
     } catch (error) {
       console.error("Login error:", error);
       setErrorMessage(error.message || "Failed to login");

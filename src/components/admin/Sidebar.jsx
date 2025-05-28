@@ -19,24 +19,24 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
   const { pathname } = location;
 
   const fetchLogout = async () => {
-    const accessToken = localStorage.getItem('access')
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    localStorage.removeItem("userId");
+    const accessToken = sessionStorage.getItem('token')
+    sessionStorage.removeItem("access");
+    sessionStorage.removeItem("refresh");
+    sessionStorage.removeItem("userId");
     Navigate('/')
   }
 
   return (
-    <div className="fixed left-0 flex flex-col justify-between h-screen px-0 py-4 border-green-500 border-r-2 ">
+    <div className="fixed left-0 flex flex-col justify-between h-screen px-0 py-4 border-r-2 border-green-500 ">
       <div className='navbar-section'>
         <div className="flex justify-center px-2">
           <img src={logo} className="w-60" />
         </div>
         <nav className="space-y-4 mt-11">
           <Link
-            to="/admin"
+            to="profile"
             onClick={() => handleNavLinkClick("")}
-            className={`flex items-center gap-2 px-5 py-2 transition-colors duration-300 ${pathname === "/admin"
+            className={`flex items-center gap-2 px-5 py-2 transition-colors duration-300 ${pathname === "/profile"
                 ? "bg-green-500 text-white"
                 : "hover:bg-green-700"
               }`}
@@ -45,9 +45,9 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
             <span>Profile</span>
           </Link>
           <Link
-            to="/admin/contest"
+            to="contest"
             onClick={() => handleNavLinkClick("contest")}
-            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "/admin/contest"
+            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "contest"
                 ? "bg-green-500 text-white"
                 : "hover:bg-green-700"
               }`}
@@ -67,9 +67,9 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
             <span>CSV</span>
           </Link> */}
           <Link
-            to="/admin/question"
+            to="question"
             onClick={() => handleNavLinkClick("question")}
-            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "/admin/question"
+            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "question"
                 ? "bg-green-500 text-white"
                 : "hover:bg-green-700"
               }`}
@@ -78,9 +78,9 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
             <span>Question</span>
           </Link>
           <Link
-            to="/admin/result"
+            to="result"
             onClick={() => handleNavLinkClick("task")}
-            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "/admin/result"
+            className={`flex items-center gap-2 px-4 py-2 transition-colors duration-300 ${pathname === "result"
                 ? "bg-green-500 text-white"
                 : "hover:bg-green-700"
               }`}
@@ -91,21 +91,18 @@ const Sidebar = ({ activeLink, handleNavLinkClick }) => {
 
         </nav>
       </div>
-      <div className='profile-logout mb-4 px-4'>
+      <div className='px-4 mb-4 profile-logout'>
     
-        <div className='flex flex-row items-center hover:bg-red-600 hover:text-white py-2 px-3 gap-4 mb-4  rounded-lg'>
+        <div className='flex flex-row items-center gap-4 px-3 py-2 mb-4 rounded-lg hover:bg-red-600 hover:text-white'>
           <MdLogout />
           <button
             onClick={fetchLogout}
-            className='text-sm  hover:text-white w-full text-center'
+            className='w-full text-sm text-center hover:text-white'
           >
             Logout
           </button>
         </div>
-
       </div>
-
-
     </div>
   )
 }

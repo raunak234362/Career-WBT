@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 import axios from "axios";
-import { BASE_URL } from '../constants';
+import { BASE_URL } from "../constants";
 
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -14,12 +14,12 @@ const instance = axios.create({
     rejectUnauthorized: false,
   },
 });
-instance.interceptor.request.use((config) => {
-const token = sessionStorage.getItem("token")
-if (token) {
-        config.headers.Authorization = `Bearer${token}`;
-    }
-    return config;
+instance.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
-export default instance
+export default instance;
