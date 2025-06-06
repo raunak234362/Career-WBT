@@ -10,7 +10,7 @@ const AdminProfile = () => {
   const [error, setError] = useState(null)
   const userId = localStorage.getItem('userId')
   const navigate = useNavigate()
-
+console.log(IMG_URL)
   const fetchAdminData = async () => {
     const myHeaders = new Headers()
     myHeaders.append(

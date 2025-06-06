@@ -7,8 +7,32 @@ import { Assessment } from "../Assessment";
 import QuestionPage from "../components/admin/QuestionPage";
 import App from "../App";
 import AdminProfile from "../components/admin/AdminProfile";
-import Result from "../components/student/Result";
+import StudentResult from "../components/student/Result";
 import Contest from "../components/admin/Contest";
+import StudentProfile from "../components/student/StudentProfile";
+import StudentContest from "../components/student/Contest";
+import Result from "../components/admin/Result";
+// import {
+//   AddContest,
+//   AddQuestion,
+//   AdminProfile,
+//   Contest,
+//   AdmCareerLayout,
+//   CardContest,
+//   EditQuestion,
+//   PdfCreator,
+//   QuestionPage,
+//   Result,
+//   Sidebar
+// } from "../components/admin";
+// import { Login, Registeration } from "../components/style";
+// import { App } from "../App";
+// import {
+//   StdCareerLayout,
+//   StudentProfile,
+//   Contest as StudentContest,
+//   Result as StudentResult,
+// } from "../components/student";
 
 const routes = [
   {
@@ -25,31 +49,45 @@ const routes = [
     children: [
       {
         path: "admin",
-            element: <AdmCareerLayout />,
-            children: [
-                {
-                path: "profile",
-                element: <AdminProfile />,
-                },
-                {
-                path: "contest",
-                element: <Contest />,
-                },
-                {
-                    path: "question",
-                    element: <QuestionPage />,
-                },
-                {
-                    path: "result",
-                    element: <Result/>
-                }
-        ]
+        element: <AdmCareerLayout />,
+        children: [
+          {
+            path: "profile",
+            element: <AdminProfile />,
+          },
+          {
+            path: "contest",
+            element: <Contest />,
+          },
+          {
+            path: "question",
+            element: <QuestionPage />,
+          },
+          {
+            path: "result",
+            element: <Result />,
+          },
+        ],
+      },
+      {
+        path: "student",
+        element: <StdCareerLayout />,
+        children: [
+          {
+            path: "profile",
+            element: <StudentProfile />,
+          },
+          {
+            path: "contest",
+            element: <StudentContest />,
+          },
+          {
+            path: "result",
+            element: <StudentResult />,
+          },
+        ],
       },
     ],
-  },
-  {
-    path: "/admin",
-    element: <AdmCareerLayout />,
   },
 ];
 

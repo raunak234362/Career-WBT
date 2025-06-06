@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import CardContest from './CardContest'
 import { BASE_URL } from '../../constants'
 
-const Contest = () => {
+const StudentContest = () => {
   const [showForm, setShowForm] = useState(false)
   const [showQuestion, setShowQuestion] = useState(false)
   const [showSetQuestion, setShowSetQuestion] = useState(false)
@@ -87,4 +87,4 @@ const Contest = () => {
   )
 }
 
-export default Contest
+export default StudentContest;

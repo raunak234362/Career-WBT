@@ -41,8 +41,9 @@ const Login = () => {
       sessionStorage.setItem("userId", userId);
       sessionStorage.setItem("role", role);
       console.log("User logged in:", user.data);
-      // navigate(user?.data?.role === "admin" ? "admin" : "student");
-      navigate("/dashboard/admin");
+      navigate(user?.data?.role === "admin" ? "/dashboard/admin" : "/dashboard/student");
+      
+      // navigate("/dashboard/admin");
     } catch (error) {
       console.error("Login error:", error);
       setErrorMessage(error.message || "Failed to login");

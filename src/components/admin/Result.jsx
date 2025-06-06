@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { BASE_URL, IMG_URL } from "../../constants";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import PdfCreator from "./PdfCreator";
 
 const Result = () => {
@@ -98,7 +98,7 @@ const Result = () => {
     return `${day}-${month}-${year}`;
   };
 
-  const handleSave = async () =>{
+  const handleSave = async () => {
     const myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
@@ -109,11 +109,11 @@ const Result = () => {
       method: "POST",
       headers: myHeaders,
       redirect: "follow",
-      body:JSON.stringify({resultList: selected})
+      body: JSON.stringify({ resultList: selected }),
     };
 
     console.log(selected);
-    
+
     try {
       const response = await fetch(
         `${BASE_URL}/api/v1/admin/result/send`,
@@ -124,8 +124,7 @@ const Result = () => {
     } catch (error) {
       console.error("Fetch error:", error);
     }
-    
-  }
+  };
 
   const toggleStudentDetail = (index) => {
     setPopupRowIndex(index);
@@ -141,13 +140,13 @@ const Result = () => {
 
   return (
     <div>
-      <div className="flex flex-row gap-8 w-full p-5 items-center">
+      <div className="flex flex-row items-center w-full gap-8 p-5">
         {contestData?.map((item, index) => (
           <div
             key={index}
             className="bg-white shadow-xl rounded-lg w-[35%] h-64 p-5"
           >
-            <h1 className="text-2xl text-center font-semibold text-gray-800">
+            <h1 className="text-2xl font-semibold text-center text-gray-800">
               Evaluate The Result of <br />
               <strong>{item?.name}</strong>
             </h1>
@@ -170,7 +169,7 @@ const Result = () => {
                   e.preventDefault(0);
                   evaluateResults(item?._id);
                 }}
-                className="px-4 py-2 flex justify-center items-center mx-auto mt-5 bg-green-500 text-white rounded"
+                className="flex items-center justify-center px-4 py-2 mx-auto mt-5 text-white bg-green-500 rounded"
               >
                 Evaluate
               </button>
@@ -181,7 +180,7 @@ const Result = () => {
                   e.preventDefault(0);
                   fetchStudent(item?._id);
                 }}
-                className="px-4 py-2 flex justify-center items-center mx-auto mt-5 bg-green-500 text-white rounded"
+                className="flex items-center justify-center px-4 py-2 mx-auto mt-5 text-white bg-green-500 rounded"
               >
                 Display Result
               </button>
@@ -190,37 +189,38 @@ const Result = () => {
         ))}
       </div>
 
-      <div className="bg-white shadow-lg p-5 rounded-xl m-5">
+      <div className="p-5 m-5 bg-white shadow-lg rounded-xl">
         <div className="flex flex-row justify-around ">
-        <div className="flex gap-2 w-full p-5">
-          <input
-            type="text"
-            placeholder="Search by Student ID"
-            // value={searchQuery}
-            // onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded"
-          />
-          <div>
-
-          <button
-            onClick={() => setCurrentPage(1)} // Reset to first page on search
-            className="px-4 py-2 bg-green-500 text-white rounded"
-          >
-            Search
-          </button>
+          <div className="flex w-full gap-2 p-5">
+            <input
+              type="text"
+              placeholder="Search by Student ID"
+              // value={searchQuery}
+              // onChange={(e) => setSearchQuery(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded"
+            />
+            <div>
+              <button
+                onClick={() => setCurrentPage(1)} // Reset to first page on search
+                className="px-4 py-2 text-white bg-green-500 rounded"
+              >
+                Search
+              </button>
+            </div>
           </div>
-        </div>
-          <button className="px-4 py-2 bg-green-500 text-white rounded" 
-          onClick={(e)=>{
-            e.preventDefault();
-            handleSave();
-          }}>
+          <button
+            className="px-4 py-2 text-white bg-green-500 rounded"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSave();
+            }}
+          >
             Save
           </button>
         </div>
-       
-        <div className="h-fit max-h-80 table-container overflow-y-auto w-full p-5 rounded-lg">
-          <table className="w-full table-auto border-collapse text-center rounded-xl">
+
+        <div className="w-full p-5 overflow-y-auto rounded-lg h-fit max-h-80 table-container">
+          <table className="w-full text-center border-collapse table-auto rounded-xl">
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-1 py-2">S.No</th>
@@ -246,7 +246,7 @@ const Result = () => {
                   <td className="px-4 py-3 border">{item?.userId?.name}</td>
                   <td className="px-4 py-3 border">{item?.userId?.phone}</td>
                   <td className="px-4 py-3 border">{item?.totalMarks}</td>
-                  <td className=" px-2 py-3 border">
+                  <td className="px-2 py-3 border ">
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -279,20 +279,25 @@ const Result = () => {
                       </span>
                     </label>
                   </td>
-                  
+
                   <td className="px-4 py-3 border">
                     <button
-                    
                       onClick={() => {
                         const pdfRoot = ReactDOM.createRoot(
                           document.getElementById("pdf")
                         );
-                        pdfRoot.render(<PdfCreator question={item?.answers} username={item?.userId?.name} marks={item?.totalMarks} />);
+                        pdfRoot.render(
+                          <PdfCreator
+                            question={item?.answers}
+                            username={item?.userId?.name}
+                            marks={item?.totalMarks}
+                          />
+                        );
                       }}
-                      className="px-4 py-2 bg-green-500 text-white rounded"
+                      className="px-4 py-2 text-white bg-green-500 rounded"
                     >
                       Download
-                    </button> 
+                    </button>
                   </td>
                   {popupRowIndex === index && (
                     <div
@@ -300,16 +305,16 @@ const Result = () => {
                         popupVisible ? "visible" : "hidden"
                       }`}
                     >
-                      <div className="bg-white shadow-md my-auto rounded-lg p-4 max-w-xl mx-auto">
-                        {/* <div className="w-full md:w-1/4 flex justify-center mt-6 md:mt-0">
+                      <div className="max-w-xl p-4 mx-auto my-auto bg-white rounded-lg shadow-md">
+                        {/* <div className="flex justify-center w-full mt-6 md:w-1/4 md:mt-0">
                           <img
                             src={`${BASE_URL}/api/v1/admin/result/${item?.userId?.profilePic}`}
                             alt="Profile Pic"
-                            className="w-60 h-auto rounded-lg border-2 border-white shadow-lg object-cover"
+                            className="object-cover h-auto border-2 border-white rounded-lg shadow-lg w-60"
                           />
                         </div> */}
                         <div className="mb-4">
-                          <div className="text-2xl font-bold mb-5 underline">
+                          <div className="mb-5 text-2xl font-bold underline">
                             Student Information
                           </div>
                           <div className="flex flex-col text-left">
@@ -385,11 +390,19 @@ const Result = () => {
                             </div>
                             <div className="mb-2">
                               <span className="font-semibold">Resume:</span>{" "}
-                              <a target="_blank" href={`${IMG_URL}/${item?.userId?.resume}`}>Open Resume</a>
+                              <a
+                                target="_blank"
+                                href={`${IMG_URL}/${item?.userId?.resume}`}
+                              >
+                                Open Resume
+                              </a>
                             </div>
                           </div>
                         </div>
-                        <button onClick={() => toggleStudentDetail(index)} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-200">
+                        <button
+                          onClick={() => toggleStudentDetail(index)}
+                          className="px-4 py-2 text-white transition duration-200 bg-green-500 rounded-md hover:bg-green-700"
+                        >
                           Close
                         </button>
                       </div>
@@ -401,7 +414,7 @@ const Result = () => {
           </table>
         </div>
       </div>
-              <div id="pdf" className="flex flex-wrap flex-row justify-center"></div>
+      <div id="pdf" className="flex flex-row flex-wrap justify-center"></div>
     </div>
   );
 };

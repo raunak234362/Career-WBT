@@ -122,84 +122,84 @@ const {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  //   const myHeaders = new Headers();
-  //   myHeaders.append(
-  //     "Authorization",
-  //     `Bearer ${localStorage.getItem("access")}`
-  //   );
+    const myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("access")}`
+    );
 
-  //   const sem = formData?.currentSemester?.charAt(
-  //     formData.currentSemester.length - 1
-  //   );
+    const sem = formData?.currentSemester?.charAt(
+      formData.currentSemester.length - 1
+    );
 
-  //   const form = new FormData();
-  //   form.append("profile", formData.profilePic);
-  //   form.append("resume", formData.resume);
-  //   form.append("name", formData.name);
-  //   form.append("email", formData.email);
-  //   form.append("phone", formData.phone);
-  //   form.append("altphone", formData.altPhone);
-  //   form.append("password", formData.password);
-  //   form.append("dob", formData.dob);
-  //   form.append("studentId", formData.studentId);
-  //   form.append("gender", formData.gender);
-  //   form.append("fatherName", formData.fatherName);
-  //   form.append("motherName", formData.motherName);
-  //   form.append(
-  //     "currentSemester",
-  //     isNaN(Number.parseInt(sem)) ? 0 : Number.parseInt(sem)
-  //   );
-  //   form.append("marksheet", formData.marksheet);
-  //   form.append("branch", formData.branch);
-  //   form.append("course", formData.course);
-  //   form.append("college", formData.college);
-  //   form.append("cgpa", formData.cgpa);
-  //   form.append("passingYear", formData.passingYear);
-  //   form.append("backlog", formData.backlog);
-  //   form.append("permAddress", JSON.stringify(formData.permAddress));
-  //   form.append("currAddress", JSON.stringify(formData.currAddress));
-  //   form.append("profile", formData.profilePic);
+    const form = new FormData();
+    form.append("profile", formData.profilePic);
+    form.append("resume", formData.resume);
+    form.append("name", formData.name);
+    form.append("email", formData.email);
+    form.append("phone", formData.phone);
+    form.append("altphone", formData.altPhone);
+    form.append("password", formData.password);
+    form.append("dob", formData.dob);
+    form.append("studentId", formData.studentId);
+    form.append("gender", formData.gender);
+    form.append("fatherName", formData.fatherName);
+    form.append("motherName", formData.motherName);
+    form.append(
+      "currentSemester",
+      isNaN(Number.parseInt(sem)) ? 0 : Number.parseInt(sem)
+    );
+    form.append("marksheet", formData.marksheet);
+    form.append("branch", formData.branch);
+    form.append("course", formData.course);
+    form.append("college", formData.college);
+    form.append("cgpa", formData.cgpa);
+    form.append("passingYear", formData.passingYear);
+    form.append("backlog", formData.backlog);
+    form.append("permAddress", JSON.stringify(formData.permAddress));
+    form.append("currAddress", JSON.stringify(formData.currAddress));
+    form.append("profile", formData.profilePic);
 
-  //   const requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     body: form,
-  //     redirect: "follow",
-  //   };
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: form,
+      redirect: "follow",
+    };
     
 
-  //   // try {
-  //   //   const response = await fetch(
-  //   //     `${BASE_URL}/api/v1/user/register`,
-  //   //     requestOptions
-  //   //   );
-  //   //   const data = await response.json();
-  //   //   if (response.ok) {
-  //   //     localStorage.setItem("access", data?.data?.accessToken);
-  //   //     localStorage.setItem("refresh", data?.data?.refreshToken);
+    try {
+      const response = await fetch(
+        `${BASE_URL}/api/v1/user/register`,
+        requestOptions
+      );
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("access", data?.data?.accessToken);
+        localStorage.setItem("refresh", data?.data?.refreshToken);
 
-  //   //     setFormData(data?.data);
-  //   //     console.log(data?.data);
-  //   //     navigate("/student/");
-  //   //   } else {
-  //   //     console.error("Registration failed");
-  //   //   }
-  //   // } catch (error) {
-  //   //   console.error(error);
-  //   // }
+        setFormData(data?.data);
+        console.log(data?.data);
+        navigate("/student/");
+      } else {
+        console.error("Registration failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
-  //   const response = await Service.registerUser(formData);
-  //   console.log("Response from registerUser:", response);
+    const response = await Service.registerUser(formData);
+    console.log("Response from registerUser:", response);
     
-  // };
-
-  const onSubmit = async (data) => {
-    console.log("ooooooooooooooo:", data);
-
   };
+
+  // const onSubmit = async (data) => {
+  //   console.log("ooooooooooooooo:", data);
+
+  // };
 
   const date = new Date();
 

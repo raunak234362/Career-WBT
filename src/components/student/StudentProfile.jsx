@@ -21,7 +21,7 @@ const StudentProfile = () => {
     const myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
-      `Bearer ${localStorage.getItem("access")}`
+      `Bearer ${sessionStorage.getItem("token")}`
     );
     myHeaders.append("Content-Type", "application/json");
     const requestOptions = {
@@ -98,12 +98,12 @@ const StudentProfile = () => {
   };
 
   useEffect(() => {
-    if (!userId) {
-      navigate("/"); // Redirect to login if no userId is found
-    } else {
-      fetchStudent();
-      fetchContests();
-    }
+    // if (!userId) {
+    //   navigate("/"); // Redirect to login if no userId is found
+    // } else {
+    fetchStudent();
+    fetchContests();
+    // }
   }, [userId, navigate]);
 
   const toggleEdit = () => {
