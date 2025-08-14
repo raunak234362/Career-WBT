@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import api from "./api";
 
 class AuthService {
@@ -6,7 +7,7 @@ class AuthService {
       const formData = new URLSearchParams();
       formData.append("userId", userId.toUpperCase());
       formData.append("password", password);
-      const response = await api.post("/api/v1/user/login", formData, {
+      const response = await api.post("/user/login", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },

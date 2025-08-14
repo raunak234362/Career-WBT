@@ -6,7 +6,7 @@ export const CompletedAssessment = ({result, contest}) => {
     const handleSubmit = async () => {
         const myHeader = new Headers();
         myHeader.append("Content-Type", "application/json");
-        myHeader.append("Authorization", `Bearer ${localStorage.getItem("access")}`);
+        myHeader.append("Authorization", `Bearer ${sessionStorage.getItem("token")}`);
 
         const requestOptions = {
             method: "POST",

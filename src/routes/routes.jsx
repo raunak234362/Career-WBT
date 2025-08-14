@@ -1,9 +1,9 @@
-import Registeration from "../components/style/Registeration";
+
 import Login from "../components/Login";
 import StdCareerLayout from "../components/student/StdCareerLayout";
 import AdmCareerLayout from "../components/admin/AdmCareerLayout";
-import AddContest from "../components/admin/AddContest";
-import { Assessment } from "../Assessment";
+// import AddContest from "../components/admin/AddContest";
+// import { Assessment } from "../Assessment";
 import QuestionPage from "../components/admin/QuestionPage";
 import App from "../App";
 import AdminProfile from "../components/admin/AdminProfile";
@@ -12,6 +12,8 @@ import Contest from "../components/admin/Contest";
 import StudentProfile from "../components/student/StudentProfile";
 import StudentContest from "../components/student/Contest";
 import Result from "../components/admin/Result";
+import RegisterStudent from "../components/Register";
+import Registeration from "../components/Registeration";
 // import {
 //   AddContest,
 //   AddQuestion,

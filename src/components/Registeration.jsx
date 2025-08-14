@@ -1,7 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import Logo from "../../assets/logo.png";
+import Logo from "../assets/logo.png";
 import { set, useForm } from "react-hook-form";
-import Service from "../../config/Service";
+import Service from "../config/Service";
 const Registeration = () => {
     const [isSameAddress, setIsSameAddress] = useState(false);
     const [profilePreview, setProfilePreview] = useState(null);
@@ -56,7 +58,7 @@ const Registeration = () => {
         formData.append("motherName", formData.motherName);
         formData.append(
             "currentSemester",
-            isNaN(Number.parseInt(sem)) ? 0 : Number.parseInt(sem)
+            isNaN(Number.parseInt(data.currentSemester)) ? 0 : Number.parseInt(data.currentSemester)
         );
         formData.append("marksheet", formData.marksheet);
         formData.append("branch", formData.branch);

@@ -25,7 +25,7 @@ export const Question = ({
     myHeader.append("Content-Type", "application/json");
     myHeader.append(
       "Authorization",
-      `Bearer ${localStorage.getItem("access")}`
+      `Bearer ${sessionStorage.getItem("token")}`
     );
 
     const raw = JSON.stringify({

@@ -127,7 +127,7 @@ const {
     const myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
-      `Bearer ${localStorage.getItem("access")}`
+      `Bearer ${sessionStorage.getItem("token")}`
     );
 
     const sem = formData?.currentSemester?.charAt(
@@ -176,8 +176,9 @@ const {
         requestOptions
       );
       const data = await response.json();
+      console.log(data);
       if (response.ok) {
-        localStorage.setItem("access", data?.data?.accessToken);
+        sessionStorage.setItem("token", data?.data?.accessToken);
         localStorage.setItem("refresh", data?.data?.refreshToken);
 
         setFormData(data?.data);

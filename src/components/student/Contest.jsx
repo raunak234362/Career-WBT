@@ -12,7 +12,7 @@ const StudentContest = () => {
     const myHeaders = new Headers()
     myHeaders.append(
       'Authorization',
-      `Bearer ${localStorage.getItem('access')}`
+      `Bearer ${sessionStorage.getItem('token')}`
     )
     myHeaders.append('Content-Type', 'application/json')
     const requestOptions = {

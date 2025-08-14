@@ -18,7 +18,7 @@ const CardContest = ({ contestId }) => {
     const myHeaders = new Headers();
     myHeaders.append(
       "Authorization",
-      `Bearer ${localStorage.getItem("access")}`
+      `Bearer ${sessionStorage.getItem("token")}`
     );
     myHeaders.append("Content-Type", "application/json");
     const requestOptions = {
@@ -60,7 +60,7 @@ const CardContest = ({ contestId }) => {
     const myHeader = new Headers();
     myHeader.append(
       "Authorization",
-      `Bearer ${localStorage.getItem("access")}`
+      `Bearer ${sessionStorage.getItem("token")}`
     );
 
     myHeader.append("Content-Type", "application/json");
