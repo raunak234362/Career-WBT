@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import JoditEditor from 'jodit-react';
-import { BASE_URL } from '../../constants';
 
 const AddContest = ({ toggleForm }) => {
   const [contestDetails, setContestDetails] = useState({});
@@ -32,7 +31,7 @@ const AddContest = ({ toggleForm }) => {
     
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/admin/contest/create`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/contest/create`,
         requestOptions
       );
       

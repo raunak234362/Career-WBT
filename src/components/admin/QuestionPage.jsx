@@ -4,7 +4,6 @@
 import { CgAdd } from "react-icons/cg";
 import AddQuestion from "./AddQuestion";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../constants";
 import Service from "../../config/Service";
 import { set } from "react-hook-form";
 
@@ -89,7 +88,7 @@ const QuestionPage = () => {
     };
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/admin/question/remove/${index}`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/question/remove/${index}`,
         requestOptions
       );
       const data = await response.json();

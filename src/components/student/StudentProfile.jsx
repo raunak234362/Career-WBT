@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Assessment } from "../../Assessment";
-import { BASE_URL, IMG_URL } from "../../constants";
 
 const StudentProfile = () => {
   const [formData, setFormData] = useState("");
@@ -31,7 +30,7 @@ const StudentProfile = () => {
     };
 
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/user/`, requestOptions);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v1/user/`, requestOptions);
       const data = await response.json();
       setFormData(data?.data);
       console.log(data?.data);
@@ -55,7 +54,7 @@ const StudentProfile = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/contest/all`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/contest/all`,
         requestOptions
       );
       const data = await response.json();
@@ -82,7 +81,7 @@ const StudentProfile = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/contest/attempt/${contestId}`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/contest/attempt/${contestId}`,
         requestOptions
       );
       const data = await response.json();
@@ -126,7 +125,7 @@ const StudentProfile = () => {
             <div className="p-5 pr-1 mb-6 bg-[#59da54f6] rounded-lg">
               <div className="flex items-center justify-end space-x-4">
                 <img
-                  src={`${IMG_URL}/${formData?.profilePic}`}
+                  src={`${import.meta.env.VITE_IMG_URL}/${formData?.profilePic}`}
                   alt="Profile Pic"
                   className="object-cover w-48 h-48 border-4 border-white shadow-md rounded-2xl"
                 />

@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { BASE_URL } from "../../constants";
 
 const AddQuestion = ({ toggleQues, addQuestions }) => {
   const [questions, setQuestions] = useState([]);
@@ -112,7 +111,7 @@ const AddQuestion = ({ toggleQues, addQuestions }) => {
         console.log(formdata);
 
         const response = await fetch(
-          `${BASE_URL}/api/v1/admin/question/create`,
+          `${import.meta.env.VITE_BASE_URL}/api/v1/admin/question/create`,
           requestOptions
         );
         const data = await response.json();

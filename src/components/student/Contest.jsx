@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import CardContest from './CardContest'
-import { BASE_URL } from '../../constants'
 
 const StudentContest = () => {
   const [showForm, setShowForm] = useState(false)
@@ -24,7 +23,7 @@ const StudentContest = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/contest/all`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/contest/all`,
         requestOptions
       )
       const data = await response.json()

@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BASE_URL, IMG_URL } from '../../constants'
 import Service from '../../config/Service'
 import { set } from 'react-hook-form'
 const AdminProfile = () => {
@@ -10,7 +9,6 @@ const AdminProfile = () => {
   const [error, setError] = useState(null)
   const userId = localStorage.getItem('userId')
   const navigate = useNavigate()
-console.log(IMG_URL)
   const fetchAdminData = async () => {
     const myHeaders = new Headers()
     myHeaders.append(
@@ -66,7 +64,7 @@ console.log(IMG_URL)
         <div className='div'>
           <div className='flex justify-center mb-6'>
             <img
-              src={`${IMG_URL}/${adminData?.profilePic}`}
+              src={`${import.meta.env.VITE_IMG_URL}/${adminData?.profilePic}`}
               alt='Profile Pic'
               className='object-cover w-32 h-32 rounded-full'
             />

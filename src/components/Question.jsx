@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Watermark } from "@hirohe/react-watermark";
-import { BASE_URL, IMG_URL } from "../constants";
 
 export const Question = ({
   Question,
@@ -50,7 +49,7 @@ export const Question = ({
     // });
 
     const response = await fetch(
-      `${BASE_URL}/api/v1/result/add-answer/${result._id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/v1/result/add-answer/${result._id}`,
       requestOptions
     );
     const data = await response.json();
@@ -99,7 +98,7 @@ export const Question = ({
             )}
             {Question?.questionImage && (
               <img
-                src={`${IMG_URL}/${Question?.questionImage}`}
+                src={`${import.meta.env.VITE_IMG_URL}/${Question?.questionImage}`}
                 alt="Question"
                 className="mx-10 h-96"
               />

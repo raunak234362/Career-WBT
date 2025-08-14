@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import { BASE_URL, IMG_URL } from "../../constants";
 import ReactDOM from "react-dom";
 import PdfCreator from "./PdfCreator";
 
@@ -24,7 +23,7 @@ const Result = () => {
       redirect: "follow",
     };
     const response = await fetch(
-      `${BASE_URL}/api/v1/admin/result/all`,
+      `${import.meta.env.VITE_BASE_URL}/api/v1/admin/result/all`,
       requestOptions
     );
     const data = await response.json();
@@ -49,7 +48,7 @@ const Result = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/admin/result/${id}/declare`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/result/${id}/declare`,
         requestOptions
       );
       const data = await response.json();
@@ -79,7 +78,7 @@ const Result = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/admin/result/results/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/result/results/${id}`,
         requestOptions
       );
       const data = await response.json();
@@ -116,7 +115,7 @@ const Result = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/admin/result/send`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/admin/result/send`,
         requestOptions
       );
       const data = await response.json();
@@ -392,7 +391,7 @@ const Result = () => {
                               <span className="font-semibold">Resume:</span>{" "}
                               <a
                                 target="_blank"
-                                href={`${IMG_URL}/${item?.userId?.resume}`}
+                                href={`${import.meta.env.VITE_IMG_URL}/${item?.userId?.resume}`}
                               >
                                 Open Resume
                               </a>

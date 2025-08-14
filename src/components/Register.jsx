@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../constants";
 import Service from "../config/Service";
 import { useForm } from "react-hook-form";
 const RegisterStudent = () => {
@@ -173,7 +172,7 @@ const {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/user/register`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/user/register`,
         requestOptions
       );
       const data = await response.json();

@@ -4,7 +4,6 @@
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import { Assessment } from "../../Assessment";
-import { BASE_URL } from "../../constants";
 
 const CardContest = ({ contestId }) => {
   const [showQuestion, setShowQuestion] = useState({});
@@ -29,7 +28,7 @@ const CardContest = ({ contestId }) => {
     };
 
     try {
-      const response = await fetch(`${BASE_URL}api/v1/contest/${contestId}`, requestOptions);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/v1/contest/${contestId}`, requestOptions);
       const data = await response.json();
       setShowSetQuestion(data?.data);
       // handleAttempt();
@@ -73,7 +72,7 @@ const CardContest = ({ contestId }) => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/contest/attempt/${contestId}`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/contest/attempt/${contestId}`,
         requestOptions
       );
       const data = await response.json();
